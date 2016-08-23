@@ -6,7 +6,7 @@ public interface SpaceWorldProvider {
 	
 	public String interact();
 	
-	// Gibt den Hero zurück
+	// Gibt den Hero zurück.
 	public String getHero();
 
 }
