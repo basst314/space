@@ -14,7 +14,7 @@ All game features and the overall game description are due to change.
 - The more enemies the Hero defeats and the further he gets in the game world, the more points he will earn.
 - The Hero can die. He then loses points and respawns at an earlier position in the game world.
 - Points will be used to calculate ranking with other players.
-- Points (or some kind of collectable money) could be used to buy items in the store (weapons, armor, money-creator-machines, etc.)
+- Points (or some kind of collectable money) can be used to buy items in the store (weapons, armor, money-creator-machines, etc.)
 
 ## Game Controls
 In the game, the Hero moves without user interaction and runs along the path in the game world.
