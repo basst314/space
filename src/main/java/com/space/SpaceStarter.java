@@ -14,7 +14,6 @@ public class SpaceStarter {
 			System.out.print(world.getWorldConent());
 		}
 		
-		// Test
 	}
 
 }
