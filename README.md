@@ -5,9 +5,10 @@ Welcome to space. A one-dimensional space-adventure game.
 - **Back to the roots.** One-dimensional text-based game world
 - **Single key.** Full game control through only one key, the space bar
 - **Extendable.** Open API for individual game world extensions
+- **Online & Multiplayer.** Show off your skills in the space-online gameworld and challenge your friends
 
 ## Game Description
-All game features and the overall game description are due to change.
+All game features and the overall game description are subject to change.
 - The Hero is the main character in this game and is controlled by the player.
 - The Hero needs to complete the game world and defeat all enemies he encounters.
 - The Hero can collect and use weapons, armor and other special items, provided by the game world.
@@ -34,3 +35,19 @@ An example game world might look something like this:
 | H  | The Hero. The main character in this game. |
 | .  | An empty path, ready for the Hero to run along. |
 | [letter]  | An object in the game world to interact with. Might be enemies, weapons or other collectable items, rocks, traps, doors, etc. |
+
+## Technical Features
+- Space is an online-game.
+- The space-online game server hosts the gameworld.
+- To start the game, the user needs a space-client to connect to the game server and join the gameworld.
+- The space-online gameworld is shared among all players (multiplayer).
+- Players must create a space-online account (profile) to play the game.
+- The profile consists of the player's login data (username, password), the ingame character(s), gameworld coordinates, points, items, etc. (game state) and is stored on the server.
+
+## Development Guidelines
+Development guidelines are permanent subject to change.
+- Development is split into three areas: _space-server_, _space-client_ and _space-common_ which is the shared codebase used by both, server and client. These code areas should be developed separately.
+- space-server and space-common are developed using Java SE 8.
+- At least one space-client will be developed in the same programming language. (Other clients may user whatever they desire)
+- The codebase should be kept clean, the code should follow common coding conventions and the test coverage should be kept at a high level.
+- The codebase will be built automatically at least on a daily basis plus directly after every code change.
