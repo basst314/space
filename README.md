@@ -46,7 +46,7 @@ An example game world might look something like this:
 
 ## Development Guidelines
 Development guidelines are permanent subject to change.
-- Development is split into three areas: _space-server_, _space-client_ and _space-common_ which is the shared codebase used by both, server and client. These code areas should be developed separately.
+- Development is split into three areas: _space-server_ (com.space.server), _space-client_ (com.space.client) and _space-common_ (com.space.common), the shared codebase used by server and client. These code areas should be developed separately.
 - space-server and space-common are developed using Java SE 8.
 - At least one space-client will be developed in the same programming language. (Other clients may user whatever they desire)
 - The codebase should be kept clean, the code should follow common coding conventions and the test coverage should be kept at a high level.
