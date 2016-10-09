@@ -51,3 +51,4 @@ Development guidelines are permanent subject to change.
 - At least one space-client will be developed in the same programming language. (Other clients may user whatever they desire)
 - The codebase should be kept clean, the code should follow common coding conventions and the test coverage should be kept at a high level.
 - The codebase will be built automatically at least on a daily basis plus directly after every code change.
+- Milestone releases will have a codename.
