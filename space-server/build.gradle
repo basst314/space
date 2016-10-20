@@ -1,0 +1,17 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+group 'com.space.space-server'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+mainClassName = "com.space.SpaceStarter"
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile project(':space-common')
+}

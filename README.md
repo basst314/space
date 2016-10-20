@@ -54,3 +54,13 @@ Development guidelines are permanent subject to change.
 - The codebase will be built automatically at least on a daily basis plus directly after every code change.
 - Milestone releases will have a codename and release notes.
 
+## Super short gradle intro
+Building
+- gradlew clean build
+
+Running
+- gradlew space-server:run
+- gradlew space-client:run
+
+Create Eclipse files
+- gradlew eclipse

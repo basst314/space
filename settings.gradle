@@ -1,0 +1,2 @@
+rootProject.name = 'space'
+include "space-common", "space-server", "space-client"
