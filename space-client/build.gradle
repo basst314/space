@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-group 'com.space.space-client'
+group 'com.space.client'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
@@ -11,4 +11,8 @@ repositories {
 
 dependencies {
 	compile project(':space-common')
+
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.assertj:assertj-core:3.5.2'
+	testCompile 'org.mockito:mockito-core:2.2.5'
 }

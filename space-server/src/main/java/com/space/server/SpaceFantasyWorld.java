@@ -1,4 +1,4 @@
-package com.space;
+package com.space.server;
 
 import java.util.Arrays;
 import java.util.List;
