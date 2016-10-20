@@ -1,6 +1,6 @@
 package com.space.server;
 
-import com.space.server.SpaceFantasyWorld;
+import com.space.server.core.SpaceWorldProviderImpl;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,11 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class SpaceFantasyWorldTests {
 
-	private SpaceFantasyWorld spaceFantasyWorld = new SpaceFantasyWorld();
+	private SpaceWorldProviderImpl spaceWorldProviderImpl = new SpaceWorldProviderImpl();
 
 	@Test
 	public void getHero()
 	{
-		assertThat(spaceFantasyWorld.getHero()).isEqualTo("H");
+		assertThat(spaceWorldProviderImpl.getHero()).isEqualTo("H");
 	}
 }

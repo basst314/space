@@ -1,8 +1,8 @@
-package com.space.server;
+package com.space.server.core;
 
 public interface SpaceWorldProvider {
 	
-	String getWorldConent();
+	String getWorldContent();
 	
 	String interact();
 	
