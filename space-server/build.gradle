@@ -6,7 +6,7 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-mainClassName = "com.space.server.SpaceStarter"
+mainClassName = "com.space.server.web.SpaceStarterWeb"
 
 repositories {
 	jcenter()
@@ -14,6 +14,9 @@ repositories {
 
 dependencies {
 	compile project(':space-common')
+
+	compile 'com.sparkjava:spark-core:2.5'
+	compile 'com.google.code.gson:gson:2.7'
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:3.5.2'
