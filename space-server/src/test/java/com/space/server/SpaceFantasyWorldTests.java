@@ -17,4 +17,10 @@ public class SpaceFantasyWorldTests {
 	{
 		assertThat(spaceWorldProviderImpl.getHero()).isEqualTo("H");
 	}
+	
+	@Test
+	public void fail()
+	{
+		assert false;
+	}
 }
