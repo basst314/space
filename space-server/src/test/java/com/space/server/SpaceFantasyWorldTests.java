@@ -13,8 +13,7 @@ public class SpaceFantasyWorldTests {
 	private SpaceWorldProviderImpl spaceWorldProviderImpl = new SpaceWorldProviderImpl();
 
 	@Test
-	public void getHero()
-	{
+	public void getHero() {
 		assertThat(spaceWorldProviderImpl.getHero()).isEqualTo("H");
 	}
 }
