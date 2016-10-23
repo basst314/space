@@ -1,10 +1,4 @@
-apply plugin: 'java'
 apply plugin: 'eclipse'
-
-group 'com.space'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -13,3 +7,11 @@ repositories {
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'
 }
+
+task stage(type: Copy) {
+    from 'space-server/build/libs'
+    into 'build/dependency'
+    include 'space-server-all*.jar'
+}
+
+stage.dependsOn 'space-server:build'
