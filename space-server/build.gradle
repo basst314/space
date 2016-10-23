@@ -22,3 +22,11 @@ dependencies {
 	testCompile 'org.assertj:assertj-core:3.5.2'
 	testCompile 'org.mockito:mockito-core:2.2.5'
 }
+
+task fatJar(type: Jar) {
+	baseName = project.name + '-all'
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
+}
+
+build.finalizedBy(fatJar)
