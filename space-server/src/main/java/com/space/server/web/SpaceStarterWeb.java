@@ -17,13 +17,16 @@ import static spark.Spark.*;
 public class SpaceStarterWeb {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SpaceStarterWeb.class);
-	private static final int PORT = 8080;
 
 	public static SpaceWorldProvider spaceWorldProvider = new SpaceWorldProviderImpl();
 
 	public static void main(String[] args) {
-		port(PORT);
-		LOG.info("Server running on port {}", PORT);
+		int port = 8080;
+		if (args.length > 0) {
+			port = Integer.parseInt(args[0]);
+		}
+		port(port);
+		LOG.info("Server running on port {}", port);
 
 		staticFiles.location("/static");
 		staticFiles.expireTime(600L);

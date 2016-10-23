@@ -1,1 +1,1 @@
-web:    java -cp build/dependency/* com.space.server.web.SpaceStarterWeb --port 8080
+web:    java -cp build/dependency/* com.space.server.web.SpaceStarterWeb $PORT
