@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/basst314/space.svg?branch=master)](https://travis-ci.org/basst314/space)
-
-# space
+# space [![Build Status](https://travis-ci.org/basst314/space.svg?branch=master)](https://travis-ci.org/basst314/space)
 Welcome to space. A one-dimensional space-adventure game.
 
 ## Game Features
