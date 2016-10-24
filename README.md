@@ -65,3 +65,5 @@ Running
 Create Eclipse files
 - gradlew eclipse
 
+# Heroku Integration
+- Testserver: https://the-space-game.herokuapp.com/api/world
