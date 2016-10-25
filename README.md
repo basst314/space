@@ -67,3 +67,11 @@ Create Eclipse files
 
 ## Heroku Integration
 - Testserver: https://the-space-game.herokuapp.com/api/world
+
+## Milestones
+
+### #1 Siam Cat
+- Find following Milestone Names
+- Dynamic World can be generated and displayed (Server-Client-Roundtrip)
+- World is persistent for one game session
+- A Server and a Client are implemented as REST-Service and per WebSocket
