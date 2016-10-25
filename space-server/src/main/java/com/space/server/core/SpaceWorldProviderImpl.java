@@ -10,6 +10,11 @@ public class SpaceWorldProviderImpl implements SpaceWorldProvider {
 	private static final List<String> EVENTS = Arrays.asList("R", "T", "M", "W");
 
 	@Override
+	public String getWorldEntry() {
+		return "..........";
+	}
+
+	@Override
 	public String getWorldContent() {
 		double rand = Math.random();
 		if (rand > EVENT_PROP) {

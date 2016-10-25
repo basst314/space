@@ -13,6 +13,7 @@ public class SpaceStarterLocal {
 		SpaceWorldProvider world = new SpaceWorldProviderImpl();
 		
 		LOG.debug(world.getHero());
+		LOG.debug(world.getWorldEntry());
 		
 		for (int i = 0 ; i < 100 ; i++) {
 			LOG.debug(world.getWorldContent());
