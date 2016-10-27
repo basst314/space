@@ -12,6 +12,8 @@ All game features and the overall game description are subject to change.
 - The Hero is the main character in this game and is controlled by the player.
 - The Hero needs to complete the game world and defeat all enemies he encounters.
 - The Hero can collect and use weapons, armor and other special items, provided by the game world.
+- Items are stored in the Inventory
+- Items can be activated through item-slots 1-n (see 'additional controls')
 - The more enemies the Hero defeats and the further he gets in the game world, the more points he will earn.
 - The Hero can die. He then loses points and respawns at an earlier position in the game world.
 - Points will be used to calculate ranking with other players.
@@ -25,6 +27,14 @@ As described in Game Features, the whole interaction with the game world is done
 | ------------- | ------------- |
 | Single-Space  | Perform the main action. Depends on available weapons or add-ons and on the current game world position. The very basic action will be a single punch.  |
 | Double-Space  | Turns around, Hero runs in the opposite direction. |
+
+### Additional Controls:
+| Key  | Function |
+| ------------- | ------------- |
+| I  | Show inventory  |
+| M  | Show Map  |
+| 1-4  | Toggle Item 1-4 (only one is active)  |
+
 
 ## Game World Example
 An example game world might look something like this:
@@ -67,3 +77,11 @@ Create Eclipse files
 
 ## Heroku Integration
 - Testserver: https://the-space-game.herokuapp.com/api/world
+
+## Milestones
+
+### #1 Siam Cat
+- Find following Milestone Names
+- Dynamic World can be generated and displayed (Server-Client-Roundtrip)
+- World is persistent for one game session
+- A Server and a Client are implemented as REST-Service and per WebSocket
