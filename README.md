@@ -25,7 +25,7 @@ As described in Game Features, the whole interaction with the game world is done
 
 | Space Pattern  | Interaction |
 | ------------- | ------------- |
-| Single-Space  | Perform the main action. Depends on available weapons or add-ons and on the current game world position. The very basic action will be a single punch.  |
+| Single-Space  | Perform the main action. Depends on available/activated weapons or add-ons and on the current game world position. The very basic action will be a single punch.  |
 | Double-Space  | Turns around, Hero runs in the opposite direction. |
 
 ### Additional Controls:
@@ -33,7 +33,7 @@ As described in Game Features, the whole interaction with the game world is done
 | ------------- | ------------- |
 | I  | Show inventory  |
 | M  | Show Map  |
-| 1-4  | Toggle Item 1-4 (only one is active)  |
+| 1-3  | Toggle Item 1-3 (only one is active)  |
 
 
 ## Game World Example
@@ -44,24 +44,23 @@ An example game world might look something like this:
 | ------------- | ------------- |
 | H  | The Hero. The main character in this game. |
 | .  | An empty path, ready for the Hero to run along. |
-| [letter]  | An object in the game world to interact with. Might be enemies, weapons or other collectable items, rocks, traps, doors, etc. |
+| [any letter]  | An object in the game world to interact with. Might be enemies, weapons or other collectable items, rocks, traps, doors, etc. |
 
 ## Technical Features
 - Space is an online-game.
 - The space-online game server hosts the gameworld.
-- To start the game, the user needs a space-client to connect to the game server and join the gameworld.
-- The space-online gameworld is shared among all players (multiplayer).
+- To start the game, the user needs a space-client to connect to the game server and join a gameworld.
+- A space-online gameworld may be shared among multiple players (multiplayer).
 - Players must create a space-online account (profile) to play the game.
-- The profile consists of the player's login data (username, password), the ingame character(s), gameworld coordinates, points, items, etc. (game state) and is stored on the server.
+- The profile consists of the player's login data (username, password), the ingame character(s), active gameworlds, gameworld coordinates, points, items, etc. (game state) and is stored on the server.
 
 ## Development Guidelines
 Development guidelines are permanent subject to change.
-- Development is split into three areas: _space-server_ (com.space.server), _space-client_ (com.space.client) and a common codebase for communication and protocols, _space-common_ (com.space.common).
-- These code areas should be kept separately.
-- space-server and space-common are developed using Java SE 8.
-- At least one space-client will be developed in the same programming language. (Other clients may user whatever they desire)
+- Development is split into two main areas: _space-server_ (com.space.server) and _space-client_ (com.space.client).
+- The space-server is developed using Java SE 8.
+- The space-client is developed using Angular2 w/ Typescript.
 - The codebase should be kept clean, the code should follow common coding conventions and the test coverage should be kept at a high level.
-- The codebase will be built automatically at least on a daily basis plus directly after every code change.
+- The codebase will be built automatically after every code change.
 - Milestone releases will have a codename and release notes.
 
 ## Super short gradle intro
@@ -82,6 +81,7 @@ Create Eclipse files
 
 ### #1 Siam Cat
 - Find following Milestone Names
-- Dynamic World can be generated and displayed (Server-Client-Roundtrip)
+- A game-world can be generated and displayed (Server-Client-Roundtrip over Network)
 - World is persistent for one game session
-- A Server and a Client are implemented as REST-Service and per WebSocket
+- Server and Client are communicating via WebSockets
+- Basic Events can be sent between client and server
