@@ -54,26 +54,6 @@ An example game world might look something like this:
 - Players must create a space-online account (profile) to play the game.
 - The profile consists of the player's login data (username, password), the ingame character(s), active gameworlds, gameworld coordinates, points, items, etc. (game state) and is stored on the server.
 
-## Development Guidelines
-Development guidelines are permanent subject to change.
-- Development is split into two main areas: _space-server_ (com.space.server) and _space-client_ (com.space.client).
-- The space-server is developed using Java SE 8.
-- The space-client is developed using Angular2 w/ Typescript.
-- The codebase should be kept clean, the code should follow common coding conventions and the test coverage should be kept at a high level.
-- The codebase will be built automatically after every code change.
-- Milestone releases will have a codename and release notes.
-
-## Super short gradle intro
-Building
-- gradlew clean build
-
-Running
-- gradlew space-server:run
-- gradlew space-client:run
-
-Create Eclipse files
-- gradlew eclipse
-
 ## Heroku Integration
 - Testserver: https://the-space-game.herokuapp.com/api/world
 
