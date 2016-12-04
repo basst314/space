@@ -1,7 +1,7 @@
 package com.space.server.game.api;
 
-import com.space.server.dao.api.SpacePlayer;
-import com.space.server.dao.api.SpaceWorld;
+import com.space.server.domain.api.SpacePlayer;
+import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.WorldEvent;
 
 /**

@@ -1,5 +1,7 @@
 package com.space.server.dao.api;
 
+import com.space.server.domain.api.SpaceWorld;
+
 import java.util.List;
 
 /**
