@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Tests the SimpleSegment class
  * Created by superernie77 on 08.12.2016.
  */
 public class SimpleSegmentTest {
@@ -41,7 +42,7 @@ public class SimpleSegmentTest {
 
         String content = segment.getContent();
 
-        // three emppty steps
+        // three empty steps
         Assert.assertTrue(content.equals("..."));
     }
 }
