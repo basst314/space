@@ -1,18 +1,22 @@
-apply plugin: 'java'
+plugins {
+  id "com.moowork.node" version "1.0.1"
+}
+
+apply plugin: 'com.moowork.node'
 
 group 'com.space.client'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
+version '1.0.0-SNAPSHOT'
 
 repositories {
-	jcenter()
+  jcenter()
 }
 
 dependencies {
-	compile project(':space-common')
 
-	testCompile 'junit:junit:4.12'
-	testCompile 'org.assertj:assertj-core:3.5.2'
-	testCompile 'org.mockito:mockito-core:2.2.5'
 }
+
+task buildCi(type: NpmTask) {
+  args = ['run', 'build:ci']
+}
+
+npm_install {}.finalizedBy(buildCi)
