@@ -8,6 +8,10 @@ import java.util.List;
  */
 public interface SpacePlayer {
 
+    Integer getPlayerId();
+
+    void setPlayerId(Integer id);
+
     /**
      * Returns the current inventory of the player.
      * @return list of items

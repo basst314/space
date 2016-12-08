@@ -14,6 +14,10 @@ public interface WorldEvent {
 
     int getPlayerId();
 
+    WorldEventType getType();
+
+    void setType(WorldEventType type);
+
 
 
 }

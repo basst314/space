@@ -17,4 +17,6 @@ public interface WorldDao {
     List<SpaceWorld> getWorldsByPlayerId(int playerId);
 
     List<SpaceWorld> getWorlds();
+
+    SpaceWorld getWorld(int worldId);
 }
