@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class SimpleWorldImpl implements SpaceWorld {
 
-    private List<Segment> segments  = new ArrayList<>();;
+    private List<Segment> segments  = new ArrayList<>(10);
 
     @Override
     public Segment getSegment(int no) {
@@ -22,7 +22,13 @@ public class SimpleWorldImpl implements SpaceWorld {
     }
 
     @Override
-    public void setSegment(Segment seg, int no) {
+    public void setSegment(Segment seg, int no){
         segments.set(no, seg);
+    }
+
+    @Override
+    public SpaceWorld addSegment(Segment seg){
+        segments.add(seg);
+        return this;
     }
 }
