@@ -6,7 +6,16 @@ package com.space.server.domain.api;
  */
 public interface Segment {
 
+    /**
+     * Returns the content of the segment as a string.
+     * @return
+     */
     String getContent();
 
-    void addStep(Step step);
+    /**
+     * Adds a new step to the end of the segment.
+     * @param step the new step
+     * @return reference of the segment for chaining of methods
+     */
+    Segment addStep(Step step);
 }

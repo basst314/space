@@ -3,11 +3,16 @@ package com.space.server.domain.impl;
 import com.space.server.domain.api.Step;
 
 /**
+ * Basic implementation of the step interface
  * Created by superernie77 on 04.12.2016.
  */
 public class BasicStep implements Step {
 
-    String content = ".";
+    private String content = ".";
+
+    private Step next;
+
+    private Step previous;
 
     @Override
     public String getContent() {
@@ -15,14 +20,31 @@ public class BasicStep implements Step {
     }
 
     public void setContent(String character){
-        if (character.length() > 1) {
-            throw new IllegalArgumentException("Conent can only be one character long");
-        }
         content = character;
     }
 
     @Override
     public boolean isConnector() {
         return false;
+    }
+
+     @Override
+    public Step next(){
+        return next;
+    }
+
+    @Override
+    public Step previous(){
+        return previous;
+    }
+
+    @Override
+    public void setNext(Step v_next){
+        next = v_next;
+    }
+
+    @Override
+    public void setPrevious(Step v_previous){
+        previous = v_previous;
     }
 }

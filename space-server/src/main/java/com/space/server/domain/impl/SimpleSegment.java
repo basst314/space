@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class SimpleSegment implements Segment {
 
-    List<Step> steps = new ArrayList<>();
+    List<Step> steps = new ArrayList<>(0);
 
     @Override
     public String getContent() {
@@ -23,8 +23,14 @@ public class SimpleSegment implements Segment {
     }
 
     @Override
-    public void addStep(Step step){
+    public Segment addStep(Step step){
+        if (steps.size() > 0) {
+            Step previous = steps.get(steps.size() - 1);
+            step.setPrevious(previous);
+            previous.setNext(step);
+        }
         steps.add(step);
+        return this;
     }
 
 
