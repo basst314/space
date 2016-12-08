@@ -19,4 +19,4 @@ task buildCi(type: NpmTask) {
   args = ['run', 'build:ci']
 }
 
-npm_install {}.finalizedBy(buildCi)
+npm_install.finalizedBy(buildCi)
