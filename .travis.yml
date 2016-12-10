@@ -1,5 +1,18 @@
 sudo: required
 dist: trusty
+
+language: java
+
+jdk:
+  - oraclejdk8
+
+notifications:
+  email: false
+  slack: the-space-game:d7oegXy04GWkYpx1FexPbuDW
+
+
+# space-client build
+
 addons:
   apt:
     sources:
@@ -17,10 +30,28 @@ matrix:
   allow_failures:
   - node_js: "4"
 
-language: java
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
 
-jdk:
-  - oraclejdk8
-notifications:
-  email: false
-  slack: the-space-game:d7oegXy04GWkYpx1FexPbuDW
+
+# overall space build:
+# 1) space-client
+# 2) space-common
+# 3) space-server
+# -> space-server bundles client files in war-file
+# overall build artifact: space-server-all.war
+
+script:
+  - cd space-client # go to space-client and start build via npm
+  - npm install
+  - npm run lint
+  - npm test
+  - npm run build:prod
+  - npm run server:prod:ci &
+  - sleep 3
+  - npm run e2e
+
+  - cd ../ # back to root folder
+  - ./gradlew stage # start build of space-common and space-server, building a space-all fat-jar including the client
