@@ -14,6 +14,7 @@ public class SpaceWorldController {
 	public static Route world = (request, response) -> {
 		StringBuilder builder = new StringBuilder();
 		builder.append(SpaceStarterWeb.spaceWorldProvider.getHero());
+		builder.append(SpaceStarterWeb.spaceWorldProvider.getWorldEntry());
 		Stream.generate(SpaceStarterWeb.spaceWorldProvider::getWorldContent).limit(100).forEach(builder::append);
 		return new World(builder.toString());
 	};
