@@ -23,14 +23,14 @@ dependencies {
 	testCompile 'org.mockito:mockito-core:2.2.5'
 }
 
-
-
 task fatJar(type: Jar) {
 	manifest.from jar.manifest
 	classifier = 'all'
 	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } } {
 		exclude '*.html'
 	}
+
+	// include space-client in this jar
 	from { '../space-client/dist' }
 
 	with jar
