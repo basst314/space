@@ -83,7 +83,6 @@ public class GameEngineImplTest {
         engine.addEvent(event);
 
         verify(world).addEvent(event);
-
     }
 
     @Test
@@ -94,5 +93,4 @@ public class GameEngineImplTest {
 
         verify(worldDao).saveWorld(world);
     }
-
 }
