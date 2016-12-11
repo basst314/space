@@ -29,7 +29,7 @@ public class GameEngineImpl implements GameEngine {
     private Map<Integer,Integer> playerWorldmapping = new HashMap<>();
 
     @Override
-    public void startPlayer(Integer playerId, Integer worldId) {
+    public void startGame(Integer playerId, Integer worldId) {
         // load player
         SpacePlayer player = playerDao.getPlayer(playerId);
         activePlayer.put(playerId,player);
@@ -50,7 +50,7 @@ public class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public void stopPlayer(Integer playerId, Integer worldId) {
+    public void stopGame(Integer playerId, Integer worldId) {
         activePlayer.remove(playerId);
         activeWorlds.remove(worldId);
 
@@ -65,7 +65,9 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public void addEvent(WorldEvent event) {
         SpaceWorld world = activeWorlds.get(event.getWorldId());
-        world.addEvent(event);
+        if (world != null) {
+            world.addEvent(event);
+        }
     }
 
     @Override

@@ -10,9 +10,9 @@ import com.space.server.domain.api.SpaceWorld;
  */
 public interface GameEngine {
     
-    void startPlayer(Integer playerId, Integer worldId);
+    void startGame(Integer playerId, Integer worldId);
 
-    void stopPlayer(Integer playerId, Integer worldId);
+    void stopGame(Integer playerId, Integer worldId);
     
     void stepWorld(Integer worldId);
     

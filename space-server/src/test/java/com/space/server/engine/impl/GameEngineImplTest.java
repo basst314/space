@@ -10,7 +10,8 @@ import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.domain.api.Step;
 import com.space.server.domain.impl.BasicStep;
-import com.space.server.engine.api.GameEngine;
+import com.space.server.engine.api.WorldEvent;
+import com.space.server.engine.api.WorldEventType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +19,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.junit.Assert.*;
 
 /**
  * Test the gameEngine
@@ -63,7 +62,7 @@ public class GameEngineImplTest {
     @Test
     public void testWorldSetup() throws Exception {
 
-        engine.startPlayer(1,1);
+        engine.startGame(1,1);
 
         SpaceWorld world = engine.getWorld(1);
 
@@ -75,8 +74,29 @@ public class GameEngineImplTest {
     }
 
     @Test
-    public void addEvent() throws Exception {
+    public void testAddEvent() throws Exception {
+        WorldEvent event = new WorldEventImpl();
 
+        event.setPlayerId(1);
+        event.setWorldId(1);
+
+        event.setType(WorldEventType.SPACE);
+
+        engine.startGame(1,1);
+
+        engine.addEvent(event);
+
+        verify(world).addEvent(event);
+
+    }
+
+    @Test
+    public void testPersist(){
+        engine.startGame(1,1);
+
+        engine.persist(1);
+
+        verify(worldDao).saveWorld(world);
     }
 
 }
