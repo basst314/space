@@ -18,4 +18,11 @@ public interface Segment {
      * @return reference of the segment for chaining of methods
      */
     Segment addStep(Step step);
+
+    /**
+     * Returns the step with given number.
+     * @param no
+     * @return
+     */
+    Step getStep(int no);
 }

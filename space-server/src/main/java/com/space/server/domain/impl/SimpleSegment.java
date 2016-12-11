@@ -33,5 +33,10 @@ public class SimpleSegment implements Segment {
         return this;
     }
 
+    @Override
+    public Step getStep(int no) {
+        return steps.get(no);
+    }
+
 
 }

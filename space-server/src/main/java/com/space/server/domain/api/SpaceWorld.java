@@ -8,8 +8,18 @@ import com.space.server.engine.api.WorldEvent;
  */
 public interface SpaceWorld {
 
+    //TODO start segment no + step no
+
+    /**
+     * return the id of the world.
+     * @return
+     */
     Integer getWorldId();
 
+    /**
+     * Sets the unique world id.
+     * @param id
+     */
     void setWorldId(Integer id);
 
     /**
@@ -20,18 +30,22 @@ public interface SpaceWorld {
     Segment getSegment(int no);
 
     /**
-     * resets a segment with a new one
+     * replaces the given segment
      * @param seg
      * @param no
      */
     void setSegment(Segment seg, int no);
 
     /**
-     * Adds a segment to the world
+     * Adds a segment to the world.
      * @param seg
      * @return
      */
     SpaceWorld addSegment(Segment seg);
 
+    /**
+     * Add an event to the world that will be processed in the next world time step.
+     * @param event
+     */
     void addEvent(WorldEvent event);
 }

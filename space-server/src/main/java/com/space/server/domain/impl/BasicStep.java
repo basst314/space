@@ -1,6 +1,10 @@
 package com.space.server.domain.impl;
 
+import com.space.server.domain.api.Overlay;
 import com.space.server.domain.api.Step;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Basic implementation of the step interface
@@ -13,6 +17,8 @@ public class BasicStep implements Step {
     private Step next;
 
     private Step previous;
+
+    private List<Overlay> overlays = new ArrayList<>();
 
     @Override
     public String getContent() {
@@ -46,5 +52,10 @@ public class BasicStep implements Step {
     @Override
     public void setPrevious(Step v_previous){
         previous = v_previous;
+    }
+
+    @Override
+    public void addOverlay(Overlay over) {
+        overlays.add(over);
     }
 }

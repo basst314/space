@@ -36,7 +36,22 @@ public interface Step {
      */
     Step previous();
 
+    /**
+     * Sets the next step in the segment.
+     * @param next
+     */
     void setNext(Step next);
 
+
+    /**
+     * Sets the previous step in the segment.
+     * @param previous
+     */
     void setPrevious(Step previous);
+
+    /**
+     * Adds an overlay to the step
+     * @param over
+     */
+    void addOverlay(Overlay over);
 }

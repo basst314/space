@@ -2,8 +2,10 @@ package com.space.server.engine.impl;
 
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
+import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
+import com.space.server.domain.api.Step;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
 
@@ -28,13 +30,22 @@ public class GameEngineImpl implements GameEngine {
 
     @Override
     public void startPlayer(Integer playerId, Integer worldId) {
+        // load player
         SpacePlayer player = playerDao.getPlayer(playerId);
-        activePlayer.put(player.getPlayerId(),player);
+        activePlayer.put(playerId,player);
 
-
+        // load world
         SpaceWorld world = worldDao.getWorld(worldId);
-        activeWorlds.put(world.getWorldId(),world);
 
+        // set player into world
+        Segment segment = world.getSegment(0);
+        Step step = segment.getStep(0);
+        step.addOverlay(player);
+
+        // activate world
+        activeWorlds.put(worldId,world);
+
+        // map player to world
         playerWorldmapping.put(playerId,worldId);
     }
 
@@ -81,5 +92,13 @@ public class GameEngineImpl implements GameEngine {
             playerDao.getPlayer(playerId);
         }
         return player;
+    }
+
+    public void setWorldDao(WorldDao dao){
+        worldDao = dao;
+    }
+
+    public void setPlayerDao(PlayerDao dao){
+        playerDao = dao;
     }
 }
