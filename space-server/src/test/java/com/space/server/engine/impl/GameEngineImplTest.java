@@ -42,13 +42,9 @@ public class GameEngineImplTest {
 
     @Before
     public void setup(){
-        //engine = new GameEngineImpl();
-
-        //engine.setPlayerDao(playerDao);
-        //engine.setWorldDao(worldDao);
-
         player = mock(SpacePlayer.class);
         world = mock(SpaceWorld.class);
+
         when(playerDao.getPlayer(anyInt())).thenReturn(player);
         when(worldDao.getWorld(anyInt())).thenReturn(world);
 
