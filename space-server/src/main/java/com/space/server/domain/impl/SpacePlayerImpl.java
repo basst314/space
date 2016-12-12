@@ -4,6 +4,7 @@ import com.space.server.domain.api.Item;
 import com.space.server.domain.api.Overlay;
 import com.space.server.domain.api.SpacePlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,9 @@ public class SpacePlayerImpl implements SpacePlayer{
 
     private String content = "H";
 
-    private List<Item> inventory;
+    private List<Item> inventory = new ArrayList<>();
+
+    private Item activeItem;
 
     @Override
     public Integer getPlayerId() {
@@ -39,7 +42,26 @@ public class SpacePlayerImpl implements SpacePlayer{
     }
 
     @Override
+    public Item getActiveItem() {
+        return activeItem;
+    }
+
+    @Override
+    public void setActiveItem(int no) {
+        activeItem = inventory.get(no);
+    }
+
+    @Override
+    public void addItem(Item item) {
+        inventory.add(item);
+    }
+
+    @Override
     public String getContent() {
+        if (activeItem != null){
+            String item = activeItem.getContent();
+            return content + item;
+        }
         return content;
     }
 

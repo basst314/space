@@ -33,6 +33,24 @@ public interface SpacePlayer extends Overlay{
      */
     Item getItem(int no);
 
+    /**
+     * Returns the active item
+     * @return
+     */
+    Item getActiveItem();
+
+    /**
+     * Sets one of the items from the inventory to the active item.
+     * @param no
+     */
+    void setActiveItem(int no);
+
+    /**
+     * Adds an item to the inventory.
+     * @param item
+     */
+    void addItem(Item item);
+
 }
 
 
