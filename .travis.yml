@@ -59,7 +59,7 @@ script:
 deploy:
   skip_cleanup: true
   provider: heroku
-  api_key: $HEROKU_APIKEY
+  api_key: $HEROKU_API_KEY
   app:
     feature/basst314/space-client-configuration: the-space-game-test
     master: the-space-game-staging
