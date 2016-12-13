@@ -57,6 +57,7 @@ script:
   - ./gradlew stage # start build of space-common and space-server, building a space-all fat-jar including the client
 
 deploy:
+  skip_cleanup: true
   provider: heroku
   api_key: $HEROKU_APIKEY
   app:
