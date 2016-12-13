@@ -12,7 +12,6 @@ task stage(type: Copy) {
     from 'space-server/build/libs'
     into 'build/dependency'
     include 'space-server-*-all.jar'
-    rename '^.+$', 'application.jar' // required name for https://github.com/energizedwork/heroku-buildpack-runnable-jar
 }
 
 stage.dependsOn 'space-server:build'

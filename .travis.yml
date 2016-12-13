@@ -55,6 +55,7 @@ script:
 
   - cd ../ # back to root folder
   - ./gradlew stage # start build of space-common and space-server, building a space-all fat-jar including the client
+  - cp build/dependency/space-server-*-all.jar ./application.jar # needed by heroku-buildpack-runnable-jar plugin
 
 deploy:
   skip_cleanup: true
