@@ -39,7 +39,9 @@ task fatJar(type: Jar) {
 	}
 
 	// include space-client in this jar
-	from { '../space-client/dist' }
+	from ('../space-client/dist') {
+      into ('static')
+   }
 
 	with jar
 }
