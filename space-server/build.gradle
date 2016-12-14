@@ -25,6 +25,7 @@ dependencies {
 
 task fatJar(type: Jar) {
 	manifest.from jar.manifest
+   classifier = 'all'
 
 	manifest {
 		attributes(
@@ -33,7 +34,6 @@ task fatJar(type: Jar) {
 		)
 	}
 
-	classifier = 'all'
 	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } } {
 		exclude '*.html'
 	}
