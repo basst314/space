@@ -65,3 +65,4 @@ An example game world might look something like this:
 - World is persistent for one game session
 - Server and Client are communicating via WebSockets
 - Basic Events can be sent between client and server
+
