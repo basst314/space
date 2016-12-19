@@ -2,6 +2,8 @@ package com.space.server.domain.api;
 
 import com.space.server.engine.api.WorldEvent;
 
+import java.util.List;
+
 /**
  * Interface for a space game world.
  * Created by superernie77 on 01.12.2016.
@@ -24,28 +26,36 @@ public interface SpaceWorld {
 
     /**
      * returns a segment
-     * @param no
+     * @param no the number of the segment
      * @return
      */
     Segment getSegment(int no);
 
     /**
      * replaces the given segment
-     * @param seg
-     * @param no
+     * @param seg new segment
+     * @param no number to replace
      */
     void setSegment(Segment seg, int no);
 
     /**
      * Adds a segment to the world.
-     * @param seg
-     * @return
+     * @param seg the segment to add
+     * @return the world for chaining
      */
     SpaceWorld addSegment(Segment seg);
 
     /**
      * Add an event to the world that will be processed in the next world time step.
-     * @param event
+     * @param event the event to add
      */
     void addEvent(WorldEvent event);
+
+    /**
+     * Returns all event for a certain player in the world
+     * @param playerId
+     * @return
+     */
+    List<WorldEvent> getEventsForPlayer(int playerId);
+
 }

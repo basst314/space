@@ -30,7 +30,6 @@ public class BasicStep implements Step {
         return content;
     }
 
-
     public void setContent(String character){
 
         content = character;
@@ -69,6 +68,11 @@ public class BasicStep implements Step {
     @Override
     public boolean isPlayerPresent(){
         return overlays.stream().anyMatch( o -> o instanceof SpacePlayer );
+    }
+
+    @Override
+    public List<SpacePlayer> getPlayers() {
+        return overlays.stream().filter( o -> o instanceof SpacePlayer ).map( o -> (SpacePlayer)o ).collect(Collectors.toList());
     }
 
     @Override

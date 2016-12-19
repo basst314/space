@@ -1,8 +1,6 @@
 package com.space.server.domain.impl;
 
-import com.space.server.domain.api.Item;
-import com.space.server.domain.api.Overlay;
-import com.space.server.domain.api.SpacePlayer;
+import com.space.server.domain.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +18,41 @@ public class SpacePlayerImpl implements SpacePlayer{
     private List<Item> inventory = new ArrayList<>();
 
     private Item activeItem;
+
+    private Direction direction = Direction.FORWARD;
+
+    private boolean moved = false;
+
+    private Step activeStep;
+
+    @Override
+    public Direction getDirection() {
+        return direction;
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    @Override
+    public void setMoved(boolean moved) {
+        this.moved = moved;
+    }
+
+    @Override
+    public Step getActiveStep() {
+        return activeStep;
+    }
+
+    @Override
+    public void setActiveStep(Step step) {
+        activeStep = step;
+    }
 
     @Override
     public Integer getPlayerId() {

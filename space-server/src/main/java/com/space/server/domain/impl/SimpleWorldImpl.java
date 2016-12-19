@@ -7,6 +7,7 @@ import com.space.server.engine.api.WorldEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Represent a simple space world. A world consist of an ordered sequence of world segments.
@@ -50,5 +51,10 @@ public class SimpleWorldImpl implements SpaceWorld {
     @Override
     public void addEvent(WorldEvent event) {
         events.add(event);
+    }
+
+    @Override
+    public List<WorldEvent> getEventsForPlayer(int playerId) {
+        return events.stream().filter( e -> e.getPlayerId() == playerId).collect(Collectors.toList());
     }
 }

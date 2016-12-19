@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class GameEngineImpl implements GameEngine {
 
-    private StepUtils stepUitls = new StepUtils();
+    private StepUtils stepUtils = new StepUtils();
 
     private PlayerDao playerDao;
 
@@ -37,10 +37,11 @@ public class GameEngineImpl implements GameEngine {
         // load world
         SpaceWorld world = worldDao.getWorld(worldId);
 
-        // set player into world
+        // set player into world and connect player with step
         Segment segment = world.getSegment(0);
         Step step = segment.getStep(0);
         step.addOverlay(player);
+        player.setActiveStep(step);
 
         // activate world
         activeWorlds.put(worldId,world);
@@ -61,19 +62,31 @@ public class GameEngineImpl implements GameEngine {
 
         SpaceWorld world = activeWorlds.get(worldId);
 
-        Step step = world.getSegment(0).getStep(0);
+        // process event
+        for (SpacePlayer player : activePlayer.values()){
+               List<WorldEvent>  events = world.getEventsForPlayer(player.getPlayerId());
+                stepUtils.processEvents(events,player);
+        }
 
+        // move players
+        Step step = world.getSegment(0).getStep(0);
         if (step.isPlayerPresent()){
-            stepUitls.movePlayerOneStepForeward(step);
+            stepUtils.movePlayerOneStep(step);
         } else {
             while (step.next() != null){
                 step = step.next();
                 if (step.isPlayerPresent()){
-                    stepUitls.movePlayerOneStepForeward(step);
+                    stepUtils.movePlayerOneStep(step);
                     break;
                 }
             }
         }
+
+        // reset moved flag after step is completed
+        for (SpacePlayer player : activePlayer.values()){
+            player.setMoved(false);
+        }
+
     }
 
     @Override
@@ -110,11 +123,11 @@ public class GameEngineImpl implements GameEngine {
         return player;
     }
 
-    public void setWorldDao(WorldDao dao){
+    void setWorldDao(WorldDao dao){
         worldDao = dao;
     }
 
-    public void setPlayerDao(PlayerDao dao){
+    void setPlayerDao(PlayerDao dao){
         playerDao = dao;
     }
 }
