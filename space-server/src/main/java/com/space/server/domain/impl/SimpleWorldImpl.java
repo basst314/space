@@ -22,6 +22,30 @@ public class SimpleWorldImpl implements SpaceWorld {
 
     private Integer worldId;
 
+    private Integer startSegment = 0;
+
+    private Integer startStep = 0;
+
+    @Override
+    public Integer getStartSegment() {
+        return startSegment;
+    }
+
+    @Override
+    public Integer getStartStep() {
+        return startStep;
+    }
+
+    @Override
+    public void setStartSegment(Integer no) {
+        startSegment = no;
+    }
+
+    @Override
+    public void setStartStep(Integer no) {
+        startStep = no;
+    }
+
     @Override
     public Integer getWorldId() {
         return worldId;

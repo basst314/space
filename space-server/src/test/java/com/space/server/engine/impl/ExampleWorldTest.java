@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
+import com.space.server.domain.api.Direction;
 import com.space.server.domain.api.Overlay;
 import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
@@ -85,6 +86,27 @@ public class ExampleWorldTest {
         Assert.assertTrue(worldwithhero.equals("...H....W........M"));
     }
 
+    @Test
+    public void testMoveBackwards(){
+        exampleWorld = utils.createWorldFromString("......");
+
+        exampleWorld.setStartSegment(0);
+        exampleWorld.setStartStep(5);
+
+        player.setDirection(Direction.BACKWARD);
+
+        when(worldDao.getWorld(0)).thenReturn(exampleWorld);
+
+        gameEngine.startGame(0,0);
+
+        gameEngine.stepWorld(0);
+        gameEngine.stepWorld(0);
+
+        String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+
+        Assert.assertTrue(worldwithhero.equals("...H.."));
+    }
+
     @Ignore
     @Test
     public void testTakeWeapon(){
@@ -96,7 +118,6 @@ public class ExampleWorldTest {
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        // three steps foreward
         gameEngine.stepWorld(0);
         gameEngine.stepWorld(0);
 

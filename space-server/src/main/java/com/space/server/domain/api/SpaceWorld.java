@@ -10,7 +10,13 @@ import java.util.List;
  */
 public interface SpaceWorld {
 
-    //TODO start segment no + step no
+    Integer getStartSegment();
+
+    Integer getStartStep();
+
+    void setStartSegment(Integer no);
+
+    void setStartStep(Integer no);
 
     /**
      * return the id of the world.

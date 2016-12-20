@@ -38,8 +38,8 @@ public class GameEngineImpl implements GameEngine {
         SpaceWorld world = worldDao.getWorld(worldId);
 
         // set player into world and connect player with step
-        Segment segment = world.getSegment(0);
-        Step step = segment.getStep(0);
+        Segment segment = world.getSegment(world.getStartSegment());
+        Step step = segment.getStep(world.getStartStep());
         step.addOverlay(player);
         player.setActiveStep(step);
 
@@ -83,9 +83,7 @@ public class GameEngineImpl implements GameEngine {
         }
 
         // reset moved flag after step is completed
-        for (SpacePlayer player : activePlayer.values()){
-            player.setMoved(false);
-        }
+        activePlayer.values().stream().forEach( p -> p.setMoved(false));
 
     }
 
