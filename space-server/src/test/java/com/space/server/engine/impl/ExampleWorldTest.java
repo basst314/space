@@ -6,11 +6,9 @@ import static org.mockito.Mockito.*;
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
 import com.space.server.domain.api.Direction;
-import com.space.server.domain.api.Overlay;
 import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.domain.impl.*;
-import com.space.server.domain.items.impl.Sword;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import com.space.server.utils.StepUtils;
@@ -18,9 +16,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Test a complete world and a hero interacting with it.
@@ -38,6 +33,7 @@ public class ExampleWorldTest {
 
     private SpacePlayer player;
 
+    private WorldEventProcessor processor;
 
     private StepUtils utils = new StepUtils();
 
@@ -46,6 +42,8 @@ public class ExampleWorldTest {
         // Mock DAOs
         playerDao = mock(PlayerDao.class);
         worldDao = mock((WorldDao.class));
+        processor = mock(WorldEventProcessor.class);
+
 
         // create real player
         player = new SpacePlayerImpl();
@@ -55,6 +53,7 @@ public class ExampleWorldTest {
         gameEngine = new GameEngineImpl();
         gameEngine.setWorldDao(worldDao);
         gameEngine.setPlayerDao(playerDao);
+        gameEngine.setWorldEventProcessor(processor);
 
 
         // mock world init

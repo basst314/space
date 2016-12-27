@@ -22,6 +22,8 @@ public class GameEngineImpl implements GameEngine {
 
     private WorldDao worldDao;
 
+    private WorldEventProcessor processor;
+
     private Map<Integer,SpacePlayer> activePlayer = new HashMap<>();
 
     private Map<Integer,SpaceWorld> activeWorlds = new HashMap<>();
@@ -65,7 +67,7 @@ public class GameEngineImpl implements GameEngine {
         // process event
         for (SpacePlayer player : activePlayer.values()){
                List<WorldEvent>  events = world.getEventsForPlayer(player.getPlayerId());
-                stepUtils.processEvents(events,player);
+                processor.processEvents(events,player);
         }
 
         // move players
@@ -127,5 +129,13 @@ public class GameEngineImpl implements GameEngine {
 
     void setPlayerDao(PlayerDao dao){
         playerDao = dao;
+    }
+
+    public void setWorldEventProcessor(WorldEventProcessor proc){
+        processor = proc;
+    }
+
+    public WorldEventProcessor getWorldEventProcessor(){
+        return processor;
     }
 }
