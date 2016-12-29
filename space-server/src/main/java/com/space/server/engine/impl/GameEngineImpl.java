@@ -22,7 +22,7 @@ public class GameEngineImpl implements GameEngine {
 
     private WorldDao worldDao;
 
-    private WorldEventProcessor processor;
+    private WorldEventProcessorImpl processor;
 
     private Map<Integer,SpacePlayer> activePlayer = new HashMap<>();
 
@@ -131,11 +131,11 @@ public class GameEngineImpl implements GameEngine {
         playerDao = dao;
     }
 
-    public void setWorldEventProcessor(WorldEventProcessor proc){
+    public void setWorldEventProcessor(WorldEventProcessorImpl proc){
         processor = proc;
     }
 
-    public WorldEventProcessor getWorldEventProcessor(){
+    public WorldEventProcessorImpl getWorldEventProcessor(){
         return processor;
     }
 }

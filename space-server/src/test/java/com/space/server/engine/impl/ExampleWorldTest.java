@@ -33,7 +33,7 @@ public class ExampleWorldTest {
 
     private SpacePlayer player;
 
-    private WorldEventProcessor processor;
+    private WorldEventProcessorImpl processor;
 
     private StepUtils utils = new StepUtils();
 
@@ -42,7 +42,7 @@ public class ExampleWorldTest {
         // Mock DAOs
         playerDao = mock(PlayerDao.class);
         worldDao = mock((WorldDao.class));
-        processor = mock(WorldEventProcessor.class);
+        processor = mock(WorldEventProcessorImpl.class);
 
 
         // create real player
