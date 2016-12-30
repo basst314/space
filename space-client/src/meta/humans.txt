@@ -1,0 +1,20 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+  basst314 --- dev --- @basst314
+  superernie77 --- dev ---
+  oppes --- dev ---
+  chicane --- dev ---
+
+# THANKS
+
+  <name>
+  PatrickJS -- @gdi2290
+  AngularClass -- @AngularClass
+
+# TECHNOLOGY COLOPHON
+
+  HTML5, CSS3
+  Angular2, TypeScript, Webpack

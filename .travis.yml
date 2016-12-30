@@ -1,6 +1,67 @@
+sudo: required
+dist: trusty
+
 language: java
+
 jdk:
   - oraclejdk8
+
 notifications:
   email: false
   slack: the-space-game:d7oegXy04GWkYpx1FexPbuDW
+
+
+# space-client build
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+node_js:
+  - "4"
+  - "5"
+  - "6"
+  - "node"
+# Matrix failure enabled for https://github.com/TheLarkInn/LazyParseWebpackPlugin/issues/6
+matrix:
+  fast_finish: true
+  allow_failures:
+  - node_js: "4"
+
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
+
+
+# overall space build order:
+# 1) space-client
+# 2) space-common
+# 3) space-server
+# -> space-server bundles client files in jar-file
+# overall build artifact: space-server-*-all.jar
+
+script:
+  - cd space-client # go to space-client and start build via npm
+  - npm install
+  - npm run lint
+  - npm test
+  - npm run build:prod
+  - npm run server:prod:ci &
+  - sleep 3
+  - npm run e2e
+
+  - cd ../ # back to root folder
+  - ./gradlew stage # start build of space-common and space-server, building a space-all fat-jar including the client
+  - cp build/dependency/space-server-*-all.jar ./application.jar # needed by heroku-buildpack-runnable-jar plugin
+
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app:
+    feature/basst314/space-client-configuration: the-space-game-test
+    master: the-space-game-staging
+    stable: the-space-game

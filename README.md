@@ -55,7 +55,11 @@ An example game world might look something like this:
 - The profile consists of the player's login data (username, password), the ingame character(s), active gameworlds, gameworld coordinates, points, items, etc. (game state) and is stored on the server.
 
 ## Heroku Integration
-- Testserver: https://the-space-game.herokuapp.com/api/world
+| Stage  | Link |
+| ----------- | ----------- |
+| *Test* |      [Client](http://the-space-game-test.herokuapp.com/) / [Server-Api](http://the-space-game-test.herokuapp.com/api/world) |
+| *Staging* |   [Client](http://the-space-game-staging.herokuapp.com/) / [Server-Api](http://the-space-game-staging.herokuapp.com/api/world) |
+| *Production* |    [Client](http://the-space-game.herokuapp.com/) / [Server-Api](http://the-space-game.herokuapp.com/api/world) |
 
 ## Milestones
 
