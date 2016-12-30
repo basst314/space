@@ -27,22 +27,23 @@ As described in Game Features, the whole interaction with the game world is done
 | ------------- | ------------- |
 | Single-Space  | Perform the main action. Depends on available/activated weapons or add-ons and on the current game world position. The very basic action will be a single punch.  |
 | Double-Space  | Turns around, Hero runs in the opposite direction. |
+| Tripple-Space  | Hero uses next item in his inventory. |
 
 ### Additional Controls:
 | Key  | Function |
 | ------------- | ------------- |
 | I  | Show inventory  |
 | M  | Show Map  |
-| 1-3  | Toggle Item 1-3 (only one is active)  |
 
 
 ## Game World Example
 An example game world might look something like this:
-`H...................W.W........M.........M............R..M...................T.....................M.`
+`H/..................W.W........M.........M............R..M...................T.....................M.`
 
 | Symbol  | Description |
 | ------------- | ------------- |
 | H  | The Hero. The main character in this game. |
+| /  | The Hero has a weapon equiped and is ready for combat|
 | .  | An empty path, ready for the Hero to run along. |
 | [any letter]  | An object in the game world to interact with. Might be enemies, weapons or other collectable items, rocks, traps, doors, etc. |
 
@@ -69,3 +70,4 @@ An example game world might look something like this:
 - World is persistent for one game session
 - Server and Client are communicating via WebSockets
 - Basic Events can be sent between client and server
+- Hero can move, attack a monster and pick up an item
