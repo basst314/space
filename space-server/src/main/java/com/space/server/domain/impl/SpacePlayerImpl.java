@@ -92,7 +92,7 @@ public class SpacePlayerImpl implements SpacePlayer{
     @Override
     public String getContent() {
         if (activeItem != null){
-            String item = activeItem.getContent();
+            String item = activeItem.getItemSymbol();
             return content + item;
         }
         return content;

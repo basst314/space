@@ -18,7 +18,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test a complete world and a hero interacting with it.
+ * Tests a complete world and a hero interacting with it.
  * Created by superernie77 on 16.12.2016.
  */
 public class ExampleWorldTest {
@@ -42,7 +42,7 @@ public class ExampleWorldTest {
         // Mock DAOs
         playerDao = mock(PlayerDao.class);
         worldDao = mock((WorldDao.class));
-        processor = mock(WorldEventProcessorImpl.class);
+        processor = new WorldEventProcessorImpl();
 
 
         // create real player
@@ -106,7 +106,6 @@ public class ExampleWorldTest {
         Assert.assertTrue(worldwithhero.equals("...H.."));
     }
 
-    @Ignore
     @Test
     public void testTakeWeapon(){
         exampleWorld = utils.createWorldFromString("...W");
@@ -114,8 +113,6 @@ public class ExampleWorldTest {
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
 
         gameEngine.startGame(0,0);
-
-        String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
         gameEngine.stepWorld(0);
         gameEngine.stepWorld(0);
@@ -129,8 +126,43 @@ public class ExampleWorldTest {
 
         gameEngine.stepWorld(0);
 
-        worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+        String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertTrue(worldwithhero.equals("...H/"));
+        Assert.assertTrue(worldwithhero.equals("..H/."));
+    }
+
+    @Test
+    public void testTakeWeaponHitMonster(){
+        exampleWorld = utils.createWorldFromString("...WM");
+
+        when(worldDao.getWorld(0)).thenReturn(exampleWorld);
+
+        gameEngine.startGame(0,0);
+
+        // step to weapon
+        gameEngine.stepWorld(0);
+        gameEngine.stepWorld(0);
+
+        // take weapon
+        WorldEvent event = new WorldEventImpl();
+        event.setPlayerId(0);
+        event.setWorldId(0);
+        event.setType(WorldEventType.SPACE);
+        gameEngine.addEvent(event);
+        gameEngine.stepWorld(0);
+
+        // step to monster
+        gameEngine.stepWorld(0);
+
+        // hit monster
+        event = new WorldEventImpl();
+        event.setPlayerId(0);
+        event.setWorldId(0);
+        event.setType(WorldEventType.SPACE);
+        gameEngine.stepWorld(0);
+
+        String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+
+        Assert.assertTrue(worldwithhero.equals("...H/."));
     }
 }

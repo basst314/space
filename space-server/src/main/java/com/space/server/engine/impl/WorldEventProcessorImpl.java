@@ -62,6 +62,9 @@ public class WorldEventProcessorImpl implements  WorldEventProcessor{
                         player.addItem((Item)overlay);
                         player.setMoved(true);
                         toRemove = overlay;
+                        if (player.getActiveItem() == null){
+                            player.setActiveItem(0);
+                        }
                         break;
                     }
 
