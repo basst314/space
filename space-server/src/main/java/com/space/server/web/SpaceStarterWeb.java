@@ -1,7 +1,7 @@
 package com.space.server.web;
 
-import com.space.server.core.SpaceWorldProvider;
-import com.space.server.core.SpaceWorldProviderImpl;
+import com.space.server.engine.api.GameEngine;
+import com.space.server.engine.impl.GameEngineImpl;
 import com.space.server.web.controller.SpaceWorldController;
 import com.space.server.web.util.Filters;
 import com.space.server.web.util.Path;
@@ -18,7 +18,7 @@ public class SpaceStarterWeb {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SpaceStarterWeb.class);
 
-	public static SpaceWorldProvider spaceWorldProvider = new SpaceWorldProviderImpl();
+	public static GameEngine engine = new GameEngineImpl();
 
 	public static void main(String[] args) {
 		int port = 8080;
@@ -30,6 +30,9 @@ public class SpaceStarterWeb {
 
 		staticFiles.location("/static");
 		staticFiles.expireTime(600L);
+
+		// start game for dummy player
+		engine.startGame(0,0);
 
 		get(Path.Api.WORLD, SpaceWorldController.world, json());
 

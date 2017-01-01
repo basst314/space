@@ -2,6 +2,8 @@ package com.space.server.engine.impl;
 
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
+import com.space.server.dao.impl.DummyPlayerDaoImpl;
+import com.space.server.dao.impl.DummyWorldDaoImpl;
 import com.space.server.domain.api.*;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
@@ -18,11 +20,11 @@ public class GameEngineImpl implements GameEngine {
 
     private StepUtils stepUtils = new StepUtils();
 
-    private PlayerDao playerDao;
+    private PlayerDao playerDao = new DummyPlayerDaoImpl();
 
-    private WorldDao worldDao;
+    private WorldDao worldDao = new DummyWorldDaoImpl();
 
-    private WorldEventProcessorImpl processor;
+    private WorldEventProcessorImpl processor = new WorldEventProcessorImpl();
 
     private Map<Integer,SpacePlayer> activePlayer = new HashMap<>();
 
@@ -85,7 +87,7 @@ public class GameEngineImpl implements GameEngine {
         }
 
         // reset moved flag after step is completed
-        activePlayer.values().stream().forEach( p -> p.setMoved(false));
+        activePlayer.values().forEach( p -> p.setMoved(false));
 
     }
 
@@ -131,7 +133,7 @@ public class GameEngineImpl implements GameEngine {
         playerDao = dao;
     }
 
-    public void setWorldEventProcessor(WorldEventProcessorImpl proc){
+    void setWorldEventProcessor(WorldEventProcessorImpl proc){
         processor = proc;
     }
 
