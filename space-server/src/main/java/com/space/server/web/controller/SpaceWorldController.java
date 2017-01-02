@@ -8,8 +8,6 @@ import com.space.server.engine.impl.WorldEventImpl;
 import com.space.server.web.SpaceStarterWeb;
 import spark.Route;
 
-import java.util.stream.Stream;
-
 /**
  * Created by Markus Oppeneiger on 20.10.2016.
  */
@@ -49,7 +47,8 @@ public class SpaceWorldController {
 
 	public static Route step = (request, response) -> {
 		SpaceStarterWeb.engine.stepWorld(0);
-		return new World("");
+		SpaceWorld world = SpaceStarterWeb.engine.getWorld(0);
+		return new World(world.getSegment(0).getContent());
 	};
 
 
