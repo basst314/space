@@ -62,6 +62,6 @@ deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
   app:
-    feature/basst314/space-client-configuration: the-space-game-test
+    feature/basst314/client-gameworld-ui-basics: the-space-game-test
     master: the-space-game-staging
     stable: the-space-game

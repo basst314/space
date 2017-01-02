@@ -19,12 +19,14 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
+const SPACE_API_BASEURL = process.env.SPACE_API_BASEURL || 'http://127.0.0.1:8080/api';
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: HMR
+  HMR: HMR,
+  SPACE_API_BASEURL: SPACE_API_BASEURL,
 });
 
 /**
@@ -99,10 +101,12 @@ module.exports = function (options) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
+        'SPACE_API_BASEURL': JSON.stringify(METADATA.SPACE_API_BASEURL),
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
+          'SPACE_API_BASEURL': JSON.stringify(METADATA.SPACE_API_BASEURL),
         }
       }),
 
