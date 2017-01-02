@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 group 'com.space.server'
-version '1.0-SNAPSHOT'
+version '1.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -24,8 +24,25 @@ dependencies {
 }
 
 task fatJar(type: Jar) {
-	baseName = project.name + '-all'
-	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	manifest.from jar.manifest
+   classifier = 'all'
+
+	manifest {
+		attributes(
+			'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+			'Main-Class': 'com.space.server.web.SpaceStarterWeb'
+		)
+	}
+
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } } {
+		exclude '*.html'
+	}
+
+	// include space-client in this jar
+	from ('../space-client/dist') {
+		into ('static')
+	}
+
 	with jar
 }
 

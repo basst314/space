@@ -11,7 +11,7 @@ task wrapper(type: Wrapper) {
 task stage(type: Copy) {
     from 'space-server/build/libs'
     into 'build/dependency'
-    include 'space-server-all*.jar'
+    include 'space-server-*-all.jar'
 }
 
 stage.dependsOn 'space-server:build'
