@@ -13,8 +13,8 @@ describe('App', () => {
     expect(subject).toEqual(result);
   });
 
-  it('should have header', () => {
-    let subject = element(by.css('h1')).isPresent();
+  it('should have navbar-brand', () => {
+    let subject = element(by.css('.navbar-brand')).isPresent();
     let result = true;
     expect(subject).toEqual(result);
   });
