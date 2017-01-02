@@ -2,12 +2,10 @@ package com.space.server.engine.impl;
 
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
-import com.space.server.domain.api.Segment;
-import com.space.server.domain.api.SpacePlayer;
-import com.space.server.domain.api.SpaceWorld;
-import com.space.server.domain.api.Step;
+import com.space.server.domain.api.*;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
+import com.space.server.utils.StepUtils;
 
 import java.util.*;
 
@@ -17,6 +15,8 @@ import java.util.*;
  * Created by superernie77 on 08.12.2016.
  */
 public class GameEngineImpl implements GameEngine {
+
+    private StepUtils stepUitls = new StepUtils();
 
     private PlayerDao playerDao;
 
@@ -53,13 +53,27 @@ public class GameEngineImpl implements GameEngine {
     public void stopGame(Integer playerId, Integer worldId) {
         activePlayer.remove(playerId);
         activeWorlds.remove(worldId);
-
         playerWorldmapping.remove(playerId);
     }
 
     @Override
     public void stepWorld(Integer worldId) {
 
+        SpaceWorld world = activeWorlds.get(worldId);
+
+        Step step = world.getSegment(0).getStep(0);
+
+        if (step.isPlayerPresent()){
+            stepUitls.movePlayerOneStepForeward(step);
+        } else {
+            while (step.next() != null){
+                step = step.next();
+                if (step.isPlayerPresent()){
+                    stepUitls.movePlayerOneStepForeward(step);
+                    break;
+                }
+            }
+        }
     }
 
     @Override

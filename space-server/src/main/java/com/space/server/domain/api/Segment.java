@@ -1,5 +1,7 @@
 package com.space.server.domain.api;
 
+import java.util.List;
+
 /**
  * Consecutive sequence of steps
  * Created by superernie77 on 04.12.2016.
@@ -8,7 +10,7 @@ public interface Segment {
 
     /**
      * Returns the content of the segment as a string.
-     * @return
+     * @return the content string
      */
     String getContent();
 
@@ -21,8 +23,9 @@ public interface Segment {
 
     /**
      * Returns the step with given number.
-     * @param no
-     * @return
+     * @param no step number
+     * @return the step
      */
     Step getStep(int no);
+
 }

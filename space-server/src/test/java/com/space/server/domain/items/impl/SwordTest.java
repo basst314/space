@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test a sword.
  * Created by superernie77 on 12.12.2016.
  */
 public class SwordTest {
@@ -20,16 +21,6 @@ public class SwordTest {
 
     @Test
     public void getContent() throws Exception {
-        Assert.assertTrue(sword.getContent().equals("/"));
-
+        Assert.assertTrue(sword.getContent().equals("W"));
     }
-
-    @Test
-    public void setContent() throws Exception {
-        // set small version
-        sword.setContent("´");
-
-        Assert.assertTrue(sword.getContent().equals("´"));
-    }
-
 }
