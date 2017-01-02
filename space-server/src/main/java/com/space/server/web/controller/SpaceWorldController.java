@@ -26,7 +26,7 @@ public class SpaceWorldController {
 		space.setPlayerId(0);
 		space.setWorldId(0);
 		SpaceStarterWeb.engine.getWorld(0).addEvent(space);
-		return new World("");
+		return null;
 	};
 
 	public static Route doublespace = (request, response) -> {
@@ -35,7 +35,7 @@ public class SpaceWorldController {
 		space.setPlayerId(0);
 		space.setWorldId(0);
 		SpaceStarterWeb.engine.getWorld(0).addEvent(space);
-		return new World("");
+		return null;
 	};
 
 	public static Route tripplespace = (request, response) -> {
@@ -44,12 +44,22 @@ public class SpaceWorldController {
 		space.setPlayerId(0);
 		space.setWorldId(0);
 		SpaceStarterWeb.engine.getWorld(0).addEvent(space);
-		return new World("");
+		return null;
 	};
 
 	public static Route step = (request, response) -> {
 		SpaceStarterWeb.engine.stepWorld(0);
-		return new World("");
+		return null;
+	};
+
+	public static Route start = (request, response) -> {
+		SpaceStarterWeb.engine.startGame(0,0);
+		return null;
+	};
+
+	public static Route stop = (request, response) -> {
+		SpaceStarterWeb.engine.stopGame(0,0);
+		return null;
 	};
 
 

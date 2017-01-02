@@ -1,6 +1,7 @@
 package com.space.server.web.util;
 
 /**
+ * URLs to space REST services
  * Created by Markus Oppeneiger on 20.10.2016.
  */
 public class Path {
@@ -15,5 +16,9 @@ public class Path {
 		public static final String TRIPPLE_SPACE = "/api/tripplespace";
 
 		public static final String STEP = "/api/step";
+
+		public static final String START = "/api/start";
+
+		public static final String STOP = "/api/stop";
 	}
 }
