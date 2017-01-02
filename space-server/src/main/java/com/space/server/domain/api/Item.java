@@ -6,4 +6,11 @@ package com.space.server.domain.api;
  */
 public interface Item extends Overlay{
 
+    /**
+     * Return the character the item is displayed with when
+     * it is in a players inventory.
+     * @return String symbol of the item
+     */
+    String getItemSymbol();
+
 }

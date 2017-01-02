@@ -1,5 +1,7 @@
 package com.space.server.domain.api;
 
+import java.util.List;
+
 /**
  ~ Interface for a single step in a game world segment.
  * Created by superernie77 on 04.12.2016.
@@ -8,7 +10,7 @@ public interface Step {
 
     /**
      * Returns the current content of the step as a string.
-     * @return
+     * @return String symbol
      */
     String getContent();
 
@@ -54,4 +56,17 @@ public interface Step {
      * @param over
      */
     void addOverlay(Overlay over);
+
+    List<Overlay> getOverlays();
+
+    /**
+     * Checks if a player currently uses this step
+     * @return
+     */
+    boolean isPlayerPresent();
+
+    /**
+     * Returns the players the stand inside this step
+     */
+    List<SpacePlayer> getPlayers();
 }

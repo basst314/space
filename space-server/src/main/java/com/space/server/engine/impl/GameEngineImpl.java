@@ -2,12 +2,12 @@ package com.space.server.engine.impl;
 
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
-import com.space.server.domain.api.Segment;
-import com.space.server.domain.api.SpacePlayer;
-import com.space.server.domain.api.SpaceWorld;
-import com.space.server.domain.api.Step;
+import com.space.server.dao.impl.DummyPlayerDaoImpl;
+import com.space.server.dao.impl.DummyWorldDaoImpl;
+import com.space.server.domain.api.*;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
+import com.space.server.utils.StepUtils;
 
 import java.util.*;
 
@@ -18,9 +18,13 @@ import java.util.*;
  */
 public class GameEngineImpl implements GameEngine {
 
-    private PlayerDao playerDao;
+    private StepUtils stepUtils = new StepUtils();
 
-    private WorldDao worldDao;
+    private PlayerDao playerDao = new DummyPlayerDaoImpl();
+
+    private WorldDao worldDao = new DummyWorldDaoImpl();
+
+    private WorldEventProcessorImpl processor = new WorldEventProcessorImpl();
 
     private Map<Integer,SpacePlayer> activePlayer = new HashMap<>();
 
@@ -37,10 +41,11 @@ public class GameEngineImpl implements GameEngine {
         // load world
         SpaceWorld world = worldDao.getWorld(worldId);
 
-        // set player into world
-        Segment segment = world.getSegment(0);
-        Step step = segment.getStep(0);
+        // set player into world and connect player with step
+        Segment segment = world.getSegment(world.getStartSegment());
+        Step step = segment.getStep(world.getStartStep());
         step.addOverlay(player);
+        player.setActiveStep(step);
 
         // activate world
         activeWorlds.put(worldId,world);
@@ -53,12 +58,36 @@ public class GameEngineImpl implements GameEngine {
     public void stopGame(Integer playerId, Integer worldId) {
         activePlayer.remove(playerId);
         activeWorlds.remove(worldId);
-
         playerWorldmapping.remove(playerId);
     }
 
     @Override
     public void stepWorld(Integer worldId) {
+
+        SpaceWorld world = activeWorlds.get(worldId);
+
+        // process event
+        for (SpacePlayer player : activePlayer.values()){
+               List<WorldEvent>  events = world.getEventsForPlayer(player.getPlayerId());
+                processor.processEvents(events,player);
+        }
+
+        // move players
+        Step step = world.getSegment(0).getStep(0);
+        if (step.isPlayerPresent()){
+            stepUtils.movePlayerOneStep(step);
+        } else {
+            while (step.next() != null){
+                step = step.next();
+                if (step.isPlayerPresent()){
+                    stepUtils.movePlayerOneStep(step);
+                    break;
+                }
+            }
+        }
+
+        // reset moved flag after step is completed
+        activePlayer.values().forEach( p -> p.setMoved(false));
 
     }
 
@@ -96,11 +125,19 @@ public class GameEngineImpl implements GameEngine {
         return player;
     }
 
-    public void setWorldDao(WorldDao dao){
+    void setWorldDao(WorldDao dao){
         worldDao = dao;
     }
 
-    public void setPlayerDao(PlayerDao dao){
+    void setPlayerDao(PlayerDao dao){
         playerDao = dao;
+    }
+
+    void setWorldEventProcessor(WorldEventProcessorImpl proc){
+        processor = proc;
+    }
+
+    public WorldEventProcessorImpl getWorldEventProcessor(){
+        return processor;
     }
 }
