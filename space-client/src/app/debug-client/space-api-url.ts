@@ -3,7 +3,7 @@
  * Created by basst314 on 02.01.2017.
  */
 export class SpaceApiUrl {
-  private static baseUrl: string = SPACE_API_BASEURL;
+  static baseUrl: string = SPACE_API_BASEURL;
 
   static world: string = SpaceApiUrl.baseUrl + '/world';
   static step: string = SpaceApiUrl.baseUrl + '/step';

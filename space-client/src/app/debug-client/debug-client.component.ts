@@ -14,15 +14,15 @@ import {SpaceWorld} from "../domain/SpaceWorld";
   ]
 })
 export class DebugClientComponent implements OnInit {
+  world: SpaceWorld;
+  messages: Array<String> = [];
+
   constructor(private spaceDebugService: SpaceDebugService) {
   }
 
   ngOnInit(): void {
     this.startGame();
   }
-
-  world: SpaceWorld;
-  messages: Array<String> = [];
 
   stepWorld(): void {
     this.spaceDebugService.doStep()
