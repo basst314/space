@@ -15,5 +15,9 @@ public class Path {
 		public static final String TRIPPLE_SPACE = "/api/tripplespace";
 
 		public static final String STEP = "/api/step";
+
+		public static final String START = "/api/start";
+
+		public static final String STOP = "/api/stop";
 	}
 }

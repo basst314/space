@@ -70,6 +70,10 @@ public class SpaceStarterWeb {
 
 		get(Path.Api.STEP, SpaceWorldController.step, json());
 
+		get(Path.Api.START, SpaceWorldController.startGame, json());
+
+		get(Path.Api.STOP, SpaceWorldController.stopGame, json());
+
 		after("*", Filters.addGzipHeader);
 	}
 }

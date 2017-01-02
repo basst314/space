@@ -51,5 +51,14 @@ public class SpaceWorldController {
 		return new World(world.getSegment(0).getContent());
 	};
 
+	public static Route startGame = (request, response) -> {
+		SpaceStarterWeb.engine.startGame(0, 0);
+		SpaceWorld world = SpaceStarterWeb.engine.getWorld(0);
+		return new World(world.getSegment(0).getContent());
+	};
 
+	public static Route stopGame = (request, response) -> {
+		SpaceStarterWeb.engine.stopGame(0, 0);
+		return new World("");
+	};
 }
