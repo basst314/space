@@ -37,7 +37,7 @@ public class WorldEventImpl implements WorldEvent {
 
     @Override
     public WorldEventType getType() {
-        return null;
+        return worldEventType;
     }
 
     @Override

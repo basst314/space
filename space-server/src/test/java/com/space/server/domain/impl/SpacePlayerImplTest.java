@@ -27,7 +27,7 @@ public class SpacePlayerImplTest {
     @Test
     public void testSetActiveItem(){
         Item item = mock(Item.class);
-        when(item.getContent()).thenReturn("/");
+        when(item.getItemSymbol()).thenReturn("/");
 
         player.addItem(item);
 

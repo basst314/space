@@ -64,4 +64,9 @@ public interface Step {
      * @return
      */
     boolean isPlayerPresent();
+
+    /**
+     * Returns the players the stand inside this step
+     */
+    List<SpacePlayer> getPlayers();
 }

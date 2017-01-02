@@ -51,6 +51,36 @@ public interface SpacePlayer extends Overlay{
      */
     void addItem(Item item);
 
+    /**
+     * Returns the direction the player is moving
+     * @return
+     */
+    Direction getDirection();
+
+    /**
+     * sets the direction the player is moving
+     * @param direction
+     */
+    void setDirection(Direction direction);
+
+    /**
+     * If the player has been moved in the current time step
+     * @return
+     */
+    boolean isMoved();
+
+    /**
+     * ets if the player has been moved or not
+     * @param moved
+     */
+    void setMoved(boolean moved);
+
+    Step getActiveStep();
+
+    void setActiveStep(Step step);
+
+
+
 }
 
 
