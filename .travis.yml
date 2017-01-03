@@ -13,10 +13,6 @@ notifications:
 
 # space-client build
 
-cache:
-  directories:
-    - ./node_modules
-
 addons:
   apt:
     sources:
