@@ -15,7 +15,7 @@ import {SpaceWorld} from "../domain/SpaceWorld";
 })
 export class DebugClientComponent implements OnInit {
   world: SpaceWorld;
-  messages: Array<String> = [];
+  msgs: Array<string> = [];
 
   constructor(private spaceDebugService: SpaceDebugService) {
   }
@@ -71,7 +71,11 @@ export class DebugClientComponent implements OnInit {
   }
 
   private log(msg: string) {
-    this.messages.push(msg + "\n");
+    this.msgs.push(msg + "\n");
+  }
+
+  get messages(): Array<string> {
+    return this.msgs.reverse();
   }
 
 }
