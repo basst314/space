@@ -11,6 +11,7 @@ import spark.Route;
 import java.util.stream.Stream;
 
 /**
+ * Actions for REST integration
  * Created by Markus Oppeneiger on 20.10.2016.
  */
 public class SpaceWorldController {
@@ -34,8 +35,10 @@ public class SpaceWorldController {
 		space.setType(WorldEventType.DOUBLE_SPACE);
 		space.setPlayerId(0);
 		space.setWorldId(0);
-		SpaceStarterWeb.engine.getWorld(0).addEvent(space);
-		return null;
+
+		SpaceWorld world = SpaceStarterWeb.engine.getWorld(0);
+		world.addEvent(space);
+		return world;
 	};
 
 	public static Route tripplespace = (request, response) -> {
@@ -43,18 +46,19 @@ public class SpaceWorldController {
 		space.setType(WorldEventType.TRIPPLE_SPACE);
 		space.setPlayerId(0);
 		space.setWorldId(0);
-		SpaceStarterWeb.engine.getWorld(0).addEvent(space);
-		return null;
+		SpaceWorld world = SpaceStarterWeb.engine.getWorld(0);
+		world.addEvent(space);
+		return world;
 	};
 
 	public static Route step = (request, response) -> {
 		SpaceStarterWeb.engine.stepWorld(0);
-		return null;
+		return SpaceStarterWeb.engine.getWorld(0);
 	};
 
 	public static Route start = (request, response) -> {
 		SpaceStarterWeb.engine.startGame(0,0);
-		return null;
+		return SpaceStarterWeb.engine.getWorld(0);
 	};
 
 	public static Route stop = (request, response) -> {

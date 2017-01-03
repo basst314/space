@@ -37,15 +37,15 @@ public class SpaceStarterWeb {
 
 		get(Path.Api.WORLD, SpaceWorldController.world, json());
 
-		get(Path.Api.SPACE, SpaceWorldController.space);
+		get(Path.Api.SPACE, SpaceWorldController.space, json());
 
-		get(Path.Api.DOUBLE_SPACE, SpaceWorldController.doublespace);
+		get(Path.Api.DOUBLE_SPACE, SpaceWorldController.doublespace, json());
 
-		get(Path.Api.TRIPPLE_SPACE, SpaceWorldController.tripplespace);
+		get(Path.Api.TRIPPLE_SPACE, SpaceWorldController.tripplespace, json());
 
-		get(Path.Api.STEP, SpaceWorldController.step);
+		get(Path.Api.STEP, SpaceWorldController.step, json());
 
-		get(Path.Api.START, SpaceWorldController.start);
+		get(Path.Api.START, SpaceWorldController.start, json());
 
 		get(Path.Api.STOP, SpaceWorldController.stop);
 
