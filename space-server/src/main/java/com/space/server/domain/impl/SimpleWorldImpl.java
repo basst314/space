@@ -5,6 +5,7 @@ import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.WorldEvent;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,6 +76,11 @@ public class SimpleWorldImpl implements SpaceWorld {
     @Override
     public void addEvent(WorldEvent event) {
         events.add(event);
+    }
+
+    @Override
+    public void removeEvents(Collection<WorldEvent> events) {
+        this.events.removeAll(events);
     }
 
     @Override
