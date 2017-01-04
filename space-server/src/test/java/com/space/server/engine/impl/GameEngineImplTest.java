@@ -72,7 +72,6 @@ public class GameEngineImplTest {
     @Test
     public void testAddEvent() throws Exception {
         WorldEvent event = new WorldEventImpl();
-
         event.setPlayerId(1);
         event.setWorldId(1);
 

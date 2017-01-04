@@ -70,6 +70,7 @@ public class GameEngineImpl implements GameEngine {
         for (SpacePlayer player : activePlayer.values()){
                List<WorldEvent>  events = world.getEventsForPlayer(player.getPlayerId());
                 processor.processEvents(events,player);
+                world.removeEvents(events);
         }
 
         // move players

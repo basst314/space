@@ -12,6 +12,7 @@ import static com.space.server.web.util.JsonUtil.json;
 import static spark.Spark.*;
 
 /**
+ *  Static classes that handle all REST requets.
  * Created by Markus Oppeneiger on 20.10.2016.
  */
 public class SpaceStarterWeb {
@@ -70,9 +71,11 @@ public class SpaceStarterWeb {
 
 		get(Path.Api.STEP, SpaceWorldController.step, json());
 
-		get(Path.Api.START, SpaceWorldController.startGame, json());
 
-		get(Path.Api.STOP, SpaceWorldController.stopGame, json());
+		get(Path.Api.START, SpaceWorldController.start, json());
+
+		get(Path.Api.STOP, SpaceWorldController.stop);
+
 
 		after("*", Filters.addGzipHeader);
 	}

@@ -2,6 +2,7 @@ package com.space.server.domain.api;
 
 import com.space.server.engine.api.WorldEvent;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -56,6 +57,8 @@ public interface SpaceWorld {
      * @param event the event to add
      */
     void addEvent(WorldEvent event);
+
+    void removeEvents(Collection<WorldEvent> events);
 
     /**
      * Returns all event for a certain player in the world

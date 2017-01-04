@@ -1,6 +1,7 @@
 package com.space.server.web.util;
 
 /**
+ * URLs to space REST services
  * Created by Markus Oppeneiger on 20.10.2016.
  */
 public class Path {
