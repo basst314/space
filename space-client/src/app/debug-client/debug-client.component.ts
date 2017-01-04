@@ -71,11 +71,10 @@ export class DebugClientComponent implements OnInit {
   }
 
   private log(msg: string) {
-    this.msgs.push(msg + "\n");
+    this.msgs.unshift(msg + "\n");
   }
 
   get messages(): Array<string> {
-    //return this.msgs.reverse();
     return this.msgs;
   }
 
