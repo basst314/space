@@ -4,5 +4,5 @@
  */
 
 export interface SpaceWorld {
-  world: String;
+  content: String;
 }
