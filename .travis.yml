@@ -50,7 +50,7 @@ script:
   - npm test
   - npm run build:prod
   - npm run server:prod:ci &
-  - sleep 3
+  - sleep 5
   - npm run e2e
 
   - cd ../ # back to root folder
