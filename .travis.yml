@@ -20,8 +20,6 @@ addons:
     packages:
       - google-chrome-stable
 node_js:
-  - "4"
-  - "5"
   - "6"
   - "node"
 # Matrix failure enabled for https://github.com/TheLarkInn/LazyParseWebpackPlugin/issues/6
