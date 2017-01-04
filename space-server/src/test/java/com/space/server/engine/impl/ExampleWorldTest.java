@@ -159,6 +159,8 @@ public class ExampleWorldTest {
         event.setPlayerId(0);
         event.setWorldId(0);
         event.setType(WorldEventType.SPACE);
+
+        gameEngine.addEvent(event);
         gameEngine.stepWorld(0);
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
