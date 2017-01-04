@@ -8,8 +8,6 @@ import com.space.server.engine.impl.WorldEventImpl;
 import com.space.server.web.SpaceStarterWeb;
 import spark.Route;
 
-import java.util.stream.Stream;
-
 /**
  * Actions for REST integration
  * Created by Markus Oppeneiger on 20.10.2016.
@@ -65,8 +63,7 @@ public class SpaceWorldController {
 
 	public static Route stop = (request, response) -> {
 		SpaceStarterWeb.engine.stopGame(0,0);
+
 		return "world stopped";
 	};
-
-
 }

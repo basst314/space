@@ -1,0 +1,8 @@
+.world-container {
+  border: 3px solid #444444;
+  font-family: 'Droid Sans Mono', monospace;
+  margin-bottom: 1em;
+  padding: 10px;
+  font-size: 3em;
+  box-shadow: 0 2px 4px #aaaaaa;
+}

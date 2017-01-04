@@ -17,7 +17,12 @@
   <!-- base url -->
   <base href="<%= htmlWebpackPlugin.options.metadata.baseUrl %>">
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+  <!-- Monospaced Font -->
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono" rel="stylesheet">
 </head>
 
 <body>
@@ -26,15 +31,20 @@
   Loading...
 </space>
 
-<!-- Google Analytics: change UA-71073175-1 to be your site's ID -->
-<script>
-  // (function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=r;A[l]=A[l]||function(){
-  // (A[l].q=A[l].q||[]).push(arguments)},A[l].l=1*new Date();a=n.createElement(g),
-  // r=n.getElementsByTagName(g)[0];a.async=1;a.src=u;r.parentNode.insertBefore(a,r)
-  // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<!-- FitText Plugin -->
+<script type="text/javascript" src="assets/js/jquery.fittext.js"></script>
 
-  // ga('create', 'UA-71073175-1', 'auto');
-  // ga('send', 'pageview');
+<script>
+  <!-- TODO: find cleaner solution to this... -->
+  setTimeout(function () {
+    $('#world-container').fitText(1.25);
+  }, 1000);
 </script>
 
 <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>

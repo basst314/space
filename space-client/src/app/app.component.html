@@ -1,3 +1,24 @@
-<h1>{{title}}</h1>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Space</a>
+    </div>
 
-<router-outlet></router-outlet>
+    <ul class="nav navbar-nav">
+      <li routerLinkActive="active">
+        <a routerLink="/debug">Debug-Client</a>
+      </li>
+      <li><a href="https://github.com/basst314/space" target="_blank">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md">
+
+      <!-- Main router outlet -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

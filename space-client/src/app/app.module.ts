@@ -10,11 +10,14 @@ import {AppComponent} from "./app.component";
 import {APP_RESOLVER_PROVIDERS} from "./app.resolver";
 import {AppState, InternalStateType} from "./app.service";
 import {NoContentComponent} from "./no-content";
+import {DebugClientComponent} from "./debug-client/debug-client.component";
+import {SpaceDebugService} from "./debug-client/space-debug.service";
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  SpaceDebugService
 ];
 
 type StoreType = {
@@ -28,6 +31,7 @@ type StoreType = {
   declarations: [
     AppComponent,
     NoContentComponent,
+    DebugClientComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
