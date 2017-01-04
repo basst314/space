@@ -75,7 +75,8 @@ export class DebugClientComponent implements OnInit {
   }
 
   get messages(): Array<string> {
-    return this.msgs.reverse();
+    //return this.msgs.reverse();
+    return this.msgs;
   }
 
 }
