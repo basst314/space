@@ -1,21 +1,20 @@
 package com.space.server.engine.impl;
 
-import static org.mockito.Mockito.*;
-
-
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
 import com.space.server.domain.api.Direction;
 import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
-import com.space.server.domain.impl.*;
+import com.space.server.domain.impl.SpacePlayerImpl;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import com.space.server.utils.StepUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests a complete world and a hero interacting with it.
@@ -107,6 +106,38 @@ public class ExampleWorldTest {
     }
 
     @Test
+    public void testMoveBackwardsWithWeapon() {
+        exampleWorld = utils.createWorldFromString("....W.");
+
+        exampleWorld.setStartSegment(0);
+        exampleWorld.setStartStep(5); // ....WH
+
+        player.setDirection(Direction.BACKWARD);
+
+        when(worldDao.getWorld(0)).thenReturn(exampleWorld);
+
+        gameEngine.startGame(0, 0);
+
+        // take weapon
+        WorldEvent event = new WorldEventImpl();
+        event.setPlayerId(0);
+        event.setWorldId(0);
+        event.setType(WorldEventType.SPACE);
+        gameEngine.addEvent(event);
+        gameEngine.stepWorld(0); // .....\H
+
+        String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+        Assert.assertTrue(worldwithhero.equals(".....\\H"));
+
+        gameEngine.stepWorld(0);
+        gameEngine.stepWorld(0);
+
+        worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+
+        Assert.assertTrue(worldwithhero.equals("...\\H.."));
+    }
+
+    @Test
     public void testTakeWeapon(){
         exampleWorld = utils.createWorldFromString("...W");
 
@@ -128,7 +159,7 @@ public class ExampleWorldTest {
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertTrue(worldwithhero.equals("..H/."));
+        Assert.assertEquals("..H/.", worldwithhero);
     }
 
     @Test
@@ -165,6 +196,59 @@ public class ExampleWorldTest {
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertTrue(worldwithhero.equals("...H/."));
+        Assert.assertEquals("...H-.", worldwithhero);
+    }
+
+    @Test
+    public void testTakeWeaponHitEmpty() {
+        String worldwithhero = null;
+        exampleWorld = utils.createWorldFromString("..W..");
+
+        when(worldDao.getWorld(0)).thenReturn(exampleWorld);
+
+        gameEngine.startGame(0, 0);
+
+        // step to weapon
+        gameEngine.stepWorld(0); // .HW..
+
+        worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+        Assert.assertEquals(".HW..", worldwithhero);
+
+        // take weapon
+        WorldEvent event = new WorldEventImpl();
+        event.setPlayerId(0);
+        event.setWorldId(0);
+        event.setType(WorldEventType.SPACE);
+        gameEngine.addEvent(event);
+        gameEngine.stepWorld(0);
+
+        worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+        Assert.assertEquals(".H/...", worldwithhero);
+
+        // step
+        gameEngine.stepWorld(0);
+
+        worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+        Assert.assertEquals("..H/..", worldwithhero);
+
+        // hit empty path
+        event = new WorldEventImpl();
+        event.setPlayerId(0);
+        event.setWorldId(0);
+        event.setType(WorldEventType.SPACE);
+
+        gameEngine.addEvent(event);
+        gameEngine.stepWorld(0);
+
+        // item is in used-mode
+        worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+        Assert.assertEquals("..H-..", worldwithhero);
+
+        // step
+        gameEngine.stepWorld(0);
+
+        // item back to normal + hero moved
+        worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+        Assert.assertEquals("...H/.", worldwithhero);
     }
 }

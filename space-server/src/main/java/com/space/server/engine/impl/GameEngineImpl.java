@@ -4,12 +4,17 @@ import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
 import com.space.server.dao.impl.DummyPlayerDaoImpl;
 import com.space.server.dao.impl.DummyWorldDaoImpl;
-import com.space.server.domain.api.*;
+import com.space.server.domain.api.Segment;
+import com.space.server.domain.api.SpacePlayer;
+import com.space.server.domain.api.SpaceWorld;
+import com.space.server.domain.api.Step;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.utils.StepUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the GameEngine. Starts new games and stops running games.
@@ -63,14 +68,20 @@ public class GameEngineImpl implements GameEngine {
 
     @Override
     public void stepWorld(Integer worldId) {
-
         SpaceWorld world = activeWorlds.get(worldId);
 
         // process event
         for (SpacePlayer player : activePlayer.values()){
-               List<WorldEvent>  events = world.getEventsForPlayer(player.getPlayerId());
+            // only process if player is actively playing in this world
+            if (playerWorldmapping.containsKey(player.getPlayerId())) {
+                // reset player state for this step
+                player.resetActivities();
+
+                // process all player events
+                List<WorldEvent> events = world.getEventsForPlayer(player.getPlayerId());
                 processor.processEvents(events,player);
                 world.removeEvents(events);
+            }
         }
 
         // move players
@@ -86,10 +97,6 @@ public class GameEngineImpl implements GameEngine {
                 }
             }
         }
-
-        // reset moved flag after step is completed
-        activePlayer.values().forEach( p -> p.setMoved(false));
-
     }
 
     @Override
@@ -134,11 +141,11 @@ public class GameEngineImpl implements GameEngine {
         playerDao = dao;
     }
 
-    void setWorldEventProcessor(WorldEventProcessorImpl proc){
-        processor = proc;
-    }
-
     public WorldEventProcessorImpl getWorldEventProcessor(){
         return processor;
+    }
+
+    void setWorldEventProcessor(WorldEventProcessorImpl proc) {
+        processor = proc;
     }
 }

@@ -1,6 +1,5 @@
 package com.space.server.utils;
 
-import com.space.server.core.World;
 import com.space.server.domain.api.*;
 import com.space.server.domain.impl.BasicMonster;
 import com.space.server.domain.impl.BasicStep;
@@ -31,8 +30,8 @@ public class StepUtils {
             }
         }
 
-        // if there is no player or it has benn moved already, nothing to do
-        if (p == null || p.isMoved()) {
+        // if there is no player or it is not ready to move, nothing to do
+        if (p == null || !p.isReadyToMove()) {
             return;
         }
 
