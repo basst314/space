@@ -31,7 +31,7 @@ public class SpacePlayerImplTest {
     @Test
     public void testSetActiveItem(){
         Item item = mock(Item.class);
-        when(item.getItemSymbol(Direction.FORWARD, ItemUsage.REGULAR)).thenReturn("/");
+        when(item.getItemSymbol(Direction.FORWARD, ItemUsage.STANDBY)).thenReturn("/");
 
         player.addItem(item);
 
@@ -45,7 +45,7 @@ public class SpacePlayerImplTest {
     @Test
     public void testSetActiveItemBackwards() {
         Item item = mock(Item.class);
-        when(item.getItemSymbol(Direction.BACKWARD, ItemUsage.REGULAR)).thenReturn("\\");
+        when(item.getItemSymbol(Direction.BACKWARD, ItemUsage.STANDBY)).thenReturn("\\");
 
         player.setDirection(Direction.BACKWARD);
 

@@ -96,8 +96,8 @@ public class SpacePlayerImpl implements SpacePlayer{
     @Override
     public String getContent() {
         if (activeItem != null){
-            String item = activeItem.getItemSymbol(direction, ItemUsage.REGULAR);
-            return Direction.BACKWARD.equals(direction) ? item + content : content + item;
+			String item = activeItem.getItemSymbol(direction, ItemUsage.STANDBY);
+			return Direction.BACKWARD.equals(direction) ? item + content : content + item;
         }
         return content;
     }

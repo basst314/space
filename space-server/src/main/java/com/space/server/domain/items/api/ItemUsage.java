@@ -7,7 +7,7 @@ package com.space.server.domain.items.api;
 public enum ItemUsage {
 
 	// regular item state, not actively used
-	REGULAR,
+	STANDBY,
 
 	// currently in active use
 	IN_USE;

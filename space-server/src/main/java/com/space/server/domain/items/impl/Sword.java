@@ -19,11 +19,11 @@ public class Sword implements Weapon {
 
     public Sword() {
         Map<ItemUsage, String> forwardSymbols = new HashMap<>();
-        forwardSymbols.put(ItemUsage.REGULAR, "/");
+        forwardSymbols.put(ItemUsage.STANDBY, "/");
         forwardSymbols.put(ItemUsage.IN_USE, "-");
 
         Map<ItemUsage, String> backwardSymbols = new HashMap<>();
-        backwardSymbols.put(ItemUsage.REGULAR, "\\");
+        backwardSymbols.put(ItemUsage.STANDBY, "\\");
         backwardSymbols.put(ItemUsage.IN_USE, "-");
 
         itemSymbols.put(Direction.FORWARD, forwardSymbols);
