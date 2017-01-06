@@ -35,6 +35,32 @@ public class SpaceStarterWeb {
 		// start game for dummy player
 		engine.startGame(0,0);
 
+		// allow requests from every domain
+		options("/*",
+				(request, response) -> {
+
+					String accessControlRequestHeaders = request
+							.headers("Access-Control-Request-Headers");
+					if (accessControlRequestHeaders != null) {
+						response.header("Access-Control-Allow-Headers",
+								accessControlRequestHeaders);
+					}
+
+					String accessControlRequestMethod = request
+							.headers("Access-Control-Request-Method");
+					if (accessControlRequestMethod != null) {
+						response.header("Access-Control-Allow-Methods",
+								accessControlRequestMethod);
+					}
+
+					return "OK";
+				});
+
+		before((request, response) -> {
+			response.header("Access-Control-Allow-Origin", "*");
+			response.type("application/json");
+		});
+
 		get(Path.Api.WORLD, SpaceWorldController.world, json());
 
 		get(Path.Api.SPACE, SpaceWorldController.space, json());
@@ -48,6 +74,7 @@ public class SpaceStarterWeb {
 		get(Path.Api.START, SpaceWorldController.start, json());
 
 		get(Path.Api.STOP, SpaceWorldController.stop);
+
 
 		after("*", Filters.addGzipHeader);
 	}

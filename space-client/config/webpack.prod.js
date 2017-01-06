@@ -9,7 +9,6 @@ const commonConfig = require('./webpack.common.js'); // the settings that are co
 /**
  * Webpack Plugins
  */
-const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
@@ -24,11 +23,13 @@ const V8LazyParseWebpackPlugin = require('v8-lazy-parse-webpack-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
+const SPACE_API_BASEURL = process.env.SPACE_API_BASEURL || '/api'; // url relative to client-app
 const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false
+  HMR: false,
+  SPACE_API_BASEURL: SPACE_API_BASEURL,
 });
 
 module.exports = function (env) {
@@ -98,16 +99,6 @@ module.exports = function (env) {
       new WebpackMd5Hash(),
 
       /**
-       * Plugin: DedupePlugin
-       * Description: Prevents the inclusion of duplicate code into your bundle
-       * and instead applies a copy of the function at runtime.
-       *
-       * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-       * See: https://github.com/webpack/docs/wiki/optimization#deduplication
-       */
-      // new DedupePlugin(), // see: https://github.com/angular/angular-cli/issues/1587
-
-      /**
        * Plugin: DefinePlugin
        * Description: Define free variables.
        * Useful for having development builds with debug logging or adding global constants.
@@ -120,10 +111,12 @@ module.exports = function (env) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
+        'SPACE_API_BASEURL': JSON.stringify(METADATA.SPACE_API_BASEURL),
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
+          'SPACE_API_BASEURL': JSON.stringify(METADATA.SPACE_API_BASEURL),
         }
       }),
 
@@ -264,6 +257,16 @@ module.exports = function (env) {
 
         }
       }),
+
+      /**
+       * Plugin: BundleAnalyzerPlugin
+       * Description: Webpack plugin and CLI utility that represents
+       * bundle content as convenient interactive zoomable treemap
+       *
+       * `npm run build:prod -- --env.analyze` to use
+       *
+       * See: https://github.com/th0r/webpack-bundle-analyzer
+       */
 
     ],
 

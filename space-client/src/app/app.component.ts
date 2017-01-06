@@ -1,8 +1,6 @@
-/*
- * Angular 2 decorators and services
- */
-import {Component, ViewEncapsulation} from "@angular/core";
-import {AppState} from "./app.service";
+import { Component, ViewEncapsulation } from '@angular/core';
+import { AppState } from './app.service';
+import './rxjs-operators';
 
 /*
  * App Component
@@ -18,14 +16,9 @@ import {AppState} from "./app.service";
 })
 export class AppComponent {
 
-  title = 'Welcome to Space';
+  public title = 'Welcome to Space';
 
-  constructor(public appState: AppState) {
-
-  }
-
-  ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+  constructor(private appState: AppState) {
   }
 
 }
