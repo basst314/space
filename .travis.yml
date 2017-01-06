@@ -41,12 +41,7 @@ before_script:
 script:
   - cd space-client # go to space-client and start build via npm
   - npm install
-  - npm run lint
-  - npm test
-  - npm run build:prod
-  - npm run server:prod:ci &
-  - sleep 5
-  - npm run e2e
+  - npm run ci
 
   - cd ../ # back to root folder
   - ./gradlew stage # start build of space-common and space-server, building a space-all fat-jar including the client
