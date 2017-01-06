@@ -11,10 +11,10 @@ public class DummyPlayerDaoImpl implements PlayerDao{
 
     @Override
     public SpacePlayer getPlayer(int playerId) {
-        SpacePlayer thePlayer = new SpacePlayerImpl();
-        thePlayer.setPlayerId(0);
-        return thePlayer;
-    }
+		SpacePlayer thePlayer = new SpacePlayerImpl();
+		thePlayer.setPlayerId(0);
+		return thePlayer;
+	}
 
     @Override
     public void savePlayer(SpacePlayer player) {

@@ -71,10 +71,9 @@ public class SpaceStarterWeb {
 
 		get(Path.Api.STEP, SpaceWorldController.step, json());
 
-
 		get(Path.Api.START, SpaceWorldController.start, json());
 
-		get(Path.Api.STOP, SpaceWorldController.stop, json());
+		get(Path.Api.STOP, SpaceWorldController.stop);
 
 
 		after("*", Filters.addGzipHeader);
