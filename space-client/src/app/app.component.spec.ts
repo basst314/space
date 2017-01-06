@@ -1,7 +1,7 @@
-import {inject, TestBed} from "@angular/core/testing";
+import { inject, TestBed } from '@angular/core/testing';
 // Load the implementations that should be tested
-import {AppComponent} from "./app.component";
-import {AppState} from "./app.service";
+import { AppComponent } from './app.component';
+import { AppState } from './app.service';
 
 describe('App', () => {
   // provide our implementations or mocks to the dependency injector

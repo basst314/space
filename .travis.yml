@@ -25,7 +25,7 @@ matrix:
   fast_finish: true
 
 before_script:
-  - nvm install 6
+  - nvm install 6 # run the build with node version 6.x
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3

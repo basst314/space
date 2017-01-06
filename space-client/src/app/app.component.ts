@@ -1,6 +1,6 @@
-import {Component, ViewEncapsulation} from "@angular/core";
-import {AppState} from "./app.service";
-import "./rxjs-operators";
+import { Component, ViewEncapsulation } from '@angular/core';
+import { AppState } from './app.service';
+import './rxjs-operators';
 
 /*
  * App Component
@@ -16,13 +16,9 @@ import "./rxjs-operators";
 })
 export class AppComponent {
 
-  title = 'Welcome to Space';
+  public title = 'Welcome to Space';
 
   constructor(private appState: AppState) {
-
-  }
-
-  ngOnInit() {
   }
 
 }

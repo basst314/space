@@ -88,7 +88,6 @@ type AsyncRoutes = {
     FactoryPromise
 };
 
-
 type IdleCallbacks = Es6PromiseLoader |
   Function |
   FactoryEs6PromiseLoader |
@@ -110,7 +109,6 @@ interface WebpackModule {
   };
 }
 
-
 interface WebpackRequire {
   (id: string): any;
   (paths: string[], callback: (...modules: any[]) => void): void;
@@ -125,7 +123,6 @@ interface WebpackContext extends WebpackRequire {
 interface ErrorStackTraceLimit {
   stackTraceLimit: number;
 }
-
 
 // Extend typings
 interface NodeRequire extends WebpackRequire {
