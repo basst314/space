@@ -1,6 +1,10 @@
 package com.space.server.domain.impl;
 
-import com.space.server.domain.api.*;
+import com.space.server.domain.api.Direction;
+import com.space.server.domain.api.Item;
+import com.space.server.domain.api.SpacePlayer;
+import com.space.server.domain.api.Step;
+import com.space.server.domain.items.api.ItemUsage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +96,8 @@ public class SpacePlayerImpl implements SpacePlayer{
     @Override
     public String getContent() {
         if (activeItem != null){
-            String item = activeItem.getItemSymbol();
-            return content + item;
+            String item = activeItem.getItemSymbol(direction, ItemUsage.REGULAR);
+            return Direction.BACKWARD.equals(direction) ? item + content : content + item;
         }
         return content;
     }
