@@ -64,6 +64,7 @@ public class SpaceWorldController {
 
 	public static Route stop = (request, response) -> {
 		SpaceStarterWeb.engine.stopGame(0,0);
-		return new World("");
+
+		return "world stopped";
 	};
 }
