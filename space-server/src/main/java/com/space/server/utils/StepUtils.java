@@ -84,10 +84,4 @@ public class StepUtils {
 
         return world;
     }
-
-
-    public void processEvents(List<WorldEvent> events, SpacePlayer player){
-
-
-    }
 }

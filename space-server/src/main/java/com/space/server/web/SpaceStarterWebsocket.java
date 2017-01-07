@@ -1,37 +1,41 @@
 package com.space.server.web;
 
+import com.space.server.core.World;
+import com.space.server.web.util.JsonUtil;
 import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static spark.Spark.*;
 
 /**
+ * Starts the space websocket server component
  * Created by superernie77 on 26.10.2016.
  */
-@WebSocket
+
 public class SpaceStarterWebsocket {
 
-    @OnWebSocketMessage
-    public void tweets(final String message, Session session) throws IOException, InterruptedException {
-        int i = 0;
-        if (session.isOpen()) {
-            String response = message.toUpperCase();
-            session.getRemote().sendString(response);
-        }
+    // maps the websocket session against the space player id
+    static Map<Session, Integer> userUsernameMap = new ConcurrentHashMap<>();
+
+    public static void main(String[] args) {
+
+        port(8080);
+
+        staticFileLocation("/public");
+
+        webSocket("/space", SpaceWebsocketHandler.class);
+
+        init();
     }
 
-    @OnWebSocketConnect
-    public void onConnect(Session session) throws IOException {
-        System.out.println(session.getRemoteAddress().getHostString() + " connected!");
+    public static void broadcastWorld(Session session) {
+            try {
+                World world = new World("H....W...M");
+                session.getRemote().sendString(JsonUtil.toJson(world));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
-
-
-    @OnWebSocketClose
-    public void onClose(Session session, int status, String reason) {
-        System.out.println(session.getRemoteAddress().getHostString() + " closed!");
-    }
-
 }

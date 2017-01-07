@@ -2,6 +2,7 @@ package com.space.server.engine.impl;
 
 import com.space.server.domain.api.*;
 import com.space.server.engine.api.WorldEvent;
+import com.space.server.engine.api.WorldEventProcessor;
 import com.space.server.engine.api.WorldEventType;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * Processes WorldEvents
  * Created by superernie77 on 27.12.2016.
  */
-public class WorldEventProcessorImpl implements  WorldEventProcessor{
+public class WorldEventProcessorImpl implements WorldEventProcessor{
 
     /**
      * Processes all given events for one player
