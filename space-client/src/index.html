@@ -43,8 +43,13 @@
 <script>
   <!-- TODO: find cleaner solution to this... -->
   setTimeout(function () {
-    $('#world-container').fitText(1.25);
+    $('#world-container').fitText(1.35);
   }, 1000);
+  setTimeout(function () {
+    $('#world-content').bind("DOMSubtreeModified", function () {
+      $('#world-container').fitText(1.35);
+    });
+  }, 3000);
 </script>
 
 <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>

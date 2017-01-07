@@ -1,6 +1,10 @@
 package com.space.server.domain.impl;
 
-import com.space.server.domain.api.*;
+import com.space.server.domain.api.Direction;
+import com.space.server.domain.api.Item;
+import com.space.server.domain.api.SpacePlayer;
+import com.space.server.domain.api.Step;
+import com.space.server.domain.items.api.ItemUsage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,8 @@ public class SpacePlayerImpl implements SpacePlayer{
     private List<Item> inventory = new ArrayList<>();
 
     private Item activeItem;
+
+    private ItemUsage activeItemUsage = ItemUsage.STANDBY;
 
     private Direction direction = Direction.FORWARD;
 
@@ -55,6 +61,37 @@ public class SpacePlayerImpl implements SpacePlayer{
     }
 
     @Override
+    public void resetActivities() {
+        this.setMoved(false);
+        this.setActiveItemUsage(ItemUsage.STANDBY);
+    }
+
+    @Override
+    public void setActiveItemUsed(boolean used) {
+        activeItemUsage = used ? ItemUsage.IN_USE : ItemUsage.STANDBY;
+    }
+
+    @Override
+    public ItemUsage getActiveItemUsage() {
+        return activeItemUsage;
+    }
+
+    @Override
+    public void setActiveItemUsage(ItemUsage usage) {
+        activeItemUsage = usage;
+    }
+
+    /**
+     * This player is ready to move, when it has not already been moved and is not currently using its active item
+     *
+     * @return
+     */
+    @Override
+    public boolean isReadyToMove() {
+        return !isMoved() && !ItemUsage.IN_USE.equals(activeItemUsage);
+    }
+
+    @Override
     public Integer getPlayerId() {
         return playerId;
     }
@@ -85,15 +122,16 @@ public class SpacePlayerImpl implements SpacePlayer{
     }
 
     @Override
-    public void addItem(Item item) {
+    public int addItem(Item item) {
         inventory.add(item);
+        return inventory.indexOf(item);
     }
 
     @Override
     public String getContent() {
-        if (activeItem != null){
-            String item = activeItem.getItemSymbol();
-            return content + item;
+        if (activeItem != null) {
+            String item = activeItem.getItemSymbol(direction, activeItemUsage);
+            return Direction.BACKWARD.equals(direction) ? item + content : content + item;
         }
         return content;
     }

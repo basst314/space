@@ -18,7 +18,6 @@ public class WorldEventProcessorImpl implements  WorldEventProcessor{
      * @param player
      */
     public void processEvents(List<WorldEvent> events, SpacePlayer player){
-
         for(WorldEvent event : events){
             if (event.getType().equals(WorldEventType.DOUBLE_SPACE)) {
                 Direction dir = player.getDirection();
@@ -27,9 +26,7 @@ public class WorldEventProcessorImpl implements  WorldEventProcessor{
                 } else if (dir == Direction.BACKWARD) {
                     player.setDirection(Direction.FORWARD);
                 }
-            }
-
-            if (event.getType().equals(WorldEventType.TRIPPLE_SPACE)) {
+            } else if (event.getType().equals(WorldEventType.TRIPPLE_SPACE)) {
 
                 Item active =  player.getActiveItem();
                 List<Item> inv = player.getInventory();
@@ -41,9 +38,12 @@ public class WorldEventProcessorImpl implements  WorldEventProcessor{
                 } else {
                     player.setActiveItem(0);
                 }
-            }
+            } else if (event.getType().equals(WorldEventType.SPACE)) {
+                // use active item
+                if (player.getActiveItem() != null) {
+                    player.setActiveItemUsed(true);
+                }
 
-            if  (event.getType().equals(WorldEventType.SPACE)){
                 Direction dir = player.getDirection();
                 Step nextStep = null;
                 if (dir == Direction.FORWARD){
@@ -59,20 +59,18 @@ public class WorldEventProcessorImpl implements  WorldEventProcessor{
                 for (Overlay overlay : overlays){
 
                     if (overlay instanceof Item){
-                        player.addItem((Item)overlay);
-                        player.setMoved(true);
+                        int inventoryIndex = player.addItem((Item) overlay);
                         toRemove = overlay;
                         if (player.getActiveItem() == null){
-                            player.setActiveItem(0);
+                            player.setActiveItem(inventoryIndex);
+                            // pause player movement for one step
+                            player.setMoved(true);
                         }
                         break;
-                    }
-
-                    if (overlay instanceof  Monster){
+                    } else if (overlay instanceof Monster) {
                         Item activeItem = player.getActiveItem();
                         if (activeItem instanceof Weapon){
                             toRemove = overlay;
-                            player.setMoved(true);
                             break;
                         }
                     }
@@ -80,7 +78,6 @@ public class WorldEventProcessorImpl implements  WorldEventProcessor{
                 if (toRemove != null){
                     overlays.remove(toRemove);
                 }
-
             }
         }
     }
