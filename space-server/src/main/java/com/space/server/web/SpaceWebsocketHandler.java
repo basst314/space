@@ -10,6 +10,7 @@ import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import com.space.server.engine.impl.GameEngineImpl;
 import com.space.server.engine.impl.WorldEventImpl;
+import com.space.server.web.util.JsonUtil;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -49,19 +50,27 @@ class SpaceWebsocketHandler {
         World result = null;
          if (event.getType().equals(START) ) {
              engine.startGame(event.getPlayerId(), event.getWorldId());
-             SpaceWorld world = SpaceStarterWeb.engine.getWorld(event.getWorldId());
+             SpaceWorld world = engine.getWorld(event.getWorldId());
              result = new World(world.getSegment(0).getContent());
         } else if (event.getType().equals(STOP) ) {
             engine.stopGame(event.getPlayerId(), event.getWorldId());
         } else if (event.getType().equals(STEP)) {
-            SpaceStarterWeb.engine.stepWorld(event.getWorldId());
-            SpaceWorld world = SpaceStarterWeb.engine.getWorld(event.getWorldId());
+            engine.stepWorld(event.getWorldId());
+            SpaceWorld world = engine.getWorld(event.getWorldId());
             result = new World(world.getSegment(0).getContent());
         } else {
-            SpaceWorld world = SpaceStarterWeb.engine.getWorld(event.getWorldId());
+            SpaceWorld world = engine.getWorld(event.getWorldId());
             world.addEvent(event);
             result = new World(world.getSegment(0).getContent());
         }
-        SpaceStarterWebsocket.broadcastWorld(session, result );
+        broadcastWorld(session, result );
+    }
+
+    public void broadcastWorld(Session session, World world) {
+        try {
+            session.getRemote().sendString(JsonUtil.toJson(world));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

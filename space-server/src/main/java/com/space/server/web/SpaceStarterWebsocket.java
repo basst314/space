@@ -29,12 +29,4 @@ public class SpaceStarterWebsocket {
 
         init();
     }
-
-    public static void broadcastWorld(Session session, World world) {
-            try {
-                session.getRemote().sendString(JsonUtil.toJson(world));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-    }
 }
