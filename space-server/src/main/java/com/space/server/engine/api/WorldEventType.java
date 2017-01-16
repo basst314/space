@@ -9,5 +9,11 @@ public enum WorldEventType {
 
     DOUBLE_SPACE,
 
-    TRIPPLE_SPACE
+    TRIPPLE_SPACE ,
+
+    START,
+
+    STOP,
+
+    STEP;
 }

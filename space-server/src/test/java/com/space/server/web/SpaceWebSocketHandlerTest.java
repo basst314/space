@@ -1,0 +1,117 @@
+package com.space.server.web;
+
+import com.google.gson.Gson;
+import com.space.server.engine.api.WorldEvent;
+import com.space.server.engine.api.WorldEventType;
+import com.space.server.engine.impl.WorldEventImpl;
+import org.eclipse.jetty.websocket.api.RemoteEndpoint;
+import org.eclipse.jetty.websocket.api.Session;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.io.IOException;
+
+/**
+ * Test the websocket server.
+ * Created by superernie77 on 11.01.2017.
+ */
+public class SpaceWebSocketHandlerTest {
+
+    private SpaceWebsocketHandler handler ;
+    private Gson gson = new Gson();
+
+    @Before
+    public void setup(){
+        handler = new SpaceWebsocketHandler();
+    }
+
+    @Test
+    public void testWorldScenario() throws IOException{
+
+        RemoteEndpoint enpdpoint = Mockito.mock(RemoteEndpoint.class);
+        Session session = Mockito.mock(Session.class);
+        Mockito.when(session.getRemote()).thenReturn(enpdpoint);
+
+        // 1. first we start the game by a start startEvent
+        WorldEvent startEvent = new WorldEventImpl();
+        startEvent.setPlayerId(0);
+        startEvent.setWorldId(0);
+        startEvent.setType(WorldEventType.START);
+
+        String message = gson.toJson(startEvent);
+
+        handler.onMessage(session, message);
+
+        // world in json format has been broadcastet
+        Mockito.verify(enpdpoint).sendString("{\"world\":\"H......W.......M...M\"}");
+
+
+        // 2. secondly, we move 6 times to the weapon
+        WorldEvent stepEvent = new WorldEventImpl();
+        stepEvent.setPlayerId(0);
+        stepEvent.setWorldId(0);
+        stepEvent.setType(WorldEventType.STEP);
+
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+
+        // hero is now in front of weapon
+        Mockito.verify(enpdpoint).sendString("{\"world\":\"......HW.......M...M\"}");
+
+        // 3. thirdly, we pick up the weapon
+        WorldEvent spaceEvent = new WorldEventImpl();
+        spaceEvent.setPlayerId(0);
+        spaceEvent.setWorldId(0);
+        spaceEvent.setType(WorldEventType.SPACE);
+
+        handler.onMessage(session, gson.toJson(spaceEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+
+        // hero is now in possesion of the mighty sword
+        Mockito.verify(enpdpoint).sendString("{\"world\":\"......H/........M...M\"}");
+
+        // 4. move to the first monster
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+
+        // hero is in front of first monster
+        Mockito.verify(enpdpoint).sendString("{\"world\":\"..............H/M...M\"}");
+
+        // 5. hit monster
+
+        handler.onMessage(session, gson.toJson(spaceEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+
+        // hero killed first monster
+        Mockito.verify(enpdpoint).sendString("{\"world\":\"..............H-....M\"}");
+
+        // 6. run away from second monster
+        WorldEvent doubleSpaceEvent = new WorldEventImpl();
+        doubleSpaceEvent.setPlayerId(0);
+        doubleSpaceEvent.setWorldId(0);
+        doubleSpaceEvent.setType(WorldEventType.DOUBLE_SPACE);
+
+        handler.onMessage(session, gson.toJson(doubleSpaceEvent));
+        handler.onMessage(session, gson.toJson(stepEvent));
+
+        // weapon points in different direction
+        Mockito.verify(enpdpoint).sendString("{\"world\":\".............\\\\H.....M\"}");
+
+        // 7. move one more step
+        handler.onMessage(session, gson.toJson(stepEvent));
+
+        Mockito.verify(enpdpoint).sendString("{\"world\":\"............\\\\H......M\"}");
+
+    }
+}

@@ -1,5 +1,6 @@
-package com.space.server.domain.api;
+package com.space.server.engine.api;
 
+import com.space.server.domain.api.SpacePlayer;
 import com.space.server.engine.api.WorldEvent;
 
 import java.util.List;
