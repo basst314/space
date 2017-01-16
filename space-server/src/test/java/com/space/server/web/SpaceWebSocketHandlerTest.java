@@ -33,7 +33,7 @@ public class SpaceWebSocketHandlerTest {
         Session session = Mockito.mock(Session.class);
         Mockito.when(session.getRemote()).thenReturn(enpdpoint);
 
-        // 1. first we start the game by a start startEvent
+        // 1. first we start the game by a startEvent
         WorldEvent startEvent = new WorldEventImpl();
         startEvent.setPlayerId(0);
         startEvent.setWorldId(0);
@@ -105,7 +105,7 @@ public class SpaceWebSocketHandlerTest {
         handler.onMessage(session, gson.toJson(doubleSpaceEvent));
         handler.onMessage(session, gson.toJson(stepEvent));
 
-        // weapon points in different direction
+        // weapon points in opposite direction
         Mockito.verify(enpdpoint).sendString("{\"world\":\".............\\\\H.....M\"}");
 
         // 7. move one more step

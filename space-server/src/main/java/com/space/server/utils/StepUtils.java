@@ -52,6 +52,11 @@ public class StepUtils {
         p.setMoved(true);
     }
 
+    /**
+     * Creates a SimpleSpaceWorld-Objekt from a string.
+     * @param worldString the world string e.g. "H....W..M"
+     * @return objekt representation of the string
+     */
     public SpaceWorld createWorldFromString(String worldString) {
         SimpleWorldImpl world = new SimpleWorldImpl();
         world.setWorldId(0);
