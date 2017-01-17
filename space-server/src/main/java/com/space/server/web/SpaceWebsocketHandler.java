@@ -1,13 +1,10 @@
 package com.space.server.web;
 
-import static com.space.server.engine.api.WorldEventType.*;
-
 import com.google.gson.Gson;
 import com.space.server.core.World;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
-import com.space.server.engine.api.WorldEventType;
 import com.space.server.engine.impl.GameEngineImpl;
 import com.space.server.engine.impl.WorldEventImpl;
 import com.space.server.web.util.JsonUtil;
@@ -19,16 +16,17 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
 import java.io.IOException;
 
+import static com.space.server.engine.api.WorldEventType.*;
+
 /**
  * Handler for websocket events (connect, disconnect, sendMessage)
  * Created by superernie77 on 07.01.2017.
  */
 @WebSocket
-class SpaceWebsocketHandler {
-
-    private Gson gson = new Gson();
+public class SpaceWebsocketHandler {
 
     public GameEngine engine = new GameEngineImpl();
+    private Gson gson = new Gson();
 
     public void setGameEngine(GameEngine newEngine){
         engine = newEngine;
