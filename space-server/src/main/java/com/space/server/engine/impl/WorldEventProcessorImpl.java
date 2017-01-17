@@ -4,6 +4,8 @@ import com.space.server.domain.api.*;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventProcessor;
 import com.space.server.engine.api.WorldEventType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -13,14 +15,22 @@ import java.util.List;
  */
 public class WorldEventProcessorImpl implements WorldEventProcessor{
 
+    private static final Logger LOG = LoggerFactory.getLogger(WorldEventProcessorImpl.class);
+
     /**
      * Processes all given events for one player
      * @param events
      * @param player
      */
     public void processEvents(List<WorldEvent> events, SpacePlayer player){
+
+        LOG.debug("Processing events for playerId {}", player.getPlayerId());
+
         for(WorldEvent event : events){
             if (event.getType().equals(WorldEventType.DOUBLE_SPACE)) {
+
+                LOG.debug("Processing DOUBLE_SPACE event.");
+
                 Direction dir = player.getDirection();
                 if (dir == Direction.FORWARD){
                     player.setDirection(Direction.BACKWARD);
@@ -28,6 +38,8 @@ public class WorldEventProcessorImpl implements WorldEventProcessor{
                     player.setDirection(Direction.FORWARD);
                 }
             } else if (event.getType().equals(WorldEventType.TRIPPLE_SPACE)) {
+
+                LOG.debug("Processing TRIPPLE_SPACE event.");
 
                 Item active =  player.getActiveItem();
                 List<Item> inv = player.getInventory();
@@ -40,6 +52,8 @@ public class WorldEventProcessorImpl implements WorldEventProcessor{
                     player.setActiveItem(0);
                 }
             } else if (event.getType().equals(WorldEventType.SPACE)) {
+
+                LOG.debug("Processing SPACE event.");
                 // use active item
                 if (player.getActiveItem() != null) {
                     player.setActiveItemUsed(true);
@@ -63,17 +77,25 @@ public class WorldEventProcessorImpl implements WorldEventProcessor{
                         int inventoryIndex = player.addItem((Item) overlay);
                         toRemove = overlay;
                         if (player.getActiveItem() == null){
+
+                            LOG.debug("Item collected for playerId {}", player.getPlayerId());
+
                             player.setActiveItem(inventoryIndex);
                             // pause player movement for one step
                             player.setMoved(true);
                         }
                         break;
                     } else if (overlay instanceof Monster) {
+
+
                         Item activeItem = player.getActiveItem();
-                        if (activeItem instanceof Weapon){
-                            toRemove = overlay;
-                            break;
+						if (activeItem instanceof Weapon) {
+							LOG.debug("Monster killed for playerId {}", player.getPlayerId());
+
+							toRemove = overlay;
+							break;
                         }
+
                     }
                 }
                 if (toRemove != null){
