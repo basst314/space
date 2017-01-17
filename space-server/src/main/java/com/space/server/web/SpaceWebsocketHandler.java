@@ -44,7 +44,7 @@ class SpaceWebsocketHandler {
     }
 
     @OnWebSocketMessage
-    void onMessage(Session session, String message) throws IOException {
+    public void onMessage(Session session, String message) throws IOException {
 
         WorldEvent event = gson.fromJson(message, WorldEventImpl.class);
 
@@ -67,7 +67,7 @@ class SpaceWebsocketHandler {
         broadcastWorld(session, result );
     }
 
-    void broadcastWorld(Session session, World world) {
+    public void broadcastWorld(Session session, World world) {
         try {
             session.getRemote().sendString(JsonUtil.toJson(world));
         } catch (Exception e) {
