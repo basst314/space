@@ -60,7 +60,8 @@ declare module '*';
 declare var ENV: string;
 declare var HMR: boolean;
 declare var System: SystemJS;
-declare var SPACE_API_BASEURL: string;
+declare var SPACE_HTTP_API_BASEURL: string;
+declare var SPACE_WS_API_BASEURL: string;
 
 interface SystemJS {
   import: (path?: string) => Promise<any>;
@@ -71,7 +72,8 @@ interface GlobalEnvironment {
   HMR: boolean;
   SystemJS: SystemJS;
   System: SystemJS;
-  SPACE_API_BASEURL: string;
+  SPACE_HTTP_API_BASEURL: string;
+  SPACE_WS_API_BASEURL: string;
 }
 
 interface Es6PromiseLoader {

@@ -1,14 +1,14 @@
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { SpaceWorld } from '../domain/SpaceWorld';
+import { SpaceHttpApiUrl } from './space-http-api-url';
+
 /**
  * Service for accessing the space debug web api
  * Created by basst314 on 02.01.2017.
  */
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { SpaceWorld } from '../domain/SpaceWorld';
-import { SpaceApiUrl } from './space-api-url';
-
 @Injectable()
-export class SpaceDebugService {
+export class SpaceDebugHttpService {
 
   constructor(private http: Http) {
   }
@@ -18,7 +18,7 @@ export class SpaceDebugService {
    */
   public getWorld(): Promise<SpaceWorld> {
     return this.http
-      .get(SpaceApiUrl.world)
+      .get(SpaceHttpApiUrl.world)
       .map((res) => res.json())
       .toPromise();
   }
@@ -28,7 +28,7 @@ export class SpaceDebugService {
    */
   public doStep(): Promise<SpaceWorld> {
     return this.http
-      .get(SpaceApiUrl.step)
+      .get(SpaceHttpApiUrl.step)
       .map((res) => res.json())
       .toPromise();
   }
@@ -38,7 +38,7 @@ export class SpaceDebugService {
    */
   public sendSpace(): Promise<void> {
     return this.http
-      .get(SpaceApiUrl.space)
+      .get(SpaceHttpApiUrl.space)
       .map((res) => null)
       .toPromise();
   }
@@ -48,7 +48,7 @@ export class SpaceDebugService {
    */
   public sendDoubleSpace(): Promise<void> {
     return this.http
-      .get(SpaceApiUrl.doubleSpace)
+      .get(SpaceHttpApiUrl.doubleSpace)
       .map((res) => null)
       .toPromise();
   }
@@ -58,7 +58,7 @@ export class SpaceDebugService {
    */
   public sendTripleSpace(): Promise<void> {
     return this.http
-      .get(SpaceApiUrl.tripleSpace)
+      .get(SpaceHttpApiUrl.tripleSpace)
       .map((res) => null)
       .toPromise();
   }
@@ -68,7 +68,7 @@ export class SpaceDebugService {
    */
   public startGame(): Promise<SpaceWorld> {
     return this.http
-      .get(SpaceApiUrl.startGame)
+      .get(SpaceHttpApiUrl.startGame)
       .map((res) => res.json())
       .toPromise();
   }
@@ -78,7 +78,7 @@ export class SpaceDebugService {
    */
   public stopGame(): Promise<void> {
     return this.http
-      .get(SpaceApiUrl.stopGame)
+      .get(SpaceHttpApiUrl.stopGame)
       .map((res) => null)
       .toPromise();
   }

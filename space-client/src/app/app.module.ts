@@ -11,13 +11,18 @@ import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { NoContentComponent } from './no-content';
 import { DebugClientComponent } from './debug-client/debug-client.component';
-import { SpaceDebugService } from './debug-client/space-debug.service';
+import { SpaceDebugHttpService } from './debug-client/space-debug-http.service';
+import { SpaceDebugWsService } from './ws-client/space-debug-ws.service';
+import { WebSocketService } from './shared/services/websocket.service';
+import { WsClientComponent } from './ws-client/ws-client.component';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  SpaceDebugService
+  SpaceDebugHttpService,
+  WebSocketService,
+  SpaceDebugWsService
 ];
 
 type StoreType = {
@@ -31,7 +36,8 @@ type StoreType = {
   declarations: [
     AppComponent,
     NoContentComponent,
-    DebugClientComponent
+    DebugClientComponent,
+    WsClientComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

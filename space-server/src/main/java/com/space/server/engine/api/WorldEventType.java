@@ -15,5 +15,9 @@ public enum WorldEventType {
 
     STOP,
 
-    STEP;
+	STEP,
+	/**
+	 * For world content update to client
+	 */
+	UPDATE;
 }

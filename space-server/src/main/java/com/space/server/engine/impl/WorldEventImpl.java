@@ -1,5 +1,6 @@
 package com.space.server.engine.impl;
 
+import com.space.server.core.World;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 
@@ -15,10 +16,7 @@ public class WorldEventImpl implements WorldEvent {
 
     private WorldEventType worldEventType;
 
-    @Override
-    public void setWorldId(int worldId) {
-        this.worldId = worldId ;
-    }
+    private World world;
 
     @Override
     public int getWorldId() {
@@ -26,13 +24,18 @@ public class WorldEventImpl implements WorldEvent {
     }
 
     @Override
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
+    public void setWorldId(int worldId) {
+        this.worldId = worldId;
     }
 
     @Override
     public int getPlayerId() {
         return playerId;
+    }
+
+    @Override
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
     @Override
@@ -43,5 +46,15 @@ public class WorldEventImpl implements WorldEvent {
     @Override
     public void setType(WorldEventType type) {
         worldEventType = type;
+    }
+
+    @Override
+    public World getWorld() {
+        return world;
+    }
+
+    @Override
+    public void setWorld(World world) {
+        this.world = world;
     }
 }
