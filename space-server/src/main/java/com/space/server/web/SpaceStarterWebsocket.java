@@ -1,7 +1,5 @@
 package com.space.server.web;
 
-import com.space.server.core.World;
-import com.space.server.web.util.JsonUtil;
 import org.eclipse.jetty.websocket.api.Session;
 
 import java.util.Map;
@@ -25,7 +23,7 @@ public class SpaceStarterWebsocket {
 
         staticFileLocation("/public");
 
-        webSocket("/space", SpaceWebsocketHandler.class);
+		webSocket("/api", SpaceWebsocketHandler.class);
 
         init();
     }
