@@ -1,7 +1,5 @@
 package com.space.server.web;
 
-import static com.space.server.engine.api.WorldEventType.*;
-
 import com.google.gson.Gson;
 import com.space.server.core.World;
 import com.space.server.domain.api.SpaceWorld;
@@ -20,6 +18,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import static com.space.server.engine.api.WorldEventType.*;
+
 /**
  * Handler for websocket events (connect, disconnect, sendMessage)
  * Created by superernie77 on 07.01.2017.
@@ -28,10 +28,8 @@ import java.io.IOException;
 public class SpaceWebsocketHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpaceWebsocketHandler.class);
-
-    private Gson gson = new Gson();
-
     public GameEngine engine = new SpringStarter().startSpringContext();
+    private Gson gson = new Gson();
 
     public void setGameEngine(GameEngine newEngine){
         engine = newEngine;
