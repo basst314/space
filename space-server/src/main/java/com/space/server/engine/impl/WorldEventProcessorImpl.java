@@ -89,12 +89,11 @@ public class WorldEventProcessorImpl implements WorldEventProcessor{
 
 
                         Item activeItem = player.getActiveItem();
-                        if (activeItem instanceof Weapon){
-                            
-                        LOG.debug("Monster killed for playerId {}", player.getPlayerId());
+						if (activeItem instanceof Weapon) {
+							LOG.debug("Monster killed for playerId {}", player.getPlayerId());
 
-toRemove = overlay;
-                            break;
+							toRemove = overlay;
+							break;
                         }
 
                     }
