@@ -1,1 +1,1 @@
-web:    java -cp build/dependency/* com.space.server.web.SpaceStarterWeb $PORT
+web:    java -cp build/dependency/* com.space.server.web.SpaceStarterWebsocket $PORT
