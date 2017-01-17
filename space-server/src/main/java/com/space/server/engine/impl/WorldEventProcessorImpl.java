@@ -6,6 +6,7 @@ import com.space.server.engine.api.WorldEventProcessor;
 import com.space.server.engine.api.WorldEventType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,14 +14,15 @@ import java.util.List;
  * Processes WorldEvents
  * Created by superernie77 on 27.12.2016.
  */
-public class WorldEventProcessorImpl implements WorldEventProcessor{
+@Service
+class WorldEventProcessorImpl implements WorldEventProcessor{
 
     private static final Logger LOG = LoggerFactory.getLogger(WorldEventProcessorImpl.class);
 
     /**
      * Processes all given events for one player
-     * @param events
-     * @param player
+     * @param events events to process
+     * @param player player to process
      */
     public void processEvents(List<WorldEvent> events, SpacePlayer player){
 
@@ -67,6 +69,7 @@ public class WorldEventProcessorImpl implements WorldEventProcessor{
                 } else if (dir == Direction.BACKWARD) {
                     nextStep = player.getActiveStep().previous();
                 }
+
 
                 List<Overlay> overlays = nextStep.getOverlays();
 

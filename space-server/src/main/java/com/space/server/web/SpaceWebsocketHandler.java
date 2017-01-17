@@ -1,14 +1,15 @@
 package com.space.server.web;
 
+import static com.space.server.engine.api.WorldEventType.*;
+
 import com.google.gson.Gson;
 import com.space.server.core.World;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
-import com.space.server.engine.api.WorldEventType;
-import com.space.server.engine.impl.GameEngineImpl;
 import com.space.server.engine.impl.WorldEventImpl;
 import com.space.server.web.util.JsonUtil;
+import com.space.server.web.util.SpringStarter;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -19,8 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static com.space.server.engine.api.WorldEventType.*;
-
 /**
  * Handler for websocket events (connect, disconnect, sendMessage)
  * Created by superernie77 on 07.01.2017.
@@ -30,8 +29,9 @@ public class SpaceWebsocketHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpaceWebsocketHandler.class);
 
-    public GameEngine engine = new GameEngineImpl();
     private Gson gson = new Gson();
+
+    public GameEngine engine = new SpringStarter().startSpringContext();
 
     public void setGameEngine(GameEngine newEngine){
         engine = newEngine;
@@ -72,7 +72,7 @@ public class SpaceWebsocketHandler {
             WorldEvent resultEvent = new WorldEventImpl();
             resultEvent.setPlayerId(event.getPlayerId());
             resultEvent.setWorldId(event.getWorldId());
-            resultEvent.setType(WorldEventType.UPDATE);
+            resultEvent.setType(UPDATE);
             resultEvent.setWorld(gameWorld);
 
             LOG.debug("broadcasting gameworld... {}", event.getWorldId());

@@ -9,6 +9,7 @@ import com.space.server.domain.impl.SpacePlayerImpl;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import com.space.server.utils.StepUtils;
+import com.space.server.web.util.SpringStarter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,8 @@ public class ExampleWorldTest {
 
     private StepUtils utils = new StepUtils();
 
+    private SpringStarter starter = new SpringStarter();
+
     @Before
     public void setupExampleWorld(){
         // Mock DAOs
@@ -49,7 +52,7 @@ public class ExampleWorldTest {
         player.setPlayerId(0);
 
         // create engine
-        gameEngine = new GameEngineImpl();
+        gameEngine = (GameEngineImpl)starter.startSpringContext();
         gameEngine.setWorldDao(worldDao);
         gameEngine.setPlayerDao(playerDao);
         gameEngine.setWorldEventProcessor(processor);
@@ -201,7 +204,7 @@ public class ExampleWorldTest {
 
     @Test
     public void testTakeWeaponHitEmpty() {
-        String worldwithhero = null;
+        String worldwithhero;
         exampleWorld = utils.createWorldFromString("..W..");
 
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
