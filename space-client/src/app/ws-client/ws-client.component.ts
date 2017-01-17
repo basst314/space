@@ -22,12 +22,12 @@ export class WsClientComponent implements OnInit {
   constructor(private spaceDebugService: SpaceDebugWsService) {
     this.spaceDebugService.messages.subscribe((event: WebSocketEvent) => {
       this.log("received event: " + event.worldEventType);
-      if (event.worldEventType == 'UPDATE') {
+      if (event.worldEventType === 'UPDATE') {
         this.world = event.world;
       } else {
         this.log("ERROR: unknown event");
       }
-    })
+    });
   }
 
   public ngOnInit(): void {

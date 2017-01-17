@@ -26,7 +26,7 @@ export class WebSocketService {
         ws.onclose = obs.complete.bind(obs);
 
         return ws.close.bind(ws);
-      })
+      });
 
     let observer = {
       next: (data: Object) => {
@@ -34,7 +34,7 @@ export class WebSocketService {
           ws.send(JSON.stringify(data));
         }
       }
-    }
+    };
 
     return Rx.Subject.create(observer, observable);
   }

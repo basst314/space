@@ -11,4 +11,5 @@ export interface WebSocketEvent {
   world?: SpaceWorld;
 }
 
-export type WorldEventType = 'SPACE' | 'DOUBLE_SPACE' | 'TRIPPLE_SPACE' | 'STEP' | 'START' | 'STOP' | 'UPDATE';
+export type WorldEventType = 'SPACE' | 'DOUBLE_SPACE' | 'TRIPPLE_SPACE'
+  | 'STEP' | 'START' | 'STOP' | 'UPDATE';

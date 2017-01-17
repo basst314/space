@@ -13,7 +13,7 @@ export class SpaceDebugWsService {
   constructor(private webSocketService: WebSocketService) {
     let wsUrl = SPACE_WS_API_BASEURL.replace('http://', 'ws://');
 
-    this.messages = <Subject<WebSocketEvent>>webSocketService
+    this.messages = <Subject<WebSocketEvent>> webSocketService
       .connect(wsUrl)
       .map((response: MessageEvent): WebSocketEvent => {
         console.log('received ws data: ' + response.data);
