@@ -11,6 +11,7 @@ import com.space.server.engine.api.WorldEventType;
 import com.space.server.engine.impl.GameEngineImpl;
 import com.space.server.engine.impl.WorldEventImpl;
 import com.space.server.web.util.JsonUtil;
+import com.space.server.web.util.SpringStarter;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -28,7 +29,7 @@ class SpaceWebsocketHandler {
 
     private Gson gson = new Gson();
 
-    public GameEngine engine = new GameEngineImpl();
+    public GameEngine engine = new SpringStarter().startSpringContext();
 
     public void setGameEngine(GameEngine newEngine){
         engine = newEngine;
@@ -43,7 +44,7 @@ class SpaceWebsocketHandler {
     }
 
     @OnWebSocketMessage
-    public void onMessage(Session session, String message) throws IOException {
+    void onMessage(Session session, String message) throws IOException {
 
         WorldEvent event = gson.fromJson(message, WorldEventImpl.class);
 
@@ -66,7 +67,7 @@ class SpaceWebsocketHandler {
         broadcastWorld(session, result );
     }
 
-    public void broadcastWorld(Session session, World world) {
+    void broadcastWorld(Session session, World world) {
         try {
             session.getRemote().sendString(JsonUtil.toJson(world));
         } catch (Exception e) {

@@ -13,6 +13,8 @@ import com.space.server.engine.api.WorldEvent;
 import com.space.server.utils.StepUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,17 +25,22 @@ import java.util.Map;
  * Manages active players and worlds. Can be used to persist a game world.
  * Created by superernie77 on 08.12.2016.
  */
+@Service
 public class GameEngineImpl implements GameEngine {
 
     private static final Logger LOG = LoggerFactory.getLogger(GameEngineImpl.class);
 
-    private StepUtils stepUtils = new StepUtils();
+    @Autowired
+    private StepUtils stepUtils;
 
-    private PlayerDao playerDao = new DummyPlayerDaoImpl();
+    @Autowired
+    private PlayerDao playerDao;
 
-    private WorldDao worldDao = new DummyWorldDaoImpl();
+    @Autowired
+    private WorldDao worldDao;
 
-    private WorldEventProcessorImpl processor = new WorldEventProcessorImpl();
+    @Autowired
+    private WorldEventProcessorImpl processor;
 
     private Map<Integer,SpacePlayer> activePlayer = new HashMap<>();
 
@@ -146,7 +153,9 @@ public class GameEngineImpl implements GameEngine {
         SpacePlayer player = activePlayer.get(playerId);
         if (player == null) {
             playerDao.getPlayer(playerId);
-            LOG.debug("Player (playerId {}) has been loaded.", player.getPlayerId() );
+            if (player != null) {
+                LOG.debug("Player (playerId {}) has been loaded.", player.getPlayerId());
+            }
         }
         return player;
     }

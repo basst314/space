@@ -3,6 +3,8 @@ package com.space.server.dao.impl;
 import com.space.server.dao.api.WorldDao;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.utils.StepUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,11 +13,13 @@ import java.util.List;
  * Dummy implementation of a WorldDAO. Always returns same world.
  * Created by superernie77 on 01.01.2017.
  */
+@Repository
 public class DummyWorldDaoImpl implements WorldDao{
 
     private static final String dummyWorld = ".......W.......M...M";
 
-    private StepUtils utils = new StepUtils();
+    @Autowired
+    private StepUtils utils;
 
     @Override
     public void saveWorld(SpaceWorld world) {
