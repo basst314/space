@@ -21,7 +21,8 @@ public class SpaceStarterWebsocket {
 
         port(8080);
 
-        staticFileLocation("/public");
+        staticFileLocation("/static");
+        staticFiles.expireTime(600L);
 
 		webSocket("/api", SpaceWebsocketHandler.class);
 
