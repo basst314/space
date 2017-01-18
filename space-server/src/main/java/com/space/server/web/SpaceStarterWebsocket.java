@@ -24,7 +24,7 @@ public class SpaceStarterWebsocket {
 			port = Integer.parseInt(args[0]);
 		}
 		port(port);
-		LOG.info("Server running on port {}", port);
+		// LOG.info("Server running on port {}", port);
 
         staticFileLocation("/static");
         staticFiles.expireTime(600L);
