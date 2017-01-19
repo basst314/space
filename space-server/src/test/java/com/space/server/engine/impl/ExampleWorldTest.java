@@ -10,6 +10,7 @@ import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import com.space.server.utils.StepUtils;
 import com.space.server.web.util.SpringStarter;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,10 +58,14 @@ public class ExampleWorldTest {
         gameEngine.setPlayerDao(playerDao);
         gameEngine.setWorldEventProcessor(processor);
 
-
         // mock world init
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
         when(playerDao.getPlayer(0)).thenReturn(player);
+    }
+
+    @After
+    public void shutdown(){
+        gameEngine.shutdownDatabase();
     }
 
 

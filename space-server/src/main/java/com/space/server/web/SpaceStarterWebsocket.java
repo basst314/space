@@ -20,16 +20,16 @@ public class SpaceStarterWebsocket {
     public static void main(String[] args) {
 
         int port = 8080;
-		if (args.length > 0) {
-			port = Integer.parseInt(args[0]);
-		}
-		port(port);
-		// LOG.info("Server running on port {}", port);
+        if (args.length > 0) {
+           port = Integer.parseInt(args[0]);
+        }
+    		port(port);
+		    // LOG.info("Server running on port {}", port);
 
         staticFileLocation("/static");
         staticFiles.expireTime(600L);
 
-		webSocket("/api", SpaceWebsocketHandler.class);
+		    webSocket("/api", SpaceWebsocketHandler.class);
 
         init();
     }

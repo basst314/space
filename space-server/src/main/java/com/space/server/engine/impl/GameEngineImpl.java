@@ -12,6 +12,7 @@ import com.space.server.utils.StepUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -36,6 +37,9 @@ public class GameEngineImpl implements GameEngine {
 
     @Autowired
     private WorldDao worldDao;
+
+    @Autowired
+    private EmbeddedDatabase db;
 
     @Autowired
     private WorldEventProcessorImpl processor;
@@ -156,6 +160,11 @@ public class GameEngineImpl implements GameEngine {
             }
         }
         return player;
+    }
+
+    @Override
+    public void shutdownDatabase(){
+        db.shutdown();
     }
 
     void setWorldDao(WorldDao dao){
