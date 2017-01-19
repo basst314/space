@@ -15,7 +15,7 @@ export class SpaceDebugWsService {
 
     if (wsUrl == null || (!wsUrl.startsWith("ws://") && !wsUrl.startsWith("wss://"))) {
       // build absolute url from relative path
-      wsUrl = this.getBaseUrl() + SPACE_WS_API_BASEURL;
+      wsUrl = SpaceDebugWsService.getBaseUrl() + SPACE_WS_API_BASEURL;
     }
     console.debug("connecting to space websocket api: " + wsUrl);
 
@@ -27,7 +27,7 @@ export class SpaceDebugWsService {
       });
   }
 
-  private getBaseUrl() {
+  private static getBaseUrl() {
     let protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     let host = window.location.hostname;
     let port = ':' + window.location.port;
