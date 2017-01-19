@@ -6,6 +6,7 @@ import com.space.server.engine.api.WorldEventType;
 import com.space.server.engine.impl.WorldEventImpl;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -24,6 +25,11 @@ public class SpaceWebSocketHandlerTest {
     @Before
     public void setup(){
         handler = new SpaceWebsocketHandler();
+    }
+
+    @After
+    public void shutdown() {
+        handler.engine.shutdownDatabase();
     }
 
     @Test
