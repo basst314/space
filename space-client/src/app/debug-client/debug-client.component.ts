@@ -3,7 +3,7 @@
  * Created by basst314 on 02.01.2017.
  */
 import { Component, OnInit } from '@angular/core';
-import { SpaceDebugService } from './space-debug.service';
+import { SpaceDebugHttpService } from './space-debug-http.service';
 import { SpaceWorld } from '../domain/SpaceWorld';
 
 @Component({
@@ -17,7 +17,7 @@ export class DebugClientComponent implements OnInit {
   public world: SpaceWorld;
   public msgs: string[] = [];
 
-  constructor(private spaceDebugService: SpaceDebugService) {
+  constructor(private spaceDebugService: SpaceDebugHttpService) {
   }
 
   public ngOnInit(): void {

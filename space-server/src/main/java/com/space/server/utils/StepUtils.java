@@ -6,7 +6,6 @@ import com.space.server.domain.impl.BasicStep;
 import com.space.server.domain.impl.SimpleSegment;
 import com.space.server.domain.impl.SimpleWorldImpl;
 import com.space.server.domain.items.impl.Sword;
-import com.space.server.engine.api.WorldEvent;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

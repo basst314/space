@@ -53,7 +53,7 @@ public class ExampleWorldTest {
         player.setPlayerId(0);
 
         // create engine
-        gameEngine = (GameEngineImpl)starter.startSpringContext();
+        gameEngine = (GameEngineImpl) starter.startSpringContext();
         gameEngine.setWorldDao(worldDao);
         gameEngine.setPlayerDao(playerDao);
         gameEngine.setWorldEventProcessor(processor);
