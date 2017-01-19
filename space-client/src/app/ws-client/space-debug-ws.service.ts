@@ -11,7 +11,13 @@ export class SpaceDebugWsService {
   public messages: Subject<WebSocketEvent>;
 
   constructor(private webSocketService: WebSocketService) {
-    let wsUrl = SPACE_WS_API_BASEURL.replace('http://', 'ws://');
+    let wsUrl = SPACE_WS_API_BASEURL;
+
+    if (wsUrl == null || (!wsUrl.startsWith("ws://") && !wsUrl.startsWith("wss://"))) {
+      // build absolute url from relative path
+      wsUrl = this.getBaseUrl() + SPACE_WS_API_BASEURL;
+    }
+    console.debug("connecting to space websocket api: " + wsUrl);
 
     this.messages = <Subject<WebSocketEvent>> webSocketService
       .connect(wsUrl)
@@ -19,6 +25,14 @@ export class SpaceDebugWsService {
         console.log('received ws data: ' + response.data);
         return JSON.parse(response.data);
       });
+  }
+
+  private getBaseUrl() {
+    let protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    let host = window.location.hostname;
+    let port = ':' + window.location.port;
+
+    return protocol + host + port;
   }
 
 }
