@@ -1,10 +1,10 @@
 package com.space.server.web;
 
 import com.space.server.engine.api.GameEngine;
-import com.space.server.engine.impl.GameEngineImpl;
 import com.space.server.web.controller.SpaceWorldController;
 import com.space.server.web.util.Filters;
 import com.space.server.web.util.Path;
+import com.space.server.web.util.SpringStarter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,9 +19,13 @@ public class SpaceStarterWeb {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SpaceStarterWeb.class);
 
-	public static GameEngine engine = new GameEngineImpl();
+	public static GameEngine engine;
+
+	private static SpringStarter starter = new SpringStarter();
 
 	public static void main(String[] args) {
+		engine = starter.startSpringContext();
+
 		int port = 8080;
 		if (args.length > 0) {
 			port = Integer.parseInt(args[0]);

@@ -2,8 +2,6 @@ package com.space.server.engine.impl;
 
 import com.space.server.dao.api.PlayerDao;
 import com.space.server.dao.api.WorldDao;
-import com.space.server.dao.impl.DummyPlayerDaoImpl;
-import com.space.server.dao.impl.DummyWorldDaoImpl;
 import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
@@ -11,6 +9,10 @@ import com.space.server.domain.api.Step;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.utils.StepUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,15 +23,22 @@ import java.util.Map;
  * Manages active players and worlds. Can be used to persist a game world.
  * Created by superernie77 on 08.12.2016.
  */
+@Service
 public class GameEngineImpl implements GameEngine {
 
-    private StepUtils stepUtils = new StepUtils();
+    private static final Logger LOG = LoggerFactory.getLogger(GameEngineImpl.class);
 
-    private PlayerDao playerDao = new DummyPlayerDaoImpl();
+    @Autowired
+    private StepUtils stepUtils;
 
-    private WorldDao worldDao = new DummyWorldDaoImpl();
+    @Autowired
+    private PlayerDao playerDao;
 
-    private WorldEventProcessorImpl processor = new WorldEventProcessorImpl();
+    @Autowired
+    private WorldDao worldDao;
+
+    @Autowired
+    private WorldEventProcessorImpl processor;
 
     private Map<Integer,SpacePlayer> activePlayer = new HashMap<>();
 
@@ -39,6 +48,8 @@ public class GameEngineImpl implements GameEngine {
 
     @Override
     public void startGame(Integer playerId, Integer worldId) {
+        LOG.info("Starting game for playerId {} and worldId {}",playerId, worldId);
+
         // load player
         SpacePlayer player = playerDao.getPlayer(playerId);
         activePlayer.put(playerId,player);
@@ -57,19 +68,26 @@ public class GameEngineImpl implements GameEngine {
 
         // map player to world
         playerWorldmapping.put(playerId,worldId);
+
+        LOG.info("Game started for playerId {} and worldId {}",playerId, worldId);
     }
 
     @Override
     public void stopGame(Integer playerId, Integer worldId) {
+        LOG.info("Stoping game for playerId {} and worldId {}",playerId, worldId);
+
         activePlayer.remove(playerId);
         activeWorlds.remove(worldId);
         playerWorldmapping.remove(playerId);
+
+        LOG.info("Game stopped for playerId {} and worldId {}",playerId, worldId);
     }
 
     @Override
     public void stepWorld(Integer worldId) {
-        SpaceWorld world = activeWorlds.get(worldId);
+        LOG.debug("Stepping for worldId {}", worldId);
 
+        SpaceWorld world = activeWorlds.get(worldId);
         // process event
         for (SpacePlayer player : activePlayer.values()){
             // only process if player is actively playing in this world
@@ -97,10 +115,12 @@ public class GameEngineImpl implements GameEngine {
                 }
             }
         }
+        LOG.debug(" worldId {} has been stepped.", worldId);
     }
 
     @Override
     public void addEvent(WorldEvent event) {
+        LOG.debug("New event {} for worldId {} and playerId {} added",event.getType().toString(), event.getWorldId(), event.getPlayerId());
         SpaceWorld world = activeWorlds.get(event.getWorldId());
         if (world != null) {
             world.addEvent(event);
@@ -112,6 +132,7 @@ public class GameEngineImpl implements GameEngine {
         SpaceWorld world = activeWorlds.get(worldId);
         if (world == null){
             world = worldDao.getWorld(worldId);
+            LOG.debug("World (worldId {}) has been loaded.", world.getWorldId());
         }
         return world;
     }
@@ -119,8 +140,9 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public void persist(Integer worldId) {
         SpaceWorld world = activeWorlds.get(worldId);
-        if (world != null){
+        if (world != null) {
             worldDao.saveWorld(world);
+            LOG.debug("World (worldId {}) has been persisted.", worldId);
         }
     }
 
@@ -129,6 +151,9 @@ public class GameEngineImpl implements GameEngine {
         SpacePlayer player = activePlayer.get(playerId);
         if (player == null) {
             playerDao.getPlayer(playerId);
+            if (player != null) {
+                LOG.debug("Player (playerId {}) has been loaded.", player.getPlayerId());
+            }
         }
         return player;
     }

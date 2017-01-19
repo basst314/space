@@ -8,7 +8,13 @@ import com.space.server.domain.api.SpacePlayer;
  */
 public interface PlayerDao {
 
+    /**
+     * Load a player with given ID from the database
+     * @param playerId playerId to load
+     * @return loaded player
+     */
     SpacePlayer getPlayer(int playerId);
+
 
     void savePlayer(SpacePlayer player);
 

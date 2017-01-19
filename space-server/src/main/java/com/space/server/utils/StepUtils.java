@@ -6,7 +6,7 @@ import com.space.server.domain.impl.BasicStep;
 import com.space.server.domain.impl.SimpleSegment;
 import com.space.server.domain.impl.SimpleWorldImpl;
 import com.space.server.domain.items.impl.Sword;
-import com.space.server.engine.api.WorldEvent;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.List;
  * Utility methods for basic step operations.
  * Created by superernie77 on 16.12.2016.
  */
+@Service
 public class StepUtils {
 
     /**
@@ -52,6 +53,11 @@ public class StepUtils {
         p.setMoved(true);
     }
 
+    /**
+     * Creates a SimpleSpaceWorld-Objekt from a string.
+     * @param worldString the world string e.g. "H....W..M"
+     * @return objekt representation of the string
+     */
     public SpaceWorld createWorldFromString(String worldString) {
         SimpleWorldImpl world = new SimpleWorldImpl();
         world.setWorldId(0);
