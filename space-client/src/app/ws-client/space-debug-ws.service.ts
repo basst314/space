@@ -8,6 +8,14 @@ import { WebSocketEvent } from '../domain/WebSocketEvent';
  */
 @Injectable()
 export class SpaceDebugWsService {
+  private static getBaseUrl() {
+    let protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    let host = window.location.hostname;
+    let port = ':' + window.location.port;
+
+    return protocol + host + port;
+  }
+
   public messages: Subject<WebSocketEvent>;
 
   constructor(private webSocketService: WebSocketService) {
@@ -25,14 +33,6 @@ export class SpaceDebugWsService {
         console.log('received ws data: ' + response.data);
         return JSON.parse(response.data);
       });
-  }
-
-  private static getBaseUrl() {
-    let protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-    let host = window.location.hostname;
-    let port = ':' + window.location.port;
-
-    return protocol + host + port;
   }
 
 }
