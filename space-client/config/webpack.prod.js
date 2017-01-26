@@ -23,13 +23,15 @@ const V8LazyParseWebpackPlugin = require('v8-lazy-parse-webpack-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
-const SPACE_API_BASEURL = process.env.SPACE_API_BASEURL || '/api'; // url relative to client-app
+const SPACE_HTTP_API_BASEURL = process.env.SPACE_HTTP_API_BASEURL || '/api'; // url relative to client-app
+const SPACE_WS_API_BASEURL = process.env.SPACE_WS_API_BASEURL || '/api'; // url relative to client-app
 const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
   HMR: false,
-  SPACE_API_BASEURL: SPACE_API_BASEURL,
+  SPACE_HTTP_API_BASEURL: SPACE_HTTP_API_BASEURL,
+  SPACE_WS_API_BASEURL: SPACE_WS_API_BASEURL,
 });
 
 module.exports = function (env) {
@@ -111,12 +113,14 @@ module.exports = function (env) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
-        'SPACE_API_BASEURL': JSON.stringify(METADATA.SPACE_API_BASEURL),
+        'SPACE_HTTP_API_BASEURL': JSON.stringify(METADATA.SPACE_HTTP_API_BASEURL),
+        'SPACE_WS_API_BASEURL': JSON.stringify(METADATA.SPACE_WS_API_BASEURL),
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
-          'SPACE_API_BASEURL': JSON.stringify(METADATA.SPACE_API_BASEURL),
+          'SPACE_HTTP_API_BASEURL': JSON.stringify(METADATA.SPACE_HTTP_API_BASEURL),
+          'SPACE_WS_API_BASEURL': JSON.stringify(METADATA.SPACE_WS_API_BASEURL),
         }
       }),
 

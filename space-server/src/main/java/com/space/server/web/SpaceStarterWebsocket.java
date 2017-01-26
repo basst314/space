@@ -21,14 +21,15 @@ public class SpaceStarterWebsocket {
 
         int port = 8080;
         if (args.length > 0) {
-            port = Integer.parseInt(args[0]);
+           port = Integer.parseInt(args[0]);
         }
+    		port(port);
+		    // LOG.info("Server running on port {}", port);
 
-        port(port);
+        staticFileLocation("/static");
+        staticFiles.expireTime(600L);
 
-        staticFileLocation("/public");
-
-		webSocket("/api", SpaceWebsocketHandler.class);
+		    webSocket("/api", SpaceWebsocketHandler.class);
 
         init();
     }

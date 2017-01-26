@@ -15,16 +15,16 @@ import java.util.List;
  * Created by superernie77 on 27.12.2016.
  */
 @Service
-class WorldEventProcessorImpl implements WorldEventProcessor{
+class WorldEventProcessorImpl implements WorldEventProcessor {
 
     private static final Logger LOG = LoggerFactory.getLogger(WorldEventProcessorImpl.class);
 
     /**
      * Processes all given events for one player
-     * @param events events to process
-     * @param player player to process
-     */
-    public void processEvents(List<WorldEvent> events, SpacePlayer player){
+	 * @param events events to process
+	 * @param player player to process
+	 */
+	public void processEvents(List<WorldEvent> events, SpacePlayer player){
 
         LOG.debug("Processing events for playerId {}", player.getPlayerId());
 
@@ -71,7 +71,7 @@ class WorldEventProcessorImpl implements WorldEventProcessor{
                 }
 
 
-                List<Overlay> overlays = nextStep.getOverlays();
+				List<Overlay> overlays = nextStep.getOverlays();
 
                 Overlay toRemove = null;
                 for (Overlay overlay : overlays){

@@ -1,14 +1,12 @@
 package com.space.server.web;
 
 import com.space.server.engine.api.GameEngine;
-import com.space.server.engine.impl.GameEngineImpl;
 import com.space.server.web.controller.SpaceWorldController;
 import com.space.server.web.util.Filters;
 import com.space.server.web.util.Path;
 import com.space.server.web.util.SpringStarter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static com.space.server.web.util.JsonUtil.json;
 import static spark.Spark.*;
