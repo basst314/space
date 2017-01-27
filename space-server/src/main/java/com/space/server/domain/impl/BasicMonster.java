@@ -8,11 +8,22 @@ import com.space.server.domain.api.Monster;
  */
 public class BasicMonster implements Monster {
 
+    private Health monsterHealth;
+
+    public BasicMonster(){
+        monsterHealth = new Health();
+        monsterHealth.setHealth(1);
+    }
+
+    public Health getHealth(){
+        return monsterHealth;
+    }
+
     private String content = "M";
 
     @Override
     public String getContent() {
-        return content;
+        return content + monsterHealth.getContent();
     }
 
     @Override

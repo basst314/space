@@ -55,6 +55,7 @@ public class StepUtils {
 
     /**
      * Creates a SimpleSpaceWorld-Objekt from a string.
+     * Resulting world string will have health values displayed in addition to the input string
      * @param worldString the world string e.g. "H....W..M"
      * @return objekt representation of the string
      */
@@ -84,9 +85,6 @@ public class StepUtils {
             }
             segment.addStep(step);
         }
-
-        // just to make sure the world was setup properly
-        assert world.getSegment(0).getContent().equals(worldString);
 
         return world;
     }

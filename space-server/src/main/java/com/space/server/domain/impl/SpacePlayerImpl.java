@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class SpacePlayerImpl implements SpacePlayer{
 
+    private Health playerHealth;
+
     private Integer playerId;
 
     private String content = "H";
@@ -30,6 +32,11 @@ public class SpacePlayerImpl implements SpacePlayer{
     private boolean moved = false;
 
     private Step activeStep;
+
+    public SpacePlayerImpl(){
+        playerHealth = new Health();
+        playerHealth.setHealth(3);
+    }
 
     @Override
     public Direction getDirection() {
@@ -92,6 +99,9 @@ public class SpacePlayerImpl implements SpacePlayer{
     }
 
     @Override
+    public Health getHealth() { return playerHealth; }
+
+    @Override
     public Integer getPlayerId() {
         return playerId;
     }
@@ -129,11 +139,12 @@ public class SpacePlayerImpl implements SpacePlayer{
 
     @Override
     public String getContent() {
+        String health = getHealth().getContent();
         if (activeItem != null) {
             String item = activeItem.getItemSymbol(direction, activeItemUsage);
-            return Direction.BACKWARD.equals(direction) ? item + content : content + item;
+            return Direction.BACKWARD.equals(direction) ? item + content + health : health + content + item;
         }
-        return content;
+        return Direction.BACKWARD.equals(direction) ? content + health : health + content;
     }
 
     @Override
