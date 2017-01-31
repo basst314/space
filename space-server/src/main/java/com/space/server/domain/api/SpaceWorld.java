@@ -11,12 +11,28 @@ import java.util.List;
  */
 public interface SpaceWorld {
 
+    /**
+     * Returns the start segment
+     * @return
+     */
     Integer getStartSegment();
 
+    /**
+     * Returns the start step
+     * @return
+     */
     Integer getStartStep();
 
+    /**
+     * Index of the start segment of a player
+     * @param no
+     */
     void setStartSegment(Integer no);
 
+    /**
+     * Index of the start step for a player
+     * @param no
+     */
     void setStartStep(Integer no);
 
     /**
@@ -58,6 +74,10 @@ public interface SpaceWorld {
      */
     void addEvent(WorldEvent event);
 
+    /**
+     * Removes all events from the parameter
+     * @param events
+     */
     void removeEvents(Collection<WorldEvent> events);
 
     /**

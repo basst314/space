@@ -28,4 +28,10 @@ public interface Segment {
      */
     Step getStep(int no);
 
+    /**
+     * Return all steps of the segment
+     * @return
+     */
+    List<Step> getAllSteps();
+
 }

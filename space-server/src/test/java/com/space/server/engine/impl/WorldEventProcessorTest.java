@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.*;
 import com.space.server.domain.impl.BasicStep;
+import com.space.server.domain.impl.Health;
 import com.space.server.domain.impl.SpacePlayerImpl;
 import com.space.server.domain.items.impl.Sword;
 import com.space.server.engine.api.WorldEvent;
@@ -122,6 +123,35 @@ public class WorldEventProcessorTest {
     }
 
     @Test
+    public void testHitMonsterHealth2(){
+        WorldEvent event = new WorldEventImpl();
+        event.setType(WorldEventType.SPACE);
+
+        SpacePlayer player = new SpacePlayerImpl();
+
+        Step currentStep = new BasicStep();
+        Step nextStep = new BasicStep();
+
+        player.setActiveStep(currentStep);
+        player.addItem(new Sword());
+        player.setActiveItem(0);
+        currentStep.setNext(nextStep);
+
+        Monster monster = mock(Monster.class);
+
+        // monster health is 2. So one hit won't kill monster
+        Health health = new Health();
+        health.setHealth(2);
+        when(monster.getHealth()).thenReturn(health);
+        nextStep.addOverlay(monster);
+
+        processor.processEvents(Arrays.asList(event),player);
+
+        // monster is still there
+        Assert.assertTrue(player.getActiveStep().next().getOverlays().size() == 1);
+    }
+
+    @Test
     public void testHitMonster(){
 
         WorldEvent event = new WorldEventImpl();
@@ -138,6 +168,9 @@ public class WorldEventProcessorTest {
         currentStep.setNext(nextStep);
 
         Monster monster = mock(Monster.class);
+        Health health = new Health();
+        health.setHealth(1);
+        when(monster.getHealth()).thenReturn(health);
         nextStep.addOverlay(monster);
 
         processor.processEvents(Arrays.asList(event),player);
