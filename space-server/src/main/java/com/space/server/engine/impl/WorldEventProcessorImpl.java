@@ -75,7 +75,9 @@ class WorldEventProcessorImpl implements WorldEventProcessor {
 
                 Overlay toRemove = null;
                 for (Overlay overlay : overlays){
+                    toRemove = null;
 
+                    // SpaceEvent if Item on the next step
                     if (overlay instanceof Item){
                         int inventoryIndex = player.addItem((Item) overlay);
                         toRemove = overlay;
@@ -88,17 +90,21 @@ class WorldEventProcessorImpl implements WorldEventProcessor {
                             player.setMoved(true);
                         }
                         break;
+                        // SpaceEvent if Monster on the next step
                     } else if (overlay instanceof Monster) {
-
+                        Monster monster = (Monster)overlay;
 
                         Item activeItem = player.getActiveItem();
 						if (activeItem instanceof Weapon) {
 							LOG.debug("Monster killed for playerId {}", player.getPlayerId());
 
-							toRemove = overlay;
+							monster.getHealth().processHit();
+
+                            if (monster.getHealth().isDead()){
+                                toRemove = monster;
+                            }
 							break;
                         }
-
                     }
                 }
                 if (toRemove != null){

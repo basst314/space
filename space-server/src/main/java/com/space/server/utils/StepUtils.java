@@ -39,18 +39,42 @@ public class StepUtils {
         // move player in defined direction
         if (p.getDirection().equals(Direction.FORWARD)) {
             if (step.next() != null) {
-                step.getOverlays().remove(p);
-                step.next().addOverlay(p);
-                p.setActiveStep(step.next());
+                if (!isMonsterOnStep(step.next())){
+                    step.getOverlays().remove(p);
+                    step.next().addOverlay(p);
+                    p.setActiveStep(step.next());
+                }
             }
         } else if (p.getDirection().equals(Direction.BACKWARD)) {
             if (step.previous() != null) {
-                step.getOverlays().remove(p);
-                step.previous().addOverlay(p);
-                p.setActiveStep(step.previous());
+                if (!isMonsterOnStep(step.previous())) {
+                    step.getOverlays().remove(p);
+                    step.previous().addOverlay(p);
+                    p.setActiveStep(step.previous());
+                }
             }
         }
         p.setMoved(true);
+    }
+
+    public void monsterCombat(Step current, SpacePlayer player){
+        // Monster hit from behind
+        Step previous = current.previous();
+        if (previous != null){
+            previous.getOverlays().stream().filter( m -> m instanceof Monster).map( p -> (Monster)p).forEach( m -> player.getHealth().processHit());
+        }
+
+
+        // Monster hit from front
+        Step next = current.next();
+        if (next != null){
+            next.getOverlays().stream().filter( m -> m instanceof Monster).map( p -> (Monster)p).forEach( m -> player.getHealth().processHit());
+        }
+
+    }
+
+    private boolean isMonsterOnStep(Step step){
+        return step.getOverlays().stream().anyMatch(  m -> m instanceof  Monster );
     }
 
     /**
