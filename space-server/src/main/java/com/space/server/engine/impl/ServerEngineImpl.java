@@ -104,7 +104,7 @@ public class ServerEngineImpl implements ServerEngine{
             Set<Integer> newPlayerSet = new HashSet<>();
             newPlayerSet.add(playerId);
             playerWorldMap.put(worldId, newPlayerSet );
-
+            playerSessionMap.put(playerId,session);
         }
      }
 
@@ -129,6 +129,4 @@ public class ServerEngineImpl implements ServerEngine{
     public void shutdownDatabase(){
         engine.shutdownDatabase();
     }
-
-
 }
