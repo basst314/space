@@ -25,7 +25,12 @@ public class SpacePlayerImplTest {
 
     @Test
     public void testGetContent(){
-        Assert.assertEquals(player.getContent(),"H");
+        Assert.assertEquals(player.getContent(),"³H");
+    }
+
+    @Test
+    public void testGetHealth(){
+        Assert.assertNotNull(player.getHealth().getContent());
     }
 
     @Test
@@ -39,7 +44,7 @@ public class SpacePlayerImplTest {
 
         String content = player.getContent();
 
-        Assert.assertEquals(content, "H/");
+        Assert.assertEquals(content, "³H/");
     }
 
     @Test
@@ -55,6 +60,6 @@ public class SpacePlayerImplTest {
 
         String content = player.getContent();
 
-        Assert.assertEquals(content, "\\H");
+        Assert.assertEquals(content, "\\H³");
     }
 }

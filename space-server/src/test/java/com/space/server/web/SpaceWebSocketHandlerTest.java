@@ -6,6 +6,7 @@ import com.space.server.engine.api.WorldEventType;
 import com.space.server.engine.impl.WorldEventImpl;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -24,6 +25,11 @@ public class SpaceWebSocketHandlerTest {
     @Before
     public void setup(){
         handler = new SpaceWebsocketHandler();
+    }
+
+    @After
+    public void shutdown() {
+        handler.engine.shutdownDatabase();
     }
 
     @Test
@@ -46,7 +52,7 @@ public class SpaceWebSocketHandlerTest {
         // world in json format has been broadcastet
         Mockito.verify(enpdpoint).sendString(
                 "{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                        "world\":{\"world\":\"H......W.......M...M\"}}");
+                        "world\":{\"world\":\"³H......W.......M¹...M¹\"}}");
 
 
         // 2. secondly, we move 6 times to the weapon
@@ -58,33 +64,33 @@ public class SpaceWebSocketHandlerTest {
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString(
                 "{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                        "world\":{\"world\":\".H.....W.......M...M\"}}");
+                        "world\":{\"world\":\".³H.....W.......M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString(
                 "{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                        "world\":{\"world\":\"..H....W.......M...M\"}}");
+                        "world\":{\"world\":\"..³H....W.......M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString(
                 "{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                        "world\":{\"world\":\"...H...W.......M...M\"}}");
+                        "world\":{\"world\":\"...³H...W.......M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString(
                 "{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                        "world\":{\"world\":\"....H..W.......M...M\"}}");
+                        "world\":{\"world\":\"....³H..W.......M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString(
                 "{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                        "world\":{\"world\":\".....H.W.......M...M\"}}");
+                        "world\":{\"world\":\".....³H.W.......M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         // hero is now in front of weapon
         Mockito.verify(enpdpoint).sendString(
                 "{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                        "world\":{\"world\":\"......HW.......M...M\"}}");
+                        "world\":{\"world\":\"......³HW.......M¹...M¹\"}}");
 
         // 3. thirdly, we pick up the weapon
         WorldEvent spaceEvent = new WorldEventImpl();
@@ -97,41 +103,41 @@ public class SpaceWebSocketHandlerTest {
 
         // hero is now in possesion of the mighty sword
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"......H/........M...M\"}}");
+                "world\":{\"world\":\"......³H/........M¹...M¹\"}}");
 
         // 4. move to the first monster
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\".......H/.......M...M\"}}");
+                "world\":{\"world\":\".......³H/.......M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"........H/......M...M\"}}");
+                "world\":{\"world\":\"........³H/......M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\".........H/.....M...M\"}}");
+                "world\":{\"world\":\".........³H/.....M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"..........H/....M...M\"}}");
+                "world\":{\"world\":\"..........³H/....M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"...........H/...M...M\"}}");
+                "world\":{\"world\":\"...........³H/...M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"............H/..M...M\"}}");
+                "world\":{\"world\":\"............³H/..M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\".............H/.M...M\"}}");
+                "world\":{\"world\":\".............³H/.M¹...M¹\"}}");
 
         handler.onMessage(session, gson.toJson(stepEvent));
         // hero is in front of first monster
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"..............H/M...M\"}}");
+                "world\":{\"world\":\"..............³H/M¹...M¹\"}}");
 
         // 5. hit monster
 
@@ -140,7 +146,7 @@ public class SpaceWebSocketHandlerTest {
 
         // hero killed first monster
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"..............H-....M\"}}");
+                "world\":{\"world\":\"..............³H-....M¹\"}}");
 
         // 6. run away from second monster
         WorldEvent doubleSpaceEvent = new WorldEventImpl();
@@ -153,13 +159,12 @@ public class SpaceWebSocketHandlerTest {
 
         // weapon points in opposite direction
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\".............\\\\H.....M\"}}");
+                "world\":{\"world\":\".............\\\\H³.....M¹\"}}");
 
         // 7. move one more step
         handler.onMessage(session, gson.toJson(stepEvent));
 
         Mockito.verify(enpdpoint).sendString("{\"worldId\":0,\"playerId\":0,\"worldEventType\":\"UPDATE\",\"" +
-                "world\":{\"world\":\"............\\\\H......M\"}}");
-
+                "world\":{\"world\":\"............\\\\H³......M¹\"}}");
     }
 }

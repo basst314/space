@@ -1,5 +1,6 @@
 package com.space.server.domain.api;
 
+import com.space.server.domain.impl.Health;
 import com.space.server.domain.items.api.ItemUsage;
 
 import java.util.List;
@@ -9,6 +10,12 @@ import java.util.List;
  * Created by superernie77 on 01.12.2016.
  */
 public interface SpacePlayer extends Overlay{
+
+	/**
+	 * Return the health object of the player
+	 * @return
+	 */
+	Health getHealth();
 
     /**
      * Returns the unique player id.
@@ -78,8 +85,16 @@ public interface SpacePlayer extends Overlay{
 	 */
 	void setMoved(boolean moved);
 
+	/**
+	 * Sets the step the hero stands on
+	 * @return
+	 */
     Step getActiveStep();
 
+	/**
+	 * set the step the hero stands on
+	 * @param step
+	 */
     void setActiveStep(Step step);
 
 	/**

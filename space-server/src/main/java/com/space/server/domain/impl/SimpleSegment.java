@@ -38,5 +38,10 @@ public class SimpleSegment implements Segment {
         return steps.get(no);
     }
 
+    @Override
+    public List<Step> getAllSteps(){
+        return steps;
+    }
+
 
 }

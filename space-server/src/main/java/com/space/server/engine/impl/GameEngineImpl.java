@@ -12,11 +12,13 @@ import com.space.server.utils.StepUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Implementation of the GameEngine. Starts new games and stops running games.
@@ -36,6 +38,9 @@ public class GameEngineImpl implements GameEngine {
 
     @Autowired
     private WorldDao worldDao;
+
+    @Autowired
+    private EmbeddedDatabase db;
 
     @Autowired
     private WorldEventProcessorImpl processor;
@@ -88,7 +93,7 @@ public class GameEngineImpl implements GameEngine {
         LOG.debug("Stepping for worldId {}", worldId);
 
         SpaceWorld world = activeWorlds.get(worldId);
-        // process event
+        // process events
         for (SpacePlayer player : activePlayer.values()){
             // only process if player is actively playing in this world
             if (playerWorldmapping.containsKey(player.getPlayerId())) {
@@ -102,19 +107,27 @@ public class GameEngineImpl implements GameEngine {
             }
         }
 
+        // monster hit players
+        world.getSegment(0).getAllSteps().stream()
+                .filter( s ->  s.isPlayerPresent())
+                .map( s -> s.getPlayers() )
+                .flatMap( p -> p.stream() )
+                .forEach(p -> stepUtils.monsterCombat(p.getActiveStep(), p));
+
+        // remove dead players
+        world.getSegment(0).getAllSteps().stream()
+                .filter( s ->  s.isPlayerPresent())
+                .map( s -> s.getPlayers() )
+                .flatMap( p -> p.stream() )
+                .forEach(p ->  { if (p.getHealth().isDead()) p.getActiveStep().getOverlays().remove(p); } );
+
         // move players
-        Step step = world.getSegment(0).getStep(0);
-        if (step.isPlayerPresent()){
-            stepUtils.movePlayerOneStep(step);
-        } else {
-            while (step.next() != null){
-                step = step.next();
-                if (step.isPlayerPresent()){
-                    stepUtils.movePlayerOneStep(step);
-                    break;
-                }
-            }
-        }
+        world.getSegment(0).getAllSteps().stream()
+                .filter( s ->  s.isPlayerPresent())
+                .map( s -> s.getPlayers() )
+                .flatMap( p -> p.stream() )
+                .forEach(p -> stepUtils.movePlayerOneStep(p.getActiveStep()));
+
         LOG.debug(" worldId {} has been stepped.", worldId);
     }
 
@@ -156,6 +169,11 @@ public class GameEngineImpl implements GameEngine {
             }
         }
         return player;
+    }
+
+    @Override
+    public void shutdownDatabase(){
+        db.shutdown();
     }
 
     void setWorldDao(WorldDao dao){

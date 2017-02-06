@@ -10,6 +10,7 @@ import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import com.space.server.utils.StepUtils;
 import com.space.server.web.util.SpringStarter;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,10 +58,14 @@ public class ExampleWorldTest {
         gameEngine.setPlayerDao(playerDao);
         gameEngine.setWorldEventProcessor(processor);
 
-
         // mock world init
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
         when(playerDao.getPlayer(0)).thenReturn(player);
+    }
+
+    @After
+    public void shutdown(){
+        gameEngine.shutdownDatabase();
     }
 
 
@@ -75,7 +80,7 @@ public class ExampleWorldTest {
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertTrue(worldwithhero.equals("H.......W........M"));
+        Assert.assertEquals("³H.......W........M¹",worldwithhero);
 
         // three steps foreward
         gameEngine.stepWorld(0);
@@ -84,7 +89,7 @@ public class ExampleWorldTest {
 
         worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertTrue(worldwithhero.equals("...H....W........M"));
+        Assert.assertEquals("...³H....W........M¹",worldwithhero);
     }
 
     @Test
@@ -105,7 +110,7 @@ public class ExampleWorldTest {
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertTrue(worldwithhero.equals("...H.."));
+        Assert.assertTrue(worldwithhero.equals("...H³.."));
     }
 
     @Test
@@ -130,14 +135,14 @@ public class ExampleWorldTest {
         gameEngine.stepWorld(0); // .....\H
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
-        Assert.assertTrue(worldwithhero.equals(".....\\H"));
+        Assert.assertTrue(worldwithhero.equals(".....\\H³"));
 
         gameEngine.stepWorld(0);
         gameEngine.stepWorld(0);
 
         worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertTrue(worldwithhero.equals("...\\H.."));
+        Assert.assertTrue(worldwithhero.equals("...\\H³.."));
     }
 
     @Test
@@ -162,7 +167,7 @@ public class ExampleWorldTest {
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertEquals("..H/.", worldwithhero);
+        Assert.assertEquals("..³H/.", worldwithhero);
     }
 
     @Test
@@ -199,7 +204,7 @@ public class ExampleWorldTest {
 
         String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
 
-        Assert.assertEquals("...H-.", worldwithhero);
+        Assert.assertEquals("...³H-.", worldwithhero);
     }
 
     @Test
@@ -215,7 +220,7 @@ public class ExampleWorldTest {
         gameEngine.stepWorld(0); // .HW..
 
         worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
-        Assert.assertEquals(".HW..", worldwithhero);
+        Assert.assertEquals(".³HW..", worldwithhero);
 
         // take weapon
         WorldEvent event = new WorldEventImpl();
@@ -226,13 +231,13 @@ public class ExampleWorldTest {
         gameEngine.stepWorld(0);
 
         worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
-        Assert.assertEquals(".H/...", worldwithhero);
+        Assert.assertEquals(".³H/...", worldwithhero);
 
         // step
         gameEngine.stepWorld(0);
 
         worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
-        Assert.assertEquals("..H/..", worldwithhero);
+        Assert.assertEquals("..³H/..", worldwithhero);
 
         // hit empty path
         event = new WorldEventImpl();
@@ -245,13 +250,13 @@ public class ExampleWorldTest {
 
         // item is in used-mode
         worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
-        Assert.assertEquals("..H-..", worldwithhero);
+        Assert.assertEquals("..³H-..", worldwithhero);
 
         // step
         gameEngine.stepWorld(0);
 
         // item back to normal + hero moved
         worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
-        Assert.assertEquals("...H/.", worldwithhero);
+        Assert.assertEquals("...³H/.", worldwithhero);
     }
 }

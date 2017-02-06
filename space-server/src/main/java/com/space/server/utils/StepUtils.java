@@ -39,22 +39,47 @@ public class StepUtils {
         // move player in defined direction
         if (p.getDirection().equals(Direction.FORWARD)) {
             if (step.next() != null) {
-                step.getOverlays().remove(p);
-                step.next().addOverlay(p);
-                p.setActiveStep(step.next());
+                if (!isMonsterOnStep(step.next())){
+                    step.getOverlays().remove(p);
+                    step.next().addOverlay(p);
+                    p.setActiveStep(step.next());
+                }
             }
         } else if (p.getDirection().equals(Direction.BACKWARD)) {
             if (step.previous() != null) {
-                step.getOverlays().remove(p);
-                step.previous().addOverlay(p);
-                p.setActiveStep(step.previous());
+                if (!isMonsterOnStep(step.previous())) {
+                    step.getOverlays().remove(p);
+                    step.previous().addOverlay(p);
+                    p.setActiveStep(step.previous());
+                }
             }
         }
         p.setMoved(true);
     }
 
+    public void monsterCombat(Step current, SpacePlayer player){
+        // Monster hit from behind
+        Step previous = current.previous();
+        if (previous != null){
+            previous.getOverlays().stream().filter( m -> m instanceof Monster).map( p -> (Monster)p).forEach( m -> player.getHealth().processHit());
+        }
+
+
+        // Monster hit from front
+        Step next = current.next();
+        if (next != null){
+            next.getOverlays().stream().filter( m -> m instanceof Monster).map( p -> (Monster)p).forEach( m -> player.getHealth().processHit());
+        }
+
+    }
+
+    private boolean isMonsterOnStep(Step step){
+        return step.getOverlays().stream().anyMatch(  m -> m instanceof  Monster );
+    }
+
     /**
      * Creates a SimpleSpaceWorld-Objekt from a string.
+     * Resulting world string will have health values displayed in addition to the input string
      * @param worldString the world string e.g. "H....W..M"
      * @return objekt representation of the string
      */
@@ -84,9 +109,6 @@ public class StepUtils {
             }
             segment.addStep(step);
         }
-
-        // just to make sure the world was setup properly
-        assert world.getSegment(0).getContent().equals(worldString);
 
         return world;
     }
