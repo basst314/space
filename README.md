@@ -65,9 +65,18 @@ An example game world might look something like this:
 ## Milestones
 
 ### #1 Siam Cat
-- Find following Milestone Names
+- Find following Milestone Name
 - A game-world can be generated and displayed (Server-Client-Roundtrip over Network)
 - World is persistent for one game session
 - Server and Client are communicating via WebSockets
 - Basic Events can be sent between client and server
 - Hero can move, attack a monster and pick up an item
+
+### #2 Angora Cat
+- Find following milestone name
+- Monster can passively attack hero (hero can die)
+- Hero and monsters have health displayed in game world
+- World segments can be connected by doors
+- World updates automatically without sending step events
+- A world can contain many heros (controlled by different players)
+- Events from the websocket client can be send by space bar

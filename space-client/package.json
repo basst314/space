@@ -5,7 +5,7 @@
   "homepage": "https://github.com/basst314/space",
   "license": "MIT",
   "scripts": {
-    "build:aot:prod": "npm run clean:dist && npm run clean:aot && npm run ngc -- --webpack config/webpack.prod.js && webpack --config config/webpack.prod.js  --progress --profile --bail",
+    "build:aot:prod": "npm run clean:dist && npm run clean:aot && npm run ngc && webpack --config config/webpack.prod.js  --progress --profile --bail",
     "build:aot": "npm run build:aot:prod",
     "build:dev": "npm run clean:dist && webpack --config config/webpack.dev.js --progress --profile",
     "build:docker": "npm run build:prod && docker build -t angular2-webpack-start:latest .",
@@ -27,7 +27,7 @@
     "e2e": "npm-run-all -p -r server:prod:ci e2e:only",
     "e2e:only": "npm run protractor",
     "lint": "npm run tslint \"src/**/*.ts\"",
-    "ngc": "./node_modules/.bin/ngc-w -p tsconfig.webpack.json",
+    "ngc": "./node_modules/.bin/ngc -p tsconfig.webpack.json",
     "postversion": "git push && git push --tags",
     "prebuild:dev": "npm run clean:dist",
     "prebuild:prod": "npm run clean:dist",
