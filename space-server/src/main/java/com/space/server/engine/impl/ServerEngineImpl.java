@@ -70,12 +70,16 @@ public class ServerEngineImpl implements ServerEngine{
             playerSessionMap.put(playerId,session);
         } else {
             // start new world
+
+            engine.startGame(playerId,worldId);
+
             Broadcaster b = new Broadcaster();
             b.setWorldId(worldId);
             b.setEngine(engine);
 
             Runnable r = () -> {
 
+                LOG.debug("Steping world ....");
                 // step world one step
                 b.getEngine().stepWorld(b.getWorldId());
                 SpaceWorld world = engine.getWorld(b.getWorldId());
@@ -87,18 +91,20 @@ public class ServerEngineImpl implements ServerEngine{
                 resultEvent.setWorld(gameWorld);
 
                 // broadcast to all players
+                LOG.debug("Broadcasting world ....");
                 Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
                 try {
                     for (Integer playerIdRunnable : playerSetRunnable ) {
                         Session playerSession = playerSessionMap.get(playerIdRunnable);
                         playerSession.getRemote().sendString(JsonUtil.toJson(resultEvent));
+                        System.out.println(JsonUtil.toJson(resultEvent));
                     }
                 } catch (IOException e) {
                     LOG.error(e.getMessage(),e);
                 }
             };
 
-            scheduledExecutorService.scheduleAtFixedRate(r , 0, 1000L, TimeUnit.MILLISECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(r , 3, 1000L, TimeUnit.MILLISECONDS);
 
             // register world, player and session
             Set<Integer> newPlayerSet = new HashSet<>();

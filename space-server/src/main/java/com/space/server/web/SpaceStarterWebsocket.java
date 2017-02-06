@@ -23,13 +23,13 @@ public class SpaceStarterWebsocket {
         if (args.length > 0) {
            port = Integer.parseInt(args[0]);
         }
-    		port(port);
-		    // LOG.info("Server running on port {}", port);
+   		port(port);
+	    // LOG.info("Server running on port {}", port);
 
         staticFileLocation("/static");
         staticFiles.expireTime(600L);
 
-		    webSocket("/api", SpaceWebsocketHandler.class);
+	    webSocket("/api", SpaceWebsocketHandler.class);
 
         init();
     }

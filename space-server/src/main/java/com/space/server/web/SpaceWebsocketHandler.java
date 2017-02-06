@@ -43,6 +43,7 @@ public class SpaceWebsocketHandler {
 
     @OnWebSocketClose
     public void onClose(Session session, int status, String reason) {
+        LOG.debug("connection closed: {}", session.getRemoteAddress());
     }
 
     @OnWebSocketMessage
