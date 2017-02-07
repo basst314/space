@@ -52,6 +52,10 @@ public class SimpleEchoSocket {
 
             session.getRemote().sendString(JsonUtil.toJson(event));
 
+            event.setType(WorldEventType.STOP);
+
+            session.getRemote().sendString(JsonUtil.toJson(event));
+
         } catch (Throwable t) {
             t.printStackTrace();
         }

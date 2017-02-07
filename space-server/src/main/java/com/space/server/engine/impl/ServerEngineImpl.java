@@ -19,9 +19,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static com.space.server.engine.api.WorldEventType.UPDATE;
 
@@ -43,6 +41,8 @@ public class ServerEngineImpl implements ServerEngine{
     private Map<Integer, Set<Integer>> playerWorldMap = new ConcurrentHashMap<>();
 
     private Map<Integer, Session> playerSessionMap = new ConcurrentHashMap<>();
+
+    private Map<Integer, ScheduledFuture<Boolean>> worldFutureMap = new ConcurrentHashMap<>();
 
     private boolean checkGameStartedAlready(int worldId, int playerId){
         Set<Integer> players = playerWorldMap.get(worldId);
@@ -91,26 +91,27 @@ public class ServerEngineImpl implements ServerEngine{
                 resultEvent.setWorld(gameWorld);
 
                 // broadcast to all players
-                LOG.debug("Broadcasting world ....");
                 Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
                 try {
                     for (Integer playerIdRunnable : playerSetRunnable ) {
+                        LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
                         Session playerSession = playerSessionMap.get(playerIdRunnable);
                         playerSession.getRemote().sendString(JsonUtil.toJson(resultEvent));
-                        System.out.println(JsonUtil.toJson(resultEvent));
+                        LOG.debug(JsonUtil.toJson(resultEvent));
                     }
                 } catch (IOException e) {
                     LOG.error(e.getMessage(),e);
                 }
             };
 
-            scheduledExecutorService.scheduleAtFixedRate(r , 3, 1000L, TimeUnit.MILLISECONDS);
+            ScheduledFuture future = scheduledExecutorService.scheduleAtFixedRate(r , 3, 1000L, TimeUnit.MILLISECONDS);
 
-            // register world, player and session
+            // register world, player, future and session
             Set<Integer> newPlayerSet = new HashSet<>();
             newPlayerSet.add(playerId);
             playerWorldMap.put(worldId, newPlayerSet );
             playerSessionMap.put(playerId,session);
+            worldFutureMap.put(worldId, future);
         }
      }
 
@@ -120,15 +121,28 @@ public class ServerEngineImpl implements ServerEngine{
         world.addEvent(event);
     }
 
+    /**
+     * Stops a game and ends the broadcasting of the game world
+     * @param event
+     */
     @Override
     public  void stopGame(WorldEvent event){
-        engine.stopGame(event.getPlayerId(), event.getWorldId());
+        Integer worldId = event.getWorldId();
+        Integer playerId = event.getPlayerId();
 
-        playerWorldMap.get(event.getWorldId()).remove(event.getPlayerId());
+        // stop game for player
+        engine.stopGame(playerId,worldId);
 
+        // stop broadcasting for player
+        playerWorldMap.get(worldId).remove(event.getPlayerId());
+        if (playerWorldMap.get(worldId).size() == 0){
+            playerWorldMap.remove(worldId);
+            ScheduledFuture future = worldFutureMap.get(worldId);
+            future.cancel(true);
+            worldFutureMap.remove(worldId);
+        }
         playerSessionMap.remove(event.getPlayerId());
 
-        //TODO stop thread for game
     }
 
     @Override
