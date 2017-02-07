@@ -33,7 +33,7 @@ public class ServerEngineImpl implements ServerEngine{
     private static final Logger LOG = LoggerFactory.getLogger(ServerEngineImpl.class);
 
     @Autowired
-    ScheduledExecutorService scheduledExecutorService;
+    private ScheduledExecutorService scheduledExecutorService;
 
     @Autowired
     private GameEngine engine;
@@ -42,14 +42,11 @@ public class ServerEngineImpl implements ServerEngine{
 
     private Map<Integer, Session> playerSessionMap = new ConcurrentHashMap<>();
 
-    private Map<Integer, ScheduledFuture<Boolean>> worldFutureMap = new ConcurrentHashMap<>();
+    private Map<Integer, ScheduledFuture> worldFutureMap = new ConcurrentHashMap<>();
 
     private boolean checkGameStartedAlready(int worldId, int playerId){
         Set<Integer> players = playerWorldMap.get(worldId);
-        if (players != null){
-            return players.contains(playerId);
-        }
-        return false;
+        return players != null && players.contains(playerId);
     }
 
     @Override
@@ -123,7 +120,7 @@ public class ServerEngineImpl implements ServerEngine{
 
     /**
      * Stops a game and ends the broadcasting of the game world
-     * @param event
+     * @param event stop event
      */
     @Override
     public  void stopGame(WorldEvent event){
@@ -134,15 +131,16 @@ public class ServerEngineImpl implements ServerEngine{
         engine.stopGame(playerId,worldId);
 
         // stop broadcasting for player
-        playerWorldMap.get(worldId).remove(event.getPlayerId());
-        if (playerWorldMap.get(worldId).size() == 0){
-            playerWorldMap.remove(worldId);
-            ScheduledFuture future = worldFutureMap.get(worldId);
-            future.cancel(true);
-            worldFutureMap.remove(worldId);
+        if (playerWorldMap.get(worldId) != null) {
+            playerWorldMap.get(worldId).remove(event.getPlayerId());
+            if (playerWorldMap.get(worldId).size() == 0){
+                playerWorldMap.remove(worldId);
+                ScheduledFuture future = worldFutureMap.get(worldId);
+                future.cancel(true);
+                worldFutureMap.remove(worldId);
+            }
+            playerSessionMap.remove(event.getPlayerId());
         }
-        playerSessionMap.remove(event.getPlayerId());
-
     }
 
     @Override
