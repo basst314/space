@@ -1,4 +1,6 @@
 # space [![Build Status](https://travis-ci.org/basst314/space.svg?branch=master)](https://travis-ci.org/basst314/space)
+[![Coverage Status](https://coveralls.io/repos/github/basst314/space/badge.svg?branch=master)](https://coveralls.io/github/basst314/space?branch=master)
+
 Welcome to space. A one-dimensional space-adventure game.
 
 ## Game Features

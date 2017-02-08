@@ -13,10 +13,13 @@ public class SimpleEchoClient
 {
     public static void main(String[] args)
     {
+        Integer playerId = 0;
+
+        Integer worldId = 0;
         String destUri = "ws://localhost:8080/api/";
-        if (args.length > 0)
-        {
-            destUri = args[0];
+        if (args.length > 1) {
+            playerId = Integer.parseInt(args[0]);
+            worldId = Integer.parseInt(args[1]);
         }
 
         WebSocketClient client = new WebSocketClient();

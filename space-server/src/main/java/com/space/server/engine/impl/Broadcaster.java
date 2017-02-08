@@ -1,10 +1,6 @@
 package com.space.server.engine.impl;
 
 import com.space.server.engine.api.GameEngine;
-import com.space.server.engine.api.WorldEvent;
-import org.eclipse.jetty.websocket.api.Session;
-
-import static com.space.server.engine.api.WorldEventType.UPDATE;
 
 /**
  * Created by superernie77 on 02.02.2017.
