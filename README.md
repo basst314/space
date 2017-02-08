@@ -1,4 +1,4 @@
-# space [![Build Status](https://travis-ci.org/basst314/space.svg?branch=master)](https://travis-ci.org/basst314/space)
+# space [![Build Status](https://travis-ci.org/basst314/space.svg?branch=master)](https://travis-ci.org/basst314/space) [![volkswagen status](https://auchenberg.github.io/volkswagen/volkswargen_ci.svg?v=1)](https://github.com/auchenberg/volkswagen)
 Welcome to space. A one-dimensional space-adventure game.
 
 ## Game Features

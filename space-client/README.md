@@ -17,6 +17,8 @@ npm start
 ```
 Local changes on the code will automagically trigger a rebuild and reload of the app in the browser, as long as the `npm start` command runs in the shell.
 
+To execute the above commands, Node.js needs to be installed on your machine, which can de download here: https://nodejs.org/en/download/
+
 
 ## Local Build
 The Space-Client is built using npm and webpack. 
