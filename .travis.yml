@@ -53,5 +53,5 @@ deploy:
   api_key: $HEROKU_API_KEY
   app:
     websocket-client: the-space-game-test
-    master: the-space-game-staging
-    stable: the-space-game
+    space_api: the-space-game-staging
+    master: the-space-game

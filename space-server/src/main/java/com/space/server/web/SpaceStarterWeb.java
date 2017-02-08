@@ -1,6 +1,7 @@
 package com.space.server.web;
 
 import com.space.server.engine.api.GameEngine;
+import com.space.server.engine.api.ServerEngine;
 import com.space.server.web.controller.SpaceWorldController;
 import com.space.server.web.util.Filters;
 import com.space.server.web.util.Path;
@@ -24,7 +25,7 @@ public class SpaceStarterWeb {
 	private static SpringStarter starter = new SpringStarter();
 
 	public static void main(String[] args) {
-		engine = starter.startSpringContext();
+		engine = starter.startSpringGameEngine();
 
 		int port = 8080;
 		if (args.length > 0) {
@@ -37,7 +38,7 @@ public class SpaceStarterWeb {
 		staticFiles.expireTime(600L);
 
 		// start game for dummy player
-		engine.startGame(0,0);
+		//engine.startGame(0,0);
 
 		// allow requests from every domain
 		options("/*",

@@ -1,7 +1,9 @@
 package com.space.server.web.util;
 
 import com.space.server.engine.api.GameEngine;
+import com.space.server.engine.api.ServerEngine;
 import com.space.server.engine.impl.GameEngineImpl;
+import com.space.server.engine.impl.ServerEngineImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Starts the spring application
@@ -18,11 +23,19 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @ComponentScan({"com.space"})
 public class SpringStarter {
 
-	public GameEngine startSpringContext() {
+    private static final int MAX_THREADS = 5;
+
+	public ServerEngineImpl startSpringContext() {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(SpringStarter.class);
 		ctx.registerShutdownHook();
-		return ctx.getBean(GameEngineImpl.class);
+		return ctx.getBean(ServerEngineImpl.class);
 	}
+
+	public GameEngineImpl startSpringGameEngine(){
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(SpringStarter.class);
+        ctx.registerShutdownHook();
+        return ctx.getBean(GameEngineImpl.class);
+    }
 
   @Bean
   public EmbeddedDatabase dataSource() {
@@ -33,6 +46,11 @@ public class SpringStarter {
               .addScript("sql/insert-data.sql")
               .build();
       return db;
+  }
+
+  @Bean
+    public ScheduledExecutorService createExecutorService(){
+      return Executors.newScheduledThreadPool(MAX_THREADS);
   }
 
 }

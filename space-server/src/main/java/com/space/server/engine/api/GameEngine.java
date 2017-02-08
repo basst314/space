@@ -51,8 +51,5 @@ public interface GameEngine {
      */
     SpacePlayer getPlayer(Integer playerId);
 
-    /**
-     * Shuts down the space database
-     */
     public void shutdownDatabase();
 }
