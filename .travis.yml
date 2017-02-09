@@ -50,6 +50,7 @@ script:
 after_success:
   - cd space-server
   - ../gradlew jacocoTestReport coveralls
+  - cd ../
 
 
 deploy:
