@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id "net.saliman.cobertura" version "2.4.0"
+	id 'jacoco'
 	id 'application'
 	id 'com.github.kt3k.coveralls' version '2.6.3'
 }
@@ -38,7 +38,12 @@ dependencies {
 	testCompile 'org.mockito:mockito-core:2.2.5'
 }
 
-cobertura.coverageFormats = ['html', 'xml']
+jacocoTestReport {
+	reports {
+		xml.enabled = true // coveralls plugin depends on xml format report
+		html.enabled = true
+	}
+}
 
 task fatJar(type: Jar) {
 	manifest.from jar.manifest
