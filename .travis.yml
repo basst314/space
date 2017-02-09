@@ -49,7 +49,7 @@ script:
 
 after_success:
   - cd space-server
-  - ./gradlew cobertura coveralls
+  - ../gradlew cobertura coveralls
 
 
 deploy:
