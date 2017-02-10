@@ -47,11 +47,17 @@ script:
   - ./gradlew stage # start build of space-common and space-server, building a space-all fat-jar including the client
   - cp build/dependency/space-server-*-all.jar ./application.jar # needed by heroku-buildpack-runnable-jar plugin
 
+after_success:
+  - cd space-server
+  - ../gradlew jacocoTestReport coveralls
+  - cd ../
+
+
 deploy:
   skip_cleanup: true
   provider: heroku
   api_key: $HEROKU_API_KEY
   app:
     websocket-client: the-space-game-test
-    master: the-space-game-staging
-    stable: the-space-game
+    space_api: the-space-game-staging
+    master: the-space-game

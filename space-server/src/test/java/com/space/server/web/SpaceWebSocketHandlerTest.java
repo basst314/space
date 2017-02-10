@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -32,6 +33,7 @@ public class SpaceWebSocketHandlerTest {
         handler.engine.shutdownDatabase();
     }
 
+    @Ignore
     @Test
     public void testWorldScenario() throws IOException{
 

@@ -5,6 +5,7 @@ import com.space.server.core.World;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
+import com.space.server.engine.impl.ServerEngineImpl;
 import com.space.server.engine.impl.WorldEventImpl;
 import com.space.server.web.util.JsonUtil;
 import com.space.server.web.util.SpringStarter;
@@ -28,10 +29,10 @@ import static com.space.server.engine.api.WorldEventType.*;
 public class SpaceWebsocketHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpaceWebsocketHandler.class);
-    public GameEngine engine = new SpringStarter().startSpringContext();
+    public ServerEngineImpl engine = new SpringStarter().startSpringContext();
     private Gson gson = new Gson();
 
-    public void setGameEngine(GameEngine newEngine){
+    public void setGameEngine(ServerEngineImpl newEngine){
         engine = newEngine;
     }
 
@@ -42,6 +43,7 @@ public class SpaceWebsocketHandler {
 
     @OnWebSocketClose
     public void onClose(Session session, int status, String reason) {
+        LOG.debug("connection closed: {}", session.getRemoteAddress());
     }
 
     @OnWebSocketMessage
@@ -49,40 +51,12 @@ public class SpaceWebsocketHandler {
         WorldEvent event = gson.fromJson(message, WorldEventImpl.class);
         LOG.debug("received event: {}", event.getType());
 
-        World gameWorld = null;
-
         if (event.getType().equals(START)) {
-             engine.startGame(event.getPlayerId(), event.getWorldId());
-             SpaceWorld world = engine.getWorld(event.getWorldId());
-            gameWorld = new World(world.getSegment(0).getContent());
+             engine.startGame(event.getWorldId(),event.getPlayerId(), session);
         } else if (event.getType().equals(STOP) ) {
-            engine.stopGame(event.getPlayerId(), event.getWorldId());
-        } else if (event.getType().equals(STEP)) {
-            engine.stepWorld(event.getWorldId());
-            SpaceWorld world = engine.getWorld(event.getWorldId());
-            gameWorld = new World(world.getSegment(0).getContent());
+            engine.stopGame(event);
         } else {
-            SpaceWorld world = engine.getWorld(event.getWorldId());
-            world.addEvent(event);
-        }
-
-        if (gameWorld != null) {
-            WorldEvent resultEvent = new WorldEventImpl();
-            resultEvent.setPlayerId(event.getPlayerId());
-            resultEvent.setWorldId(event.getWorldId());
-            resultEvent.setType(UPDATE);
-            resultEvent.setWorld(gameWorld);
-
-            LOG.debug("broadcasting gameworld... {}", event.getWorldId());
-            broadcastWorld(session, resultEvent);
-        }
-    }
-
-    public void broadcastWorld(Session session, WorldEvent world) {
-        try {
-            session.getRemote().sendString(JsonUtil.toJson(world));
-        } catch (Exception e) {
-            e.printStackTrace();
+           engine.addEvent(event);
         }
     }
 }

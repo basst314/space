@@ -1,5 +1,10 @@
-apply plugin: 'java'
-apply plugin: 'application'
+plugins {
+	id 'java'
+	id 'jacoco'
+	id 'application'
+	id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
 
 group 'com.space.server'
 version '1.0.0-SNAPSHOT'
@@ -31,6 +36,13 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:3.5.2'
 	testCompile 'org.mockito:mockito-core:2.2.5'
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true // coveralls plugin depends on xml format report
+		html.enabled = true
+	}
 }
 
 task fatJar(type: Jar) {

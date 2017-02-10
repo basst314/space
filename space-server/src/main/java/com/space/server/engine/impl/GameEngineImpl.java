@@ -40,9 +40,6 @@ public class GameEngineImpl implements GameEngine {
     private WorldDao worldDao;
 
     @Autowired
-    private EmbeddedDatabase db;
-
-    @Autowired
     private WorldEventProcessorImpl processor;
 
     private Map<Integer,SpacePlayer> activePlayer = new HashMap<>();
@@ -171,10 +168,14 @@ public class GameEngineImpl implements GameEngine {
         return player;
     }
 
+    @Autowired
+    private EmbeddedDatabase db;
+
     @Override
     public void shutdownDatabase(){
         db.shutdown();
     }
+
 
     void setWorldDao(WorldDao dao){
         worldDao = dao;
