@@ -41,19 +41,13 @@ public class JdbcWorldDao implements WorldDao{
 
     }
 
+    void setJdbcTemplate(JdbcTemplate template){
+        jdbcTemplate = template;
+    }
+
     @Override
     public SpaceWorld loadWorld(int worldId) {
-        List<SpaceWorld> worlds = this.jdbcTemplate.query("select worldid, startstep, startsegment, content from SPACE_WORLD where WORLDID = "+ worldId,
-                new RowMapper<SpaceWorld>() {
-                    public SpaceWorld mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        SpaceWorld world = utils.createWorldFromString(rs.getString("content"));
-                        world.setStartStep(rs.getInt("startstep"));
-                        world.setStartSegment(rs.getInt("startsegment"));
-                        world.setWorldId(rs.getInt("worldid"));
-                        return world;
-                    }
-                });
-
+        List<SpaceWorld> worlds = this.jdbcTemplate.query("select worldid, startstep, startsegment, content from SPACE_WORLD where WORLDID = "+ worldId, new WorldRowMapper() );
         return worlds.get(0);
     }
 
@@ -69,16 +63,22 @@ public class JdbcWorldDao implements WorldDao{
 
     @Override
     public SpaceWorld getWorld(int worldId) {
-        List<SpaceWorld> worlds = this.jdbcTemplate.query("select worldid, startstep, startsegment, content from SPACE_WORLD where WORLDID = "+ worldId,
-                new RowMapper<SpaceWorld>() {
-                    public SpaceWorld mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        SpaceWorld world = utils.createWorldFromString(rs.getString("content"));
-                        world.setStartStep(rs.getInt("startstep"));
-                        world.setStartSegment(rs.getInt("startsegment"));
-                        world.setWorldId(rs.getInt("worldid"));
-                        return world;
-                    }
-                });
+        //TODO implement World cache
+        List<SpaceWorld> worlds = this.jdbcTemplate.query("select worldid, startstep, startsegment, content from SPACE_WORLD where WORLDID = "+ worldId, new WorldRowMapper());
         return worlds.get(0);
+    }
+
+    public void setUtils(StepUtils utils) {
+        this.utils = utils;
+    }
+
+    class WorldRowMapper implements RowMapper<SpaceWorld> {
+        public SpaceWorld mapRow(ResultSet rs, int rowNum) throws SQLException {
+            SpaceWorld world = utils.createWorldFromString(rs.getString("content"));
+            world.setStartStep(rs.getInt("startstep"));
+            world.setStartSegment(rs.getInt("startsegment"));
+            world.setWorldId(rs.getInt("worldid"));
+            return world;
+        }
     }
 }

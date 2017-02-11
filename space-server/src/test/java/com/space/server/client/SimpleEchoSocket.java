@@ -23,6 +23,10 @@ public class SimpleEchoSocket {
     @SuppressWarnings("unused")
     private Session session;
 
+    public Integer playerId;
+
+    public Integer worldId;
+
     public SimpleEchoSocket() {
         this.closeLatch = new CountDownLatch(1);
     }
@@ -47,8 +51,8 @@ public class SimpleEchoSocket {
 
             WorldEvent event = new WorldEventImpl();
             event.setType(WorldEventType.START);
-            event.setWorldId(0);
-            event.setPlayerId(0);
+            event.setWorldId(worldId);
+            event.setPlayerId(playerId);
 
             session.getRemote().sendString(JsonUtil.toJson(event));
 

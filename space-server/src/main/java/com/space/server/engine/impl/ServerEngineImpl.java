@@ -79,13 +79,9 @@ public class ServerEngineImpl implements ServerEngine{
                 LOG.debug("Steping world ....");
                 // step world one step
                 b.getEngine().stepWorld(b.getWorldId());
-                SpaceWorld world = engine.getWorld(b.getWorldId());
-                World gameWorld = new World(world.getSegment(0).getContent());
-                WorldEvent resultEvent = new WorldEventImpl();
-                resultEvent.setPlayerId(b.getPlayerId());
-                resultEvent.setWorldId(b.getWorldId());
-                resultEvent.setType(UPDATE);
-                resultEvent.setWorld(gameWorld);
+
+                // create result for client
+                WorldEvent resultEvent = b.createWorldEvent();
 
                 // broadcast to all players
                 Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
@@ -93,7 +89,7 @@ public class ServerEngineImpl implements ServerEngine{
                     for (Integer playerIdRunnable : playerSetRunnable ) {
                         LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
                         Session playerSession = playerSessionMap.get(playerIdRunnable);
-                        playerSession.getRemote().sendString(JsonUtil.toJson(resultEvent));
+                        b.broadcast(playerSession,resultEvent);
                         LOG.debug(JsonUtil.toJson(resultEvent));
                     }
                 } catch (IOException e) {
