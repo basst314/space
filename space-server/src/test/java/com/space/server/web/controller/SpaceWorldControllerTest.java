@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import com.space.server.core.World;
 import com.space.server.web.SpaceStarterWeb;
 import com.space.server.web.util.SpringStarter;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import spark.Request;
@@ -25,6 +26,11 @@ public class SpaceWorldControllerTest {
     @Before
     public void setup(){
         SpaceStarterWeb.engine = starter.startSpringGameEngine();
+    }
+
+    @After
+    public void shutdown(){
+        SpaceStarterWeb.engine.shutdownDatabase();
     }
 
     /**
