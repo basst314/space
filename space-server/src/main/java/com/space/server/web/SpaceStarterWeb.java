@@ -66,8 +66,6 @@ public class SpaceStarterWeb {
 			response.type("application/json");
 		});
 
-		get(Path.Api.WORLD, SpaceWorldController.world, json());
-
 		get(Path.Api.SPACE, SpaceWorldController.space, json());
 
 		get(Path.Api.DOUBLE_SPACE, SpaceWorldController.doublespace, json());

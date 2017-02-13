@@ -9,15 +9,10 @@ import com.space.server.web.SpaceStarterWeb;
 import spark.Route;
 
 /**
- * Actions for REST integration
+ * Actions for REST integration. All operation are executed against playerId == 0 and worldId == 0
  * Created by Markus Oppeneiger on 20.10.2016.
  */
 public class SpaceWorldController {
-
-	public static Route world = (request, response) -> {
-		SpaceWorld world = SpaceStarterWeb.engine.getWorld(0);
-		return new World(world.getSegment(0).getContent());
-	};
 
 	public static Route space = (request, response) -> {
 		WorldEvent space = new WorldEventImpl();
