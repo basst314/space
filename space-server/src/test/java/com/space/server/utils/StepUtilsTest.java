@@ -1,4 +1,4 @@
-package com.space.server;
+package com.space.server.utils;
 
 import com.space.server.domain.api.Direction;
 import com.space.server.domain.api.SpacePlayer;

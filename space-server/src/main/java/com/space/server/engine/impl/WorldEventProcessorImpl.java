@@ -51,7 +51,9 @@ class WorldEventProcessorImpl implements WorldEventProcessor {
                 if (++i < inv.size()){
                     player.setActiveItem(i);
                 } else {
-                    player.setActiveItem(0);
+                    if (inv.size() > 0) {
+                        player.setActiveItem(0);
+                    }
                 }
             } else if (event.getType().equals(WorldEventType.SPACE)) {
 

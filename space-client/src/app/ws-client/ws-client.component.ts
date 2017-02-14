@@ -16,6 +16,8 @@ import { WorldEventType, WebSocketEvent } from '../domain/WebSocketEvent';
   ]
 })
 export class WsClientComponent implements OnInit {
+  public playerId: number = 0;
+  public worldId: number = 0;
   public world: SpaceWorld;
   public msgs: string[] = [];
 
@@ -31,7 +33,7 @@ export class WsClientComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.startGame();
+    // this.startGame();
   }
 
   public stepWorld(): void {
@@ -51,7 +53,7 @@ export class WsClientComponent implements OnInit {
   }
 
   public startGame(): void {
-    this.log("starting game...");
+    this.log("starting game... playerId: " + this.playerId + ", worldId: " + this.worldId);
     this.spaceDebugService.messages.next(this.getEvent('START'));
   }
 
@@ -68,11 +70,14 @@ export class WsClientComponent implements OnInit {
   }
 
   private getEvent(type: WorldEventType): WebSocketEvent {
-    return {
-      playerId: 0,
-      worldId: 0,
+    let event = {
+      playerId: this.playerId,
+      worldId: this.worldId,
       worldEventType: type
     };
+    console.debug("sending event:", event);
+
+    return event;
   }
 
 }

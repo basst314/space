@@ -38,10 +38,13 @@ public class ServerEngineImpl implements ServerEngine{
     @Autowired
     private GameEngine engine;
 
+    // Maps a Set of player ids to a worldId
     private Map<Integer, Set<Integer>> playerWorldMap = new ConcurrentHashMap<>();
 
+    // Maps a player id to a websocket session
     private Map<Integer, Session> playerSessionMap = new ConcurrentHashMap<>();
 
+    // Maps a world id to its broadcasting thread
     private Map<Integer, ScheduledFuture> worldFutureMap = new ConcurrentHashMap<>();
 
     private boolean checkGameStartedAlready(int worldId, int playerId){
@@ -79,13 +82,9 @@ public class ServerEngineImpl implements ServerEngine{
                 LOG.debug("Steping world ....");
                 // step world one step
                 b.getEngine().stepWorld(b.getWorldId());
-                SpaceWorld world = engine.getWorld(b.getWorldId());
-                World gameWorld = new World(world.getSegment(0).getContent());
-                WorldEvent resultEvent = new WorldEventImpl();
-                resultEvent.setPlayerId(b.getPlayerId());
-                resultEvent.setWorldId(b.getWorldId());
-                resultEvent.setType(UPDATE);
-                resultEvent.setWorld(gameWorld);
+
+                // create result for client
+                WorldEvent resultEvent = b.createWorldEvent();
 
                 // broadcast to all players
                 Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
@@ -93,7 +92,7 @@ public class ServerEngineImpl implements ServerEngine{
                     for (Integer playerIdRunnable : playerSetRunnable ) {
                         LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
                         Session playerSession = playerSessionMap.get(playerIdRunnable);
-                        playerSession.getRemote().sendString(JsonUtil.toJson(resultEvent));
+                        b.broadcast(playerSession,resultEvent);
                         LOG.debug(JsonUtil.toJson(resultEvent));
                     }
                 } catch (IOException e) {
@@ -113,7 +112,7 @@ public class ServerEngineImpl implements ServerEngine{
      }
 
     @Override
-    public  void addEvent(WorldEvent event ){
+    public void addEvent(WorldEvent event ){
         SpaceWorld world = engine.getWorld(event.getWorldId());
         world.addEvent(event);
     }
@@ -147,4 +146,25 @@ public class ServerEngineImpl implements ServerEngine{
     public void shutdownDatabase(){
         engine.shutdownDatabase();
     }
+
+    public void setScheduledExecutorService(ScheduledExecutorService scheduledExecutorService) {
+        this.scheduledExecutorService = scheduledExecutorService;
+    }
+
+    public void setEngine(GameEngine engine) {
+        this.engine = engine;
+    }
+
+    public Map<Integer, Set<Integer>> getPlayerWorldMap() {
+        return playerWorldMap;
+    }
+
+    public Map<Integer, Session> getPlayerSessionMap() {
+        return playerSessionMap;
+    }
+
+    public Map<Integer, ScheduledFuture> getWorldFutureMap() {
+        return worldFutureMap;
+    }
+
 }
