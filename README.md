@@ -65,7 +65,7 @@ An example game world might look something like this:
 
 ## Milestones
 
-### #1 Siam Cat
+### #1 Siam Cat [[released](https://github.com/basst314/space/releases/tag/v0.1.0)]
 - Find following Milestone Name
 - A game-world can be generated and displayed (Server-Client-Roundtrip over Network)
 - World is persistent for one game session
