@@ -37,9 +37,6 @@ public class SpaceStarterWeb {
 		staticFiles.location("/static");
 		staticFiles.expireTime(600L);
 
-		// start game for dummy player
-		//engine.startGame(0,0);
-
 		// allow requests from every domain
 		options("/*",
 				(request, response) -> {
