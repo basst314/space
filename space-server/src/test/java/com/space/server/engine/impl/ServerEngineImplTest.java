@@ -146,6 +146,7 @@ public class ServerEngineImplTest {
 
         // create broadcaster
         Broadcaster b = mock(Broadcaster.class);
+        when(b.createWorldEvent()).thenReturn(mock(WorldEvent.class));
         when(b.getEngine()).thenReturn(gameEngine);
         runner.setBroadCaster(b);
 

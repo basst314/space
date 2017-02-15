@@ -7,8 +7,6 @@ package com.space.server.web.util;
 public class Path {
 
 	public static class Api {
-		public static final String WORLD = "/api/world";
-
 		public static final String SPACE = "/api/space";
 
 		public static final String DOUBLE_SPACE = "/api/doublespace";
