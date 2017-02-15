@@ -1,13 +1,10 @@
 package com.space.server.web;
 
 import com.google.gson.Gson;
-import com.space.server.core.World;
-import com.space.server.domain.api.SpaceWorld;
-import com.space.server.engine.api.GameEngine;
+import com.space.server.engine.api.ServerEngine;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.impl.ServerEngineImpl;
 import com.space.server.engine.impl.WorldEventImpl;
-import com.space.server.web.util.JsonUtil;
 import com.space.server.web.util.SpringStarter;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -29,12 +26,14 @@ import static com.space.server.engine.api.WorldEventType.*;
 public class SpaceWebsocketHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpaceWebsocketHandler.class);
-    public ServerEngineImpl engine = new SpringStarter().startSpringContext();
+    private ServerEngine engine;
     private Gson gson = new Gson();
 
-    public void setGameEngine(ServerEngineImpl newEngine){
+    public void setServerEngine(ServerEngine newEngine){
         engine = newEngine;
     }
+
+    public ServerEngine getEngine(){ return engine;}
 
     @OnWebSocketConnect
     public void onConnect(Session session) throws IOException, InterruptedException {
@@ -48,6 +47,10 @@ public class SpaceWebsocketHandler {
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws IOException {
+        if (engine == null) {
+            engine = new SpringStarter().startSpringContext();
+        }
+
         WorldEvent event = gson.fromJson(message, WorldEventImpl.class);
         LOG.debug("received event: {}", event.getType());
 

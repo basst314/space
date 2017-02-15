@@ -52,6 +52,35 @@ public class ServerEngineImpl implements ServerEngine{
         return players != null && players.contains(playerId);
     }
 
+    class Runner implements  Runnable {
+
+        private Broadcaster b;
+
+        public void setBroadCaster(Broadcaster broad) { b = broad; };
+
+        public void run(){
+            LOG.debug("Steping world ....");
+            // step world one step
+            b.getEngine().stepWorld(b.getWorldId());
+
+            // create result for client
+            WorldEvent resultEvent = b.createWorldEvent();
+
+            // broadcast to all players
+            Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
+            try {
+                for (Integer playerIdRunnable : playerSetRunnable ) {
+                    LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
+                    Session playerSession = playerSessionMap.get(playerIdRunnable);
+                    b.broadcast(playerSession,resultEvent);
+                    LOG.debug(JsonUtil.toJson(resultEvent));
+                }
+            } catch (IOException e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }
+    }
+
     @Override
     public void startGame(int worldId,int playerId, Session session) {
 
@@ -77,30 +106,11 @@ public class ServerEngineImpl implements ServerEngine{
             b.setWorldId(worldId);
             b.setEngine(engine);
 
-            Runnable r = () -> {
+            Runner runner = new Runner();
+            runner.setBroadCaster(b);
 
-                LOG.debug("Steping world ....");
-                // step world one step
-                b.getEngine().stepWorld(b.getWorldId());
 
-                // create result for client
-                WorldEvent resultEvent = b.createWorldEvent();
-
-                // broadcast to all players
-                Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
-                try {
-                    for (Integer playerIdRunnable : playerSetRunnable ) {
-                        LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
-                        Session playerSession = playerSessionMap.get(playerIdRunnable);
-                        b.broadcast(playerSession,resultEvent);
-                        LOG.debug(JsonUtil.toJson(resultEvent));
-                    }
-                } catch (IOException e) {
-                    LOG.error(e.getMessage(),e);
-                }
-            };
-
-            ScheduledFuture future = scheduledExecutorService.scheduleAtFixedRate(r , 3, 1000L, TimeUnit.MILLISECONDS);
+            ScheduledFuture future = scheduledExecutorService.scheduleAtFixedRate(runner , 3, 1000L, TimeUnit.MILLISECONDS);
 
             // register world, player, future and session
             Set<Integer> newPlayerSet = new HashSet<>();

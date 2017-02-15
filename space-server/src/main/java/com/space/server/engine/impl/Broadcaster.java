@@ -8,6 +8,7 @@ import com.space.server.web.util.JsonUtil;
 import org.eclipse.jetty.websocket.api.Session;
 
 import java.io.IOException;
+import java.util.Set;
 
 import static com.space.server.engine.api.WorldEventType.UPDATE;
 
@@ -57,7 +58,7 @@ public class Broadcaster {
         return resultEvent;
     }
 
-    public void broadcast(Session playerSession, WorldEvent resultEvent) throws IOException{
+    public void broadcast(Session playerSession, WorldEvent resultEvent) throws IOException {
         playerSession.getRemote().sendString(JsonUtil.toJson(resultEvent));
     }
 }

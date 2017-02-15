@@ -131,4 +131,30 @@ public class ServerEngineImplTest {
         assertTrue(serverEngine.getPlayerSessionMap().size() == 2);
     }
 
+    @Test
+    public void testRunner() throws Exception {
+        ServerEngineImpl.Runner runner = serverEngine.new Runner();
+
+        // player in world 0
+        Set<Integer> player = new HashSet<>();
+        player.add(0);
+        serverEngine.getPlayerWorldMap().put(0, player);
+
+        serverEngine.getWorldFutureMap().put(0, mock(ScheduledFuture.class));
+        serverEngine.getPlayerSessionMap().put(0, mock(Session.class));
+
+        // create broadcaster
+        Broadcaster b = mock(Broadcaster.class);
+        when(b.createWorldEvent()).thenReturn(new WorldEventImpl() {
+        });
+        when(b.getEngine()).thenReturn(gameEngine);
+        runner.setBroadCaster(b);
+
+        // broadcast
+        runner.run();
+
+        // world has been broadcast by the runner to two players
+        verify(b, times(1)).broadcast(any(Session.class), any(WorldEvent.class));
+    }
+
 }
