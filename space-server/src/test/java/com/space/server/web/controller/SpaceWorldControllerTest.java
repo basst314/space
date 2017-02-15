@@ -13,6 +13,7 @@ import org.junit.Test;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Spark;
 
 /**
  * Created by superernie77 on 13.02.2017.
@@ -25,11 +26,13 @@ public class SpaceWorldControllerTest {
 
     @Before
     public void setup(){
+
         SpaceStarterWeb.engine = starter.startSpringGameEngine();
     }
 
     @After
     public void shutdown(){
+
         SpaceStarterWeb.engine.shutdownDatabase();
     }
 
@@ -41,8 +44,8 @@ public class SpaceWorldControllerTest {
     @Test
     public void testRestMethods() throws Exception {
 
-        Request request = mock(Request.class);
-        Response response = mock(Response.class);
+        Request request = null;
+        Response response = null;
 
         World world = (World)controller.start.handle(request, response);
 

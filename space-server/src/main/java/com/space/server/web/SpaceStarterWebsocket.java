@@ -1,6 +1,7 @@
 package com.space.server.web;
 
 import org.eclipse.jetty.websocket.api.Session;
+import spark.Spark;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,12 +15,10 @@ import static spark.Spark.*;
 
 public class SpaceStarterWebsocket {
 
-    // maps the websocket session against the space player id
-    static Map<Session, Integer> userUsernameMap = new ConcurrentHashMap<>();
+    public static int port = 8080;
 
     public static void main(String[] args) {
 
-        int port = 8080;
         if (args.length > 0) {
            port = Integer.parseInt(args[0]);
         }
@@ -32,5 +31,6 @@ public class SpaceStarterWebsocket {
 	    webSocket("/api", SpaceWebsocketHandler.class);
 
         init();
+
     }
 }
