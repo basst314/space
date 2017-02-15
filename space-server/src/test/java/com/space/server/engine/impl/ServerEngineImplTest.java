@@ -135,10 +135,9 @@ public class ServerEngineImplTest {
     public void testRunner() throws Exception {
         ServerEngineImpl.Runner runner = serverEngine.new Runner();
 
-        // two players in world 0
+        // player in world 0
         Set<Integer> player = new HashSet<>();
         player.add(0);
-        player.add(1);
         serverEngine.getPlayerWorldMap().put(0, player);
 
         serverEngine.getWorldFutureMap().put(0, mock(ScheduledFuture.class));
@@ -146,7 +145,8 @@ public class ServerEngineImplTest {
 
         // create broadcaster
         Broadcaster b = mock(Broadcaster.class);
-        when(b.createWorldEvent()).thenReturn(mock(WorldEvent.class));
+        when(b.createWorldEvent()).thenReturn(new WorldEventImpl() {
+        });
         when(b.getEngine()).thenReturn(gameEngine);
         runner.setBroadCaster(b);
 
@@ -154,7 +154,7 @@ public class ServerEngineImplTest {
         runner.run();
 
         // world has been broadcast by the runner to two players
-        verify(b, times(2)).broadcast(any(Session.class), any(WorldEvent.class));
+        verify(b, times(1)).broadcast(any(Session.class), any(WorldEvent.class));
     }
 
 }
