@@ -1,11 +1,11 @@
 package com.space.server.dao.impl;
 
 import com.space.server.dao.api.WorldDao;
-import com.space.server.domain.api.SpacePlayer;
+import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpaceWorld;
+import com.space.server.domain.impl.SimpleSegment;
 import com.space.server.domain.impl.SimpleWorldImpl;
-import com.space.server.domain.impl.SpacePlayerImpl;
-import com.space.server.utils.StepUtils;
+import com.space.server.utils.SpaceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -34,7 +34,7 @@ public class JdbcWorldDao implements WorldDao{
     }
 
     @Autowired
-    private StepUtils utils;
+    private SpaceUtils utils;
 
     @Override
     public void saveWorld(SpaceWorld world) {
@@ -53,32 +53,46 @@ public class JdbcWorldDao implements WorldDao{
 
     @Override
     public List<SpaceWorld> getWorldsByPlayerId(int playerId) {
-        return Arrays.asList(utils.createWorldFromString(dummyWorld));
+        return null;
     }
 
     @Override
     public List<SpaceWorld> getWorlds() {
-        return Arrays.asList(utils.createWorldFromString(dummyWorld));
+        return null;
     }
 
     @Override
     public SpaceWorld getWorld(int worldId) {
-        //TODO implement World cache
-        List<SpaceWorld> worlds = this.jdbcTemplate.query("select worldid, startstep, startsegment, content from SPACE_WORLD where WORLDID = "+ worldId, new WorldRowMapper());
-        return worlds.get(0);
+
+        List<SpaceWorld> worlds = this.jdbcTemplate.query("select worldid, startstep, startsegment from SPACE_WORLD where WORLDID = "+ worldId, new WorldRowMapper());
+
+        SpaceWorld world = worlds.get(0);
+
+        List<Segment> segments = this.jdbcTemplate.query("select worldid, segmentid, content from segment where worldid = "+ worldId +" order by naturalorder", new SegmentRowMapper());
+
+        segments.stream().forEach(s -> world.addSegment(s) );
+
+        return world;
     }
 
-    public void setUtils(StepUtils utils) {
+    public void setUtils(SpaceUtils utils) {
         this.utils = utils;
     }
 
     class WorldRowMapper implements RowMapper<SpaceWorld> {
         public SpaceWorld mapRow(ResultSet rs, int rowNum) throws SQLException {
-            SpaceWorld world = utils.createWorldFromString(rs.getString("content"));
+            SpaceWorld world = new SimpleWorldImpl();
             world.setStartStep(rs.getInt("startstep"));
             world.setStartSegment(rs.getInt("startsegment"));
             world.setWorldId(rs.getInt("worldid"));
             return world;
+        }
+    }
+
+    class SegmentRowMapper implements RowMapper<Segment> {
+        public Segment mapRow(ResultSet rs, int rowNum) throws SQLException {
+            String content = rs.getString("content");
+            return utils.createSegmentFromString(content);
         }
     }
 }

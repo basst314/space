@@ -1,5 +1,6 @@
 package com.space.server.utils;
 
+import com.space.server.core.World;
 import com.space.server.domain.api.*;
 import com.space.server.domain.impl.BasicMonster;
 import com.space.server.domain.impl.BasicStep;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by superernie77 on 16.12.2016.
  */
 @Service
-public class StepUtils {
+public class SpaceUtils {
 
     /**
      * Moves a player one step in the direction of its move attribute
@@ -80,18 +81,14 @@ public class StepUtils {
     /**
      * Creates a SimpleSpaceWorld-Objekt from a string.
      * Resulting world string will have health values displayed in addition to the input string
-     * @param worldString the world string e.g. "H....W..M"
+     * @param segmentstring the world string e.g. "H....W..M"
      * @return objekt representation of the string
      */
-    public SpaceWorld createWorldFromString(String worldString) {
-        SimpleWorldImpl world = new SimpleWorldImpl();
-        world.setWorldId(0);
+    public Segment createSegmentFromString(String segmentstring) {
 
         SimpleSegment segment = new SimpleSegment();
 
-        world.addSegment(segment);
-
-        String[] chars = worldString.split("");
+        String[] chars = segmentstring.split("");
 
         List<String> worldChars = Arrays.asList(chars);
 
@@ -110,6 +107,17 @@ public class StepUtils {
             segment.addStep(step);
         }
 
+        return segment;
+    }
+
+    public SpaceWorld createWorldWithSingleSegment(String segmentstring){
+        SpaceWorld world = new SimpleWorldImpl();
+
+        world.setWorldId(0);
+        world.addSegment(createSegmentFromString(segmentstring));
+
         return world;
     }
+
+
 }

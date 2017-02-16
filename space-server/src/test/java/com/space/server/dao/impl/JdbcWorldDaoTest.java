@@ -2,10 +2,11 @@ package com.space.server.dao.impl;
 
 import static org.mockito.Mockito.*;
 
-import com.space.server.dao.impl.JdbcWorldDao;
+import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpaceWorld;
+import com.space.server.domain.impl.SimpleSegment;
 import com.space.server.domain.impl.SimpleWorldImpl;
-import com.space.server.utils.StepUtils;
+import com.space.server.utils.SpaceUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,18 +26,19 @@ public class JdbcWorldDaoTest {
 
     private JdbcWorldDao dao;
 
-    private StepUtils utils;
+    private SpaceUtils utils;
 
     @Before
     public void setup(){
         dao = new JdbcWorldDao();
 
-        utils = mock(StepUtils.class);
+        utils = mock(SpaceUtils.class);
 
         JdbcTemplate template = Mockito.mock(JdbcTemplate.class);
-        List<Object> worlds = new ArrayList<>();
+        List<SpaceWorld> worlds = new ArrayList<>();
         worlds.add(mock(SpaceWorld.class));
-        when(template.query(Mockito.anyString(), any(RowMapper.class))).thenReturn(worlds);
+        when(template.query(Mockito.anyString(), any(JdbcWorldDao.WorldRowMapper.class))).thenReturn(worlds);
+
 
         dao.setUtils(utils);
         dao.setJdbcTemplate(template);
@@ -55,20 +57,32 @@ public class JdbcWorldDaoTest {
     }
 
     @Test
-    public void testRowMapper() throws SQLException {
+    public void testWorldRowMapper() throws SQLException {
         JdbcWorldDao.WorldRowMapper mapper = dao.new WorldRowMapper();
 
         ResultSet rs = mock(ResultSet.class);
         when(rs.getInt("startstep")).thenReturn(1);
         when(rs.getInt("startsegment")).thenReturn(5);
         when(rs.getInt("worldid")).thenReturn(2);
-        when(rs.getString("content")).thenReturn("H...W");
-        when(utils.createWorldFromString(anyString())).thenReturn(new SimpleWorldImpl());
+        when(utils.createWorldWithSingleSegment(anyString())).thenReturn(new SimpleWorldImpl());
 
         SpaceWorld world = mapper.mapRow(rs, 0);
 
         Assert.assertTrue(world.getStartStep() == 1);
         Assert.assertTrue(world.getStartSegment() == 5);
         Assert.assertTrue(world.getWorldId() == 2);
+    }
+
+    @Test
+    public void testSegmentRowMapper() throws SQLException {
+        JdbcWorldDao.SegmentRowMapper mapper = dao.new SegmentRowMapper();
+
+        ResultSet rs = mock(ResultSet.class);
+        when(rs.getString("content")).thenReturn(".....");
+        when(utils.createSegmentFromString(anyString())).thenReturn(new SimpleSegment());
+
+        Segment segment = mapper.mapRow(rs, 0);
+
+        Assert.assertNotNull(segment);
     }
 }

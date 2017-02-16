@@ -8,7 +8,7 @@ import com.space.server.domain.api.SpaceWorld;
 import com.space.server.domain.impl.SpacePlayerImpl;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
-import com.space.server.utils.StepUtils;
+import com.space.server.utils.SpaceUtils;
 import com.space.server.web.util.SpringStarter;
 import org.junit.After;
 import org.junit.Assert;
@@ -36,7 +36,7 @@ public class ExampleWorldTest {
 
     private WorldEventProcessorImpl processor;
 
-    private StepUtils utils = new StepUtils();
+    private SpaceUtils utils = new SpaceUtils();
 
     private SpringStarter starter = new SpringStarter();
 
@@ -72,7 +72,7 @@ public class ExampleWorldTest {
     @Test
     public void testHeroMovement(){
 
-        exampleWorld = utils.createWorldFromString("........W........M");
+        exampleWorld = utils.createWorldWithSingleSegment("........W........M");
 
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
 
@@ -94,7 +94,7 @@ public class ExampleWorldTest {
 
     @Test
     public void testMoveBackwards(){
-        exampleWorld = utils.createWorldFromString("......");
+        exampleWorld = utils.createWorldWithSingleSegment("......");
 
         exampleWorld.setStartSegment(0);
         exampleWorld.setStartStep(5);
@@ -115,7 +115,7 @@ public class ExampleWorldTest {
 
     @Test
     public void testMoveBackwardsWithWeapon() {
-        exampleWorld = utils.createWorldFromString("....W.");
+        exampleWorld = utils.createWorldWithSingleSegment("....W.");
 
         exampleWorld.setStartSegment(0);
         exampleWorld.setStartStep(5); // ....WH
@@ -147,7 +147,7 @@ public class ExampleWorldTest {
 
     @Test
     public void testTakeWeapon(){
-        exampleWorld = utils.createWorldFromString("...W");
+        exampleWorld = utils.createWorldWithSingleSegment("...W");
 
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
 
@@ -172,7 +172,7 @@ public class ExampleWorldTest {
 
     @Test
     public void testTakeWeaponHitMonster(){
-        exampleWorld = utils.createWorldFromString("...WM");
+        exampleWorld = utils.createWorldWithSingleSegment("...WM");
 
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
 
@@ -210,7 +210,7 @@ public class ExampleWorldTest {
     @Test
     public void testTakeWeaponHitEmpty() {
         String worldwithhero;
-        exampleWorld = utils.createWorldFromString("..W..");
+        exampleWorld = utils.createWorldWithSingleSegment("..W..");
 
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
 

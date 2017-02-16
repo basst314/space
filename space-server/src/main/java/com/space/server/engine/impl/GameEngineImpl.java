@@ -8,7 +8,7 @@ import com.space.server.domain.api.SpaceWorld;
 import com.space.server.domain.api.Step;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
-import com.space.server.utils.StepUtils;
+import com.space.server.utils.SpaceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * Implementation of the GameEngine. Starts new games and stops running games.
@@ -31,7 +30,7 @@ public class GameEngineImpl implements GameEngine {
     private static final Logger LOG = LoggerFactory.getLogger(GameEngineImpl.class);
 
     @Autowired
-    private StepUtils stepUtils;
+    private SpaceUtils stepUtils;
 
     @Autowired
     private PlayerDao playerDao;

@@ -1,9 +1,6 @@
 package com.space.server.dao.impl;
 
 import com.space.server.domain.api.SpacePlayer;
-import com.space.server.domain.api.SpaceWorld;
-import com.space.server.domain.impl.SimpleWorldImpl;
-import com.space.server.utils.StepUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
