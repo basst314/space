@@ -3,10 +3,7 @@ package com.space.server.engine.impl;
 import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.*;
-import com.space.server.domain.impl.StepImpl;
-import com.space.server.domain.impl.DoorImpl;
-import com.space.server.domain.impl.Health;
-import com.space.server.domain.impl.SpacePlayerImpl;
+import com.space.server.domain.impl.*;
 import com.space.server.domain.items.impl.Sword;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
@@ -66,8 +63,7 @@ public class WorldEventProcessorTest {
         SpacePlayer player = new SpacePlayerImpl();
 
         Item one = new Sword();
-        Item two = new Sword();
-        two.setContent(")");
+        Item two = new Princess();
 
         player.addItem(one);
         player.addItem(two);
@@ -76,7 +72,7 @@ public class WorldEventProcessorTest {
 
         processor.processEvents(java.util.Arrays.asList(event),player);
 
-        Assert.assertTrue(player.getActiveItem().getContent().equals(")"));
+        Assert.assertTrue(player.getActiveItem().getContent().equals("P"));
     }
 
     @Test
@@ -88,8 +84,7 @@ public class WorldEventProcessorTest {
         SpacePlayer player = new SpacePlayerImpl();
 
         Item one = new Sword();
-        Item two = new Sword();
-        two.setContent(")");
+        Item two = new Princess();
 
         player.addItem(one);
         player.addItem(two);
@@ -110,8 +105,7 @@ public class WorldEventProcessorTest {
         SpacePlayer player = new SpacePlayerImpl();
 
         Item one = new Sword();
-        Item two = new Sword();
-        two.setContent(")");
+        Item two = new Princess();
 
         player.addItem(one);
         player.addItem(two);

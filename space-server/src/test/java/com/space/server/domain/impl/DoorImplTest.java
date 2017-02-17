@@ -25,8 +25,6 @@ public class DoorImplTest {
     @Test
     public void testContent(){
         assertTrue(door.getContent().equals("D"));
-        door.setContent("W");
-        assertTrue(door.getContent().equals("W"));
     }
 
     @Test
