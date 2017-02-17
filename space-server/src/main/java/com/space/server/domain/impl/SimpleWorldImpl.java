@@ -1,6 +1,7 @@
 package com.space.server.domain.impl;
 
 import com.space.server.domain.api.Segment;
+import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.WorldEvent;
 
@@ -30,6 +31,11 @@ public class SimpleWorldImpl implements SpaceWorld {
     @Override
     public Integer getStartSegment() {
         return startSegment;
+    }
+
+    @Override
+    public List<Segment> getSegments() {
+        return segments;
     }
 
     @Override
@@ -86,5 +92,9 @@ public class SimpleWorldImpl implements SpaceWorld {
     @Override
     public List<WorldEvent> getEventsForPlayer(int playerId) {
         return events.stream().filter( e -> e.getPlayerId() == playerId).collect(Collectors.toList());
+    }
+
+    public SpacePlayer getPlayerById(int playerId){
+        return null;
     }
 }

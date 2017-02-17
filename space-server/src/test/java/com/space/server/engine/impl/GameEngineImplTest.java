@@ -83,13 +83,4 @@ public class GameEngineImplTest {
 
         verify(world).addEvent(event);
     }
-
-    @Test
-    public void testPersist(){
-        engine.startGame(1,1);
-
-        engine.persist(1);
-
-        verify(worldDao).saveWorld(world);
-    }
 }

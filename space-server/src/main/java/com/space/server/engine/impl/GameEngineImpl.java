@@ -147,15 +147,6 @@ public class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public void persist(Integer worldId) {
-        SpaceWorld world = activeWorlds.get(worldId);
-        if (world != null) {
-            worldDao.saveWorld(world);
-            LOG.debug("World (worldId {}) has been persisted.", worldId);
-        }
-    }
-
-    @Override
     public SpacePlayer getPlayer(Integer playerId) {
         SpacePlayer player = activePlayer.get(playerId);
         if (player == null) {

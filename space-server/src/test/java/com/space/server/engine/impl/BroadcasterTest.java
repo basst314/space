@@ -13,6 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by superernie77 on 10.02.2017.
  */
@@ -51,7 +54,12 @@ public class BroadcasterTest {
 
         SpaceWorld world = mock(SpaceWorld.class);
 
-        when(world.getSegment(0)).thenReturn(mock(Segment.class));
+        List<Segment> segments = new ArrayList<>();
+        Segment segment = mock(Segment.class);
+        when(segment.containsPlayer(anyInt())).thenReturn(true);
+        segments.add(segment);
+
+        when(world.getSegments()).thenReturn(segments);
 
         when(engine.getWorld(anyInt())).thenReturn(world);
 

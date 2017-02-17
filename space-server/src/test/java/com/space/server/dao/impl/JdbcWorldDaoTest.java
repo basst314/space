@@ -45,12 +45,6 @@ public class JdbcWorldDaoTest {
     }
 
     @Test
-    public void testLoadWorld(){
-        SpaceWorld world = dao.loadWorld(1);
-        Assert.assertNotNull(world);
-    }
-
-    @Test
     public void testGetWorld(){
         SpaceWorld world = dao.getWorld(1);
         Assert.assertNotNull(world);

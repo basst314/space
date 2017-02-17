@@ -1,10 +1,12 @@
 package com.space.server.domain.impl;
 
 import com.space.server.domain.api.Segment;
+import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.Step;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -14,12 +16,18 @@ import java.util.stream.Collectors;
  */
 public class SimpleSegment implements Segment {
 
-    List<Step> steps = new ArrayList<>(0);
+    private List<Step> steps = new ArrayList<>();
 
     @Override
     public String getContent() {
         String result = steps.stream().map(s -> s.getContent()).collect(Collectors.joining());
         return result;
+    }
+
+    @Override
+    public boolean containsPlayer(int playerId){
+        Optional<SpacePlayer> opt = steps.stream().flatMap(s -> s.getOverlays().stream() ).filter(o -> o instanceof SpacePlayer).map(p -> (SpacePlayer)p).filter(p -> p.getPlayerId() == playerId).findAny();
+        return opt.isPresent();
     }
 
     @Override
@@ -42,6 +50,4 @@ public class SimpleSegment implements Segment {
     public List<Step> getAllSteps(){
         return steps;
     }
-
-
 }

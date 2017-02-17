@@ -7,7 +7,7 @@ import com.space.server.domain.api.Step;
 /**
  * Created by superernie77 on 16.02.2017.
  */
-public class DoorImpl implements Door, Overlay {
+public class DoorImpl implements Door {
 
     private String content = "D";
 
@@ -15,7 +15,7 @@ public class DoorImpl implements Door, Overlay {
 
     private Step sourceStep;
 
-    public DoorImpl(Step target, Step source){
+    public DoorImpl(Step source, Step target ){
         targetStep = target;
         sourceStep = source;
     }

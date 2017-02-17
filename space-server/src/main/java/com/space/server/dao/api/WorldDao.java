@@ -10,18 +10,5 @@ import java.util.List;
  */
 public interface WorldDao {
 
-    void saveWorld(SpaceWorld world);
-
-    /**
-     * Load a world with given ID from the database
-     * @param worldId worldId to load
-     * @return loaded world
-     */
-    SpaceWorld loadWorld(int worldId);
-
-    List<SpaceWorld> getWorldsByPlayerId(int playerId);
-
-    List<SpaceWorld> getWorlds();
-
     SpaceWorld getWorld(int worldId);
 }

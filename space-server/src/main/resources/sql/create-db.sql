@@ -18,8 +18,8 @@ create table SEGMENT(
 create table SEGMENT_DOOR (
   segmentdoorid integer,
   worldid integer,
-  targetsegment integer,
   sourcesegment integer,
-  targetstep integer,
-  sourcestep integer
+  targetsegment integer,
+  sourcestep integer,
+  targetstep integer
 );

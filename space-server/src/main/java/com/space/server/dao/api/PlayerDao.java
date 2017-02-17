@@ -15,7 +15,4 @@ public interface PlayerDao {
      */
     SpacePlayer getPlayer(int playerId);
 
-
-    void savePlayer(SpacePlayer player);
-
 }

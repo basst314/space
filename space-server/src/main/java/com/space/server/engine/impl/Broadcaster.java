@@ -1,6 +1,7 @@
 package com.space.server.engine.impl;
 
 import com.space.server.core.World;
+import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
@@ -47,7 +48,8 @@ public class Broadcaster {
 
     public WorldEvent createWorldEvent(){
         SpaceWorld world = engine.getWorld(this.getWorldId());
-        World gameWorld = new World(world.getSegment(0).getContent());
+        Segment segmentwithplayer = world.getSegments().stream().filter( s -> s.containsPlayer(playerId)).findFirst().get();
+        World gameWorld = new World(segmentwithplayer.getContent());
 
         WorldEvent resultEvent = new WorldEventImpl();
         resultEvent.setPlayerId(this.getPlayerId());
