@@ -26,8 +26,4 @@ public class MonsterImpl implements Monster {
         return content + monsterHealth.getContent();
     }
 
-    @Override
-    public void setContent(String character) {
-        content = character;
-    }
 }

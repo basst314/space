@@ -17,11 +17,6 @@ public class Princess implements Item {
     }
 
     @Override
-    public void setContent(String character) {
-        content = character;
-    }
-
-    @Override
     public String getItemSymbol(Direction direction, ItemUsage usage) {
         return content;
     }

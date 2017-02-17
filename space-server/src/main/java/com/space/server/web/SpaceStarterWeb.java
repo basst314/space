@@ -1,7 +1,6 @@
 package com.space.server.web;
 
 import com.space.server.engine.api.GameEngine;
-import com.space.server.engine.api.ServerEngine;
 import com.space.server.web.controller.SpaceWorldController;
 import com.space.server.web.util.Filters;
 import com.space.server.web.util.Path;

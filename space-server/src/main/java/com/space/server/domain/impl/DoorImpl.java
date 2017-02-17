@@ -35,8 +35,4 @@ public class DoorImpl implements Door {
         return content;
     }
 
-    @Override
-    public void setContent(String character) {
-        content = character;
-    }
 }
