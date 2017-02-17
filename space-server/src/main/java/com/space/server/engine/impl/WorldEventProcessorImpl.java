@@ -111,7 +111,7 @@ class WorldEventProcessorImpl implements WorldEventProcessor {
                         Door  door = (Door) overlay;
 
                         player.getActiveStep().getOverlays().remove(player);
-                        if (player.getActiveStep().equals(door.getSourceStep())){
+                        if (nextStep.equals(door.getSourceStep())){
                             door.getTargetStep().addOverlay(player);
                             player.setActiveStep(door.getTargetStep());
                         } else {
