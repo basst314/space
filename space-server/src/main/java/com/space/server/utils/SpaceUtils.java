@@ -2,10 +2,7 @@ package com.space.server.utils;
 
 import com.space.server.core.World;
 import com.space.server.domain.api.*;
-import com.space.server.domain.impl.BasicMonster;
-import com.space.server.domain.impl.BasicStep;
-import com.space.server.domain.impl.SimpleSegment;
-import com.space.server.domain.impl.SimpleWorldImpl;
+import com.space.server.domain.impl.*;
 import com.space.server.domain.items.impl.Sword;
 import org.springframework.stereotype.Service;
 
@@ -100,7 +97,10 @@ public class SpaceUtils {
                 over = new Sword();
             } else if (tocken.equals("M")) {
                 over = new BasicMonster();
+            } else if (tocken.equals("P")){
+                over = new Princess();
             }
+
             if (over != null) {
                 step.addOverlay(over);
             }
