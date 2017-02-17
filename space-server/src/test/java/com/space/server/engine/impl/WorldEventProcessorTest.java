@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.*;
 import com.space.server.domain.impl.BasicStep;
+import com.space.server.domain.impl.DoorImpl;
 import com.space.server.domain.impl.Health;
 import com.space.server.domain.impl.SpacePlayerImpl;
 import com.space.server.domain.items.impl.Sword;
@@ -122,6 +123,8 @@ public class WorldEventProcessorTest {
         Assert.assertTrue(player.getActiveItem().getContent().equals("W"));
     }
 
+
+
     @Test
     public void testHitMonsterHealth2(){
         WorldEvent event = new WorldEventImpl();
@@ -200,5 +203,38 @@ public class WorldEventProcessorTest {
 
         // monster is not dead because player didn't have a weapon
         Assert.assertTrue(player.getActiveStep().next().getOverlays().size() == 1);
+    }
+
+    @Test
+    public void testUseDoor(){
+        WorldEvent event = new WorldEventImpl();
+        event.setType(WorldEventType.SPACE);
+
+        SpacePlayer player = new SpacePlayerImpl();
+
+        Step currentStep = new BasicStep();
+        Step nextStep = new BasicStep();
+
+        Step targetStepDoor = new BasicStep();
+
+        player.setActiveStep(currentStep);
+        currentStep.setNext(nextStep);
+
+        Door door = new DoorImpl(nextStep,targetStepDoor);
+        nextStep.addOverlay(door);
+
+        processor.processEvents(Arrays.asList(event),player);
+
+        // player on target step
+        Assert.assertTrue(targetStepDoor.getOverlays().size() == 1);
+
+        // player not on current step
+        Assert.assertTrue(currentStep.getOverlays().size() == 0);
+
+        // player has been moved
+        Assert.assertTrue(player.isMoved());
+
+
+
     }
 }

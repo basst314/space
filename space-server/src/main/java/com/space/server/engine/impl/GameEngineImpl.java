@@ -104,21 +104,21 @@ public class GameEngineImpl implements GameEngine {
         }
 
         // monster hit players
-        world.getSegment(0).getAllSteps().stream()
+        world.getSegments().stream().flatMap( s -> s.getAllSteps().stream())
                 .filter( s ->  s.isPlayerPresent())
                 .map( s -> s.getPlayers() )
                 .flatMap( p -> p.stream() )
                 .forEach(p -> stepUtils.monsterCombat(p.getActiveStep(), p));
 
         // remove dead players
-        world.getSegment(0).getAllSteps().stream()
+        world.getSegments().stream().flatMap( s -> s.getAllSteps().stream())
                 .filter( s ->  s.isPlayerPresent())
                 .map( s -> s.getPlayers() )
                 .flatMap( p -> p.stream() )
                 .forEach(p ->  { if (p.getHealth().isDead()) p.getActiveStep().getOverlays().remove(p); } );
 
         // move players
-        world.getSegment(0).getAllSteps().stream()
+        world.getSegments().stream().flatMap( s -> s.getAllSteps().stream())
                 .filter( s ->  s.isPlayerPresent())
                 .map( s -> s.getPlayers() )
                 .flatMap( p -> p.stream() )

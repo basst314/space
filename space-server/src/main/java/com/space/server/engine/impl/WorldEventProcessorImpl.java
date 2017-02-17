@@ -118,6 +118,7 @@ class WorldEventProcessorImpl implements WorldEventProcessor {
                             door.getSourceStep().addOverlay(player);
                             player.setActiveStep(door.getSourceStep());
                         }
+                        player.setMoved(true);
                     }
                 }
                 if (toRemove != null){
