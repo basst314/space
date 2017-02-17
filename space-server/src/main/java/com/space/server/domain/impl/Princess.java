@@ -23,6 +23,6 @@ public class Princess implements Item {
 
     @Override
     public String getItemSymbol(Direction direction, ItemUsage usage) {
-        return "P";
+        return content;
     }
 }

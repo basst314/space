@@ -1,6 +1,5 @@
 package com.space.server.utils;
 
-import com.space.server.core.World;
 import com.space.server.domain.api.*;
 import com.space.server.domain.impl.*;
 import com.space.server.domain.items.impl.Sword;
@@ -37,7 +36,7 @@ public class SpaceUtils {
         // move player in defined direction
         if (p.getDirection().equals(Direction.FORWARD)) {
             if (step.next() != null) {
-                if (!isMonsterOnStep(step.next())){
+                if (!isStepBlocked(step.next())){
                     step.getOverlays().remove(p);
                     step.next().addOverlay(p);
                     p.setActiveStep(step.next());
@@ -45,7 +44,7 @@ public class SpaceUtils {
             }
         } else if (p.getDirection().equals(Direction.BACKWARD)) {
             if (step.previous() != null) {
-                if (!isMonsterOnStep(step.previous())) {
+                if (!isStepBlocked(step.previous())) {
                     step.getOverlays().remove(p);
                     step.previous().addOverlay(p);
                     p.setActiveStep(step.previous());
@@ -62,17 +61,20 @@ public class SpaceUtils {
             previous.getOverlays().stream().filter( m -> m instanceof Monster).map( p -> (Monster)p).forEach( m -> player.getHealth().processHit());
         }
 
-
         // Monster hit from front
         Step next = current.next();
         if (next != null){
             next.getOverlays().stream().filter( m -> m instanceof Monster).map( p -> (Monster)p).forEach( m -> player.getHealth().processHit());
         }
-
     }
 
-    private boolean isMonsterOnStep(Step step){
-        return step.getOverlays().stream().anyMatch(  m -> m instanceof  Monster );
+    /**
+     * Checks if a blockable item is on the step
+     * @param step
+     * @return
+     */
+    private boolean isStepBlocked(Step step){
+        return step.getOverlays().stream().anyMatch(  o -> o instanceof  Blockable );
     }
 
     /**
@@ -83,20 +85,20 @@ public class SpaceUtils {
      */
     public Segment createSegmentFromString(String segmentstring) {
 
-        SimpleSegment segment = new SimpleSegment();
+        SegmentImpl segment = new SegmentImpl();
 
         String[] chars = segmentstring.split("");
 
         List<String> worldChars = Arrays.asList(chars);
 
         for (String tocken : worldChars) {
-            BasicStep step = new BasicStep();
+            StepImpl step = new StepImpl();
             Overlay over = null;
 
             if (tocken.equals("W")) {
                 over = new Sword();
             } else if (tocken.equals("M")) {
-                over = new BasicMonster();
+                over = new MonsterImpl();
             } else if (tocken.equals("P")){
                 over = new Princess();
             }
@@ -111,7 +113,7 @@ public class SpaceUtils {
     }
 
     public SpaceWorld createWorldWithSingleSegment(String segmentstring){
-        SpaceWorld world = new SimpleWorldImpl();
+        SpaceWorld world = new SpaceWorldImpl();
 
         world.setWorldId(0);
         world.addSegment(createSegmentFromString(segmentstring));

@@ -3,7 +3,7 @@ package com.space.server.engine.impl;
 import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.*;
-import com.space.server.domain.impl.BasicStep;
+import com.space.server.domain.impl.StepImpl;
 import com.space.server.domain.impl.DoorImpl;
 import com.space.server.domain.impl.Health;
 import com.space.server.domain.impl.SpacePlayerImpl;
@@ -132,8 +132,8 @@ public class WorldEventProcessorTest {
 
         SpacePlayer player = new SpacePlayerImpl();
 
-        Step currentStep = new BasicStep();
-        Step nextStep = new BasicStep();
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
 
         player.setActiveStep(currentStep);
         player.addItem(new Sword());
@@ -162,8 +162,8 @@ public class WorldEventProcessorTest {
 
         SpacePlayer player = new SpacePlayerImpl();
 
-        Step currentStep = new BasicStep();
-        Step nextStep = new BasicStep();
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
 
         player.setActiveStep(currentStep);
         player.addItem(new Sword());
@@ -190,8 +190,8 @@ public class WorldEventProcessorTest {
 
         SpacePlayer player = new SpacePlayerImpl();
 
-        Step currentStep = new BasicStep();
-        Step nextStep = new BasicStep();
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
 
         player.setActiveStep(currentStep);
         currentStep.setNext(nextStep);
@@ -212,10 +212,10 @@ public class WorldEventProcessorTest {
 
         SpacePlayer player = new SpacePlayerImpl();
 
-        Step currentStep = new BasicStep();
-        Step nextStep = new BasicStep();
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
 
-        Step targetStepDoor = new BasicStep();
+        Step targetStepDoor = new StepImpl();
 
         player.setActiveStep(currentStep);
         currentStep.setNext(nextStep);

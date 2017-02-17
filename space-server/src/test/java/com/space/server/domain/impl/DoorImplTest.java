@@ -2,7 +2,6 @@ package com.space.server.domain.impl;
 
 import static org.junit.Assert.*;
 
-import com.space.server.domain.api.Door;
 import com.space.server.domain.api.Step;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +16,8 @@ public class DoorImplTest {
     @Before
     public void setup(){
 
-        Step step1 = new BasicStep();
-        Step step2 = new BasicStep();
+        Step step1 = new StepImpl();
+        Step step2 = new StepImpl();
 
         door = new DoorImpl(step1,step2);
     }

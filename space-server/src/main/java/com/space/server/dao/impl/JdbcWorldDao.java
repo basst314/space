@@ -6,8 +6,7 @@ import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.domain.api.Step;
 import com.space.server.domain.impl.DoorImpl;
-import com.space.server.domain.impl.SimpleSegment;
-import com.space.server.domain.impl.SimpleWorldImpl;
+import com.space.server.domain.impl.SpaceWorldImpl;
 import com.space.server.utils.SpaceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,7 +64,7 @@ public class JdbcWorldDao implements WorldDao{
 
     class WorldRowMapper implements RowMapper<SpaceWorld> {
         public SpaceWorld mapRow(ResultSet rs, int rowNum) throws SQLException {
-            SpaceWorld world = new SimpleWorldImpl();
+            SpaceWorld world = new SpaceWorldImpl();
             world.setStartStep(rs.getInt("startstep"));
             world.setStartSegment(rs.getInt("startsegment"));
             world.setWorldId(rs.getInt("worldid"));

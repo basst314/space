@@ -4,15 +4,14 @@ import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpaceWorld;
-import com.space.server.domain.impl.SimpleSegment;
-import com.space.server.domain.impl.SimpleWorldImpl;
+import com.space.server.domain.impl.SegmentImpl;
+import com.space.server.domain.impl.SpaceWorldImpl;
 import com.space.server.utils.SpaceUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,7 +57,7 @@ public class JdbcWorldDaoTest {
         when(rs.getInt("startstep")).thenReturn(1);
         when(rs.getInt("startsegment")).thenReturn(5);
         when(rs.getInt("worldid")).thenReturn(2);
-        when(utils.createWorldWithSingleSegment(anyString())).thenReturn(new SimpleWorldImpl());
+        when(utils.createWorldWithSingleSegment(anyString())).thenReturn(new SpaceWorldImpl());
 
         SpaceWorld world = mapper.mapRow(rs, 0);
 
@@ -73,7 +72,7 @@ public class JdbcWorldDaoTest {
 
         ResultSet rs = mock(ResultSet.class);
         when(rs.getString("content")).thenReturn(".....");
-        when(utils.createSegmentFromString(anyString())).thenReturn(new SimpleSegment());
+        when(utils.createSegmentFromString(anyString())).thenReturn(new SegmentImpl());
 
         Segment segment = mapper.mapRow(rs, 0);
 

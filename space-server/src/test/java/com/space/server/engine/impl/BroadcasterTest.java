@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpaceWorld;
-import com.space.server.domain.impl.SimpleWorldImpl;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;

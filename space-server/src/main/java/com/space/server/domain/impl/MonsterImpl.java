@@ -6,11 +6,11 @@ import com.space.server.domain.api.Monster;
  * Basic space monster
  * Created by superernie77 on 16.12.2016.
  */
-public class BasicMonster implements Monster {
+public class MonsterImpl implements Monster {
 
     private Health monsterHealth;
 
-    public BasicMonster(){
+    public MonsterImpl(){
         monsterHealth = new Health();
         monsterHealth.setHealth(1);
     }

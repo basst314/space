@@ -9,7 +9,7 @@ import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.domain.api.Step;
-import com.space.server.domain.impl.BasicStep;
+import com.space.server.domain.impl.StepImpl;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import org.junit.Assert;
@@ -51,7 +51,7 @@ public class GameEngineImplTest {
         Segment seg = mock(Segment.class);
         when(world.getSegment(0)).thenReturn(seg);
 
-        Step step = new BasicStep();
+        Step step = new StepImpl();
         when(seg.getStep(0)).thenReturn(step);
     }
 

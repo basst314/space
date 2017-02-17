@@ -1,8 +1,8 @@
 package com.space.server.utils;
 
 import com.space.server.domain.api.*;
-import com.space.server.domain.impl.BasicMonster;
-import com.space.server.domain.impl.BasicStep;
+import com.space.server.domain.impl.MonsterImpl;
+import com.space.server.domain.impl.StepImpl;
 import com.space.server.domain.impl.SpacePlayerImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,9 +27,9 @@ public class SpaceUtilsTest {
     public void setup(){
         utils = new SpaceUtils();
 
-        current = new BasicStep();
-        previous = new BasicStep();
-        next = new BasicStep();
+        current = new StepImpl();
+        previous = new StepImpl();
+        next = new StepImpl();
 
         player = new SpacePlayerImpl();
         player.setDirection(Direction.FORWARD);
@@ -54,7 +54,7 @@ public class SpaceUtilsTest {
     public void testMovePlayerOneStepBackwardsBlockedByMonster(){
 
         player.setDirection(Direction.BACKWARD);
-        previous.addOverlay(new BasicMonster());
+        previous.addOverlay(new MonsterImpl());
 
         utils.movePlayerOneStep(current);
 
@@ -66,7 +66,7 @@ public class SpaceUtilsTest {
     public void testMovePlayerOneStepBlockedByMonster(){
 
         player.setDirection(Direction.FORWARD);
-        next.addOverlay(new BasicMonster());
+        next.addOverlay(new MonsterImpl());
 
         utils.movePlayerOneStep(current);
 
@@ -90,7 +90,7 @@ public class SpaceUtilsTest {
     public void testMonsterCombatNextStep(){
 
         player.setDirection(Direction.FORWARD);
-        next.addOverlay(new BasicMonster());
+        next.addOverlay(new MonsterImpl());
 
         utils.monsterCombat(current,player);
 
@@ -102,7 +102,7 @@ public class SpaceUtilsTest {
     public void testMonsterCombatKillHero(){
 
         player.setDirection(Direction.FORWARD);
-        next.addOverlay(new BasicMonster());
+        next.addOverlay(new MonsterImpl());
 
         // hero hit 3 times
         utils.monsterCombat(current,player);
@@ -117,7 +117,7 @@ public class SpaceUtilsTest {
     public void testMonsterCombatPreviousStep(){
 
         player.setDirection(Direction.FORWARD);
-        previous.addOverlay(new BasicMonster());
+        previous.addOverlay(new MonsterImpl());
 
         utils.monsterCombat(current,player);
 

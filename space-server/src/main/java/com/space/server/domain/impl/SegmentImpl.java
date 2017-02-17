@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Segments can be connected to other segments.
  * Created by superernie77 on 04.12.2016.
  */
-public class SimpleSegment implements Segment {
+public class SegmentImpl implements Segment {
 
     private List<Step> steps = new ArrayList<>();
 

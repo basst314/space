@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * Basic implementation of the step interface
  * Created by superernie77 on 04.12.2016.
  */
-public class BasicStep implements Step {
+public class StepImpl implements Step {
 
     private String content = ".";
 
@@ -24,6 +24,13 @@ public class BasicStep implements Step {
 
     @Override
     public String getContent() {
+
+        // if a player is present => only display player
+        if (isPlayerPresent()){
+            return getPlayers().stream().limit(1).map( p -> p.getContent()).findFirst().get();
+        }
+
+        // otherwise display stuff
         if (overlays.size() > 0){
             return overlays.stream().map(s -> s.getContent()).collect(Collectors.joining());
         }
