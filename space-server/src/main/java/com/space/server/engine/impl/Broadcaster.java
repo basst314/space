@@ -7,6 +7,8 @@ import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.web.util.JsonUtil;
 import org.eclipse.jetty.websocket.api.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Set;
@@ -17,6 +19,8 @@ import static com.space.server.engine.api.WorldEventType.UPDATE;
  * Created by superernie77 on 02.02.2017.
  */
 public class Broadcaster {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Broadcaster.class);
 
     private int worldId;
 
@@ -52,6 +56,8 @@ public class Broadcaster {
     }
 
     public void broadcast(Session playerSession, WorldEvent resultEvent) throws IOException {
-        playerSession.getRemote().sendString(JsonUtil.toJson(resultEvent));
+        String result = JsonUtil.toJson(resultEvent);
+        playerSession.getRemote().sendString(result);
+        LOG.debug(result);
     }
 }

@@ -73,8 +73,9 @@ public class ServerEngineImpl implements ServerEngine{
                         WorldEvent resultEvent = b.createWorldEvent();
                         resultEvent.setPlayerId(playerIdRunnable);
                         Session playerSession = playerSessionMap.get(playerIdRunnable);
+                        LOG.debug("Player {] session {}", playerIdRunnable, playerSession.toString());
                         b.broadcast(playerSession,resultEvent);
-                        LOG.debug(JsonUtil.toJson(resultEvent));
+
                     }
                 } catch (IOException e) {
                     LOG.error(e.getMessage(), e);
