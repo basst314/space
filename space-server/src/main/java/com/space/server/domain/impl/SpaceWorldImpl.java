@@ -1,6 +1,7 @@
 package com.space.server.domain.impl;
 
 import com.space.server.domain.api.Segment;
+import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.WorldEvent;
 
@@ -11,11 +12,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Represent a simple space world. A world consist of an ordered sequence of world segments.
+ * Represent a simple space world. A world consists of an ordered sequence of world segments.
  *
  * Created by superernie77 on 04.12.2016.
  */
-public class SimpleWorldImpl implements SpaceWorld {
+public class SpaceWorldImpl implements SpaceWorld {
 
     private List<Segment> segments  = new ArrayList<>(10);
 
@@ -31,6 +32,9 @@ public class SimpleWorldImpl implements SpaceWorld {
     public Integer getStartSegment() {
         return startSegment;
     }
+
+    @Override
+    public List<Segment> getSegments() { return segments; }
 
     @Override
     public Integer getStartStep() {
@@ -86,5 +90,9 @@ public class SimpleWorldImpl implements SpaceWorld {
     @Override
     public List<WorldEvent> getEventsForPlayer(int playerId) {
         return events.stream().filter( e -> e.getPlayerId() == playerId).collect(Collectors.toList());
+    }
+
+    public SpacePlayer getPlayerById(int playerId){
+        return null;
     }
 }

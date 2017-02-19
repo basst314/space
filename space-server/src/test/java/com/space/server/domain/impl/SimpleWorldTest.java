@@ -20,13 +20,13 @@ public class SimpleWorldTest {
 
     @Before
     public void setup(){
-        world = new SimpleWorldImpl();
+        world = new SpaceWorldImpl();
     }
 
     @Test
     public void testAddSegment(){
 
-        Segment segment = new SimpleSegment();
+        Segment segment = new SegmentImpl();
 
         world.addSegment(segment);
 

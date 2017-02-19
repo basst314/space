@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { WebSocketService } from '../shared/services/websocket.service';
+import { WebSocketService } from '../../shared/services/web-socket.service';
 import { Subject } from 'rxjs';
-import { WebSocketEvent } from '../domain/WebSocketEvent';
+import { WebSocketEvent } from '../../domain/web-socket-event';
 
 /**
- * Service for accessing the space-server debug webSocket-API
+ * Service for accessing the space-server webSocket-API
  */
 @Injectable()
-export class SpaceDebugWsService {
+export class SpaceWebSocketService {
   private static getBaseUrl() {
     let protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     let host = window.location.hostname;
@@ -23,7 +23,7 @@ export class SpaceDebugWsService {
 
     if (wsUrl == null || (!wsUrl.startsWith("ws://") && !wsUrl.startsWith("wss://"))) {
       // build absolute url from relative path
-      wsUrl = SpaceDebugWsService.getBaseUrl() + SPACE_WS_API_BASEURL;
+      wsUrl = SpaceWebSocketService.getBaseUrl() + SPACE_WS_API_BASEURL;
     }
     console.debug("connecting to space websocket api: " + wsUrl);
 

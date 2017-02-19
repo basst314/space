@@ -147,8 +147,4 @@ public class SpacePlayerImpl implements SpacePlayer{
         return Direction.BACKWARD.equals(direction) ? content + health : health + content;
     }
 
-    @Override
-    public void setContent(String character) {
-        content = character;
-    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * Interface for a regular space player.
  * Created by superernie77 on 01.12.2016.
  */
-public interface SpacePlayer extends Overlay{
+public interface SpacePlayer extends Overlay, Blockable {
 
 	/**
 	 * Return the health object of the player

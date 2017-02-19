@@ -3,7 +3,6 @@ package com.space.server.web;
 import com.google.gson.Gson;
 import com.space.server.engine.api.ServerEngine;
 import com.space.server.engine.api.WorldEvent;
-import com.space.server.engine.impl.ServerEngineImpl;
 import com.space.server.engine.impl.WorldEventImpl;
 import com.space.server.web.util.SpringStarter;
 import org.eclipse.jetty.websocket.api.Session;
@@ -16,7 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static com.space.server.engine.api.WorldEventType.*;
+import static com.space.server.engine.api.WorldEventType.START;
+import static com.space.server.engine.api.WorldEventType.STOP;
 
 /**
  * Handler for websocket events (connect, disconnect, sendMessage)

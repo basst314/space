@@ -8,7 +8,7 @@ import com.space.server.domain.api.SpaceWorld;
 import com.space.server.domain.api.Step;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
-import com.space.server.utils.StepUtils;
+import com.space.server.utils.SpaceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * Implementation of the GameEngine. Starts new games and stops running games.
@@ -31,7 +30,10 @@ public class GameEngineImpl implements GameEngine {
     private static final Logger LOG = LoggerFactory.getLogger(GameEngineImpl.class);
 
     @Autowired
-    private StepUtils stepUtils;
+    private EmbeddedDatabase db;
+
+    @Autowired
+    private SpaceUtils stepUtils;
 
     @Autowired
     private PlayerDao playerDao;
@@ -54,10 +56,19 @@ public class GameEngineImpl implements GameEngine {
 
         // load player
         SpacePlayer player = playerDao.getPlayer(playerId);
-        activePlayer.put(playerId,player);
+        if (player == null){
+            LOG.warn("Player No. {} not found. game not started", playerId);
+            return;
+        }
 
         // load world
         SpaceWorld world = worldDao.getWorld(worldId);
+        if (world == null){
+            LOG.warn("World No. {} not found. game not started", worldId);
+            return;
+        }
+
+        activePlayer.put(playerId,player);
 
         // set player into world and connect player with step
         Segment segment = world.getSegment(world.getStartSegment());
@@ -105,21 +116,21 @@ public class GameEngineImpl implements GameEngine {
         }
 
         // monster hit players
-        world.getSegment(0).getAllSteps().stream()
+        world.getSegments().stream().flatMap( s -> s.getAllSteps().stream())
                 .filter( s ->  s.isPlayerPresent())
                 .map( s -> s.getPlayers() )
                 .flatMap( p -> p.stream() )
                 .forEach(p -> stepUtils.monsterCombat(p.getActiveStep(), p));
 
         // remove dead players
-        world.getSegment(0).getAllSteps().stream()
+        world.getSegments().stream().flatMap( s -> s.getAllSteps().stream())
                 .filter( s ->  s.isPlayerPresent())
                 .map( s -> s.getPlayers() )
                 .flatMap( p -> p.stream() )
                 .forEach(p ->  { if (p.getHealth().isDead()) p.getActiveStep().getOverlays().remove(p); } );
 
         // move players
-        world.getSegment(0).getAllSteps().stream()
+        world.getSegments().stream().flatMap( s -> s.getAllSteps().stream())
                 .filter( s ->  s.isPlayerPresent())
                 .map( s -> s.getPlayers() )
                 .flatMap( p -> p.stream() )
@@ -148,19 +159,10 @@ public class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public void persist(Integer worldId) {
-        SpaceWorld world = activeWorlds.get(worldId);
-        if (world != null) {
-            worldDao.saveWorld(world);
-            LOG.debug("World (worldId {}) has been persisted.", worldId);
-        }
-    }
-
-    @Override
     public SpacePlayer getPlayer(Integer playerId) {
         SpacePlayer player = activePlayer.get(playerId);
         if (player == null) {
-            playerDao.getPlayer(playerId);
+            player = playerDao.getPlayer(playerId);
             if (player != null) {
                 LOG.debug("Player (playerId {}) has been loaded.", player.getPlayerId());
             }
@@ -168,14 +170,10 @@ public class GameEngineImpl implements GameEngine {
         return player;
     }
 
-    @Autowired
-    private EmbeddedDatabase db;
-
     @Override
     public void shutdownDatabase(){
         db.shutdown();
     }
-
 
     void setWorldDao(WorldDao dao){
         worldDao = dao;

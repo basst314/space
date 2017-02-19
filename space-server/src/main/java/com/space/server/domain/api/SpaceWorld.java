@@ -18,6 +18,12 @@ public interface SpaceWorld {
     Integer getStartSegment();
 
     /**
+     * returns all segments
+     * @return
+     */
+    List<Segment> getSegments();
+
+    /**
      * Returns the start step
      * @return
      */

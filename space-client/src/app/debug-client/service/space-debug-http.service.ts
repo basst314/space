@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { SpaceWorld } from '../domain/SpaceWorld';
+import { SpaceWorld } from '../../domain/space-world';
 import { SpaceHttpApiUrl } from './space-http-api-url';
 
 /**

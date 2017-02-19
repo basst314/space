@@ -34,4 +34,11 @@ public interface Segment {
      */
     List<Step> getAllSteps();
 
+    /**
+     * True if the player with given id is inside the segment
+     * @param playerId
+     * @return true if player is present
+     */
+    boolean containsPlayer(int playerId);
+
 }
