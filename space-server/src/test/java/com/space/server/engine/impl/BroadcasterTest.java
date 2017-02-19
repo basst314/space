@@ -32,17 +32,11 @@ public class BroadcasterTest {
 
         broadcaster.setEngine(engine);
 
-        broadcaster.setPlayerId(1);
-
         broadcaster.setWorldId(0);
-
     }
 
     @Test
     public void testBroadCaster(){
-
-        Assert.assertTrue(broadcaster.getPlayerId() == 1);
-
         Assert.assertTrue(broadcaster.getWorldId() == 0);
 
         Assert.assertTrue(broadcaster.getEngine() != null);
@@ -66,12 +60,9 @@ public class BroadcasterTest {
 
         Assert.assertNotNull(event);
 
-        Assert.assertTrue(event.getPlayerId() == 1);
         Assert.assertTrue(event.getWorldId() == 0);
         Assert.assertTrue(event.getWorld() != null);
         Assert.assertTrue(event.getType() == WorldEventType.UPDATE);
 
     }
-
-
 }

@@ -38,21 +38,12 @@ public class Broadcaster {
         this.worldId = worldId;
     }
 
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
-    }
-
     public WorldEvent createWorldEvent(){
         SpaceWorld world = engine.getWorld(this.getWorldId());
         Segment segmentwithplayer = world.getSegments().stream().filter( s -> s.containsPlayer(playerId)).findFirst().get();
         World gameWorld = new World(segmentwithplayer.getContent());
 
         WorldEvent resultEvent = new WorldEventImpl();
-        resultEvent.setPlayerId(this.getPlayerId());
         resultEvent.setWorldId(this.getWorldId());
         resultEvent.setType(UPDATE);
         resultEvent.setWorld(gameWorld);

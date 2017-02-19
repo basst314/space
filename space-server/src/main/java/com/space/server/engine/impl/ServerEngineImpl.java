@@ -24,7 +24,7 @@ import java.util.concurrent.*;
 import static com.space.server.engine.api.WorldEventType.UPDATE;
 
 /**
- * Start and Stops games. Steps running games ever second and sends result to client
+ * Start and Stops games. Steps running games every second and sends result to client(s)
  * Created by superernie77 on 02.02.2017.
  */
 @Component
@@ -63,9 +63,6 @@ public class ServerEngineImpl implements ServerEngine{
             // step world one step
             b.getEngine().stepWorld(b.getWorldId());
 
-            // create result for client
-            WorldEvent resultEvent = b.createWorldEvent();
-
             // broadcast to all players
             Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
             if (playerSetRunnable != null) {
@@ -73,6 +70,8 @@ public class ServerEngineImpl implements ServerEngine{
                     LOG.debug("Broadcasting for {} players", playerSetRunnable.size());
                     for (Integer playerIdRunnable : playerSetRunnable ) {
                         LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
+                        WorldEvent resultEvent = b.createWorldEvent();
+                        resultEvent.setPlayerId(playerIdRunnable);
                         Session playerSession = playerSessionMap.get(playerIdRunnable);
                         b.broadcast(playerSession,resultEvent);
                         LOG.debug(JsonUtil.toJson(resultEvent));
@@ -88,7 +87,7 @@ public class ServerEngineImpl implements ServerEngine{
     public void startGame(int worldId,int playerId, Session session) {
 
         if (checkGameStartedAlready(worldId,playerId)){
-
+            LOG.debug("World {} already started for player {}", worldId, playerId);
             return;
         }
 
