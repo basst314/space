@@ -7,13 +7,13 @@ import org.junit.Test;
 /**
  * Created by superernie77 on 26.01.2017.
  */
-public class BasicMonsterTest {
+public class MonsterImplTest {
 
-    private BasicMonster monster;
+    private MonsterImpl monster;
 
     @Before
     public void setup(){
-        monster = new BasicMonster();
+        monster = new MonsterImpl();
     }
 
     @Test

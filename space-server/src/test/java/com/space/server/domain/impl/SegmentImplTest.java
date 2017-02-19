@@ -7,23 +7,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests the SimpleSegment class
+ * Tests the SegmentImpl class
  * Created by superernie77 on 08.12.2016.
  */
-public class SimpleSegmentTest {
+public class SegmentImplTest {
 
     private Segment segment;
 
     @Before
     public void setup(){
-        segment = new SimpleSegment();
+        segment = new SegmentImpl();
     }
 
     @Test
     public void testAddStep(){
-        Step first = new BasicStep();
-        Step second = new BasicStep();
-        Step third = new BasicStep();
+        Step first = new StepImpl();
+        Step second = new StepImpl();
+        Step third = new StepImpl();
 
         segment.addStep(first).addStep(second).addStep(third);
 
@@ -34,9 +34,9 @@ public class SimpleSegmentTest {
 
     @Test
     public void testGetContent(){
-        Step first = new BasicStep();
-        Step second = new BasicStep();
-        Step third = new BasicStep();
+        Step first = new StepImpl();
+        Step second = new StepImpl();
+        Step third = new StepImpl();
 
         segment.addStep(first).addStep(second).addStep(third);
 

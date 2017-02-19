@@ -1,12 +1,9 @@
 package com.space.server.utils;
 
-import com.space.server.domain.api.Direction;
-import com.space.server.domain.api.SpacePlayer;
-import com.space.server.domain.api.Step;
-import com.space.server.domain.impl.BasicMonster;
-import com.space.server.domain.impl.BasicStep;
+import com.space.server.domain.api.*;
+import com.space.server.domain.impl.MonsterImpl;
+import com.space.server.domain.impl.StepImpl;
 import com.space.server.domain.impl.SpacePlayerImpl;
-import com.space.server.utils.StepUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +11,9 @@ import org.junit.Test;
 /**
  * Created by superernie77 on 30.01.2017.
  */
-public class StepUtilsTest {
+public class SpaceUtilsTest {
 
-    private StepUtils utils;
+    private SpaceUtils utils;
 
     private Step current;
 
@@ -28,11 +25,11 @@ public class StepUtilsTest {
 
     @Before
     public void setup(){
-        utils = new StepUtils();
+        utils = new SpaceUtils();
 
-        current = new BasicStep();
-        previous = new BasicStep();
-        next = new BasicStep();
+        current = new StepImpl();
+        previous = new StepImpl();
+        next = new StepImpl();
 
         player = new SpacePlayerImpl();
         player.setDirection(Direction.FORWARD);
@@ -57,7 +54,7 @@ public class StepUtilsTest {
     public void testMovePlayerOneStepBackwardsBlockedByMonster(){
 
         player.setDirection(Direction.BACKWARD);
-        previous.addOverlay(new BasicMonster());
+        previous.addOverlay(new MonsterImpl());
 
         utils.movePlayerOneStep(current);
 
@@ -69,7 +66,7 @@ public class StepUtilsTest {
     public void testMovePlayerOneStepBlockedByMonster(){
 
         player.setDirection(Direction.FORWARD);
-        next.addOverlay(new BasicMonster());
+        next.addOverlay(new MonsterImpl());
 
         utils.movePlayerOneStep(current);
 
@@ -93,7 +90,7 @@ public class StepUtilsTest {
     public void testMonsterCombatNextStep(){
 
         player.setDirection(Direction.FORWARD);
-        next.addOverlay(new BasicMonster());
+        next.addOverlay(new MonsterImpl());
 
         utils.monsterCombat(current,player);
 
@@ -105,7 +102,7 @@ public class StepUtilsTest {
     public void testMonsterCombatKillHero(){
 
         player.setDirection(Direction.FORWARD);
-        next.addOverlay(new BasicMonster());
+        next.addOverlay(new MonsterImpl());
 
         // hero hit 3 times
         utils.monsterCombat(current,player);
@@ -120,11 +117,27 @@ public class StepUtilsTest {
     public void testMonsterCombatPreviousStep(){
 
         player.setDirection(Direction.FORWARD);
-        previous.addOverlay(new BasicMonster());
+        previous.addOverlay(new MonsterImpl());
 
         utils.monsterCombat(current,player);
 
         // Player has one hitpoint less
         Assert.assertTrue(player.getHealth().getContent().equals("²"));
+    }
+
+    @Test
+    public void testCreateSegmentFromString(){
+
+        Segment segment = utils.createSegmentFromString("....MMM");
+
+        Assert.assertTrue(segment.getContent().equals("....M¹M¹M¹"));
+    }
+
+    @Test
+    public void testCreateWorld(){
+
+        SpaceWorld world = utils.createWorldWithSingleSegment("....MMM");
+
+        Assert.assertTrue(world.getSegment(0).getContent().equals("....M¹M¹M¹"));
     }
 }

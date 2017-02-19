@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.Segment;
 import com.space.server.domain.api.SpaceWorld;
-import com.space.server.domain.impl.SimpleWorldImpl;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
@@ -12,6 +11,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by superernie77 on 10.02.2017.
@@ -51,7 +53,12 @@ public class BroadcasterTest {
 
         SpaceWorld world = mock(SpaceWorld.class);
 
-        when(world.getSegment(0)).thenReturn(mock(Segment.class));
+        List<Segment> segments = new ArrayList<>();
+        Segment segment = mock(Segment.class);
+        when(segment.containsPlayer(anyInt())).thenReturn(true);
+        segments.add(segment);
+
+        when(world.getSegments()).thenReturn(segments);
 
         when(engine.getWorld(anyInt())).thenReturn(world);
 

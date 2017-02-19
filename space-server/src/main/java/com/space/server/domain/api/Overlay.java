@@ -12,9 +12,4 @@ public interface Overlay {
      */
     String getContent();
 
-    /**
-     * Sets the string representation of the overlay
-     * @param character
-     */
-    void setContent(String character);
 }

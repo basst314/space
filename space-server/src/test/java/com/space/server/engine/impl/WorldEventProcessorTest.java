@@ -3,9 +3,7 @@ package com.space.server.engine.impl;
 import static org.mockito.Mockito.*;
 
 import com.space.server.domain.api.*;
-import com.space.server.domain.impl.BasicStep;
-import com.space.server.domain.impl.Health;
-import com.space.server.domain.impl.SpacePlayerImpl;
+import com.space.server.domain.impl.*;
 import com.space.server.domain.items.impl.Sword;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
@@ -65,8 +63,7 @@ public class WorldEventProcessorTest {
         SpacePlayer player = new SpacePlayerImpl();
 
         Item one = new Sword();
-        Item two = new Sword();
-        two.setContent(")");
+        Item two = new Princess();
 
         player.addItem(one);
         player.addItem(two);
@@ -75,7 +72,7 @@ public class WorldEventProcessorTest {
 
         processor.processEvents(java.util.Arrays.asList(event),player);
 
-        Assert.assertTrue(player.getActiveItem().getContent().equals(")"));
+        Assert.assertTrue(player.getActiveItem().getContent().equals("P"));
     }
 
     @Test
@@ -87,8 +84,7 @@ public class WorldEventProcessorTest {
         SpacePlayer player = new SpacePlayerImpl();
 
         Item one = new Sword();
-        Item two = new Sword();
-        two.setContent(")");
+        Item two = new Princess();
 
         player.addItem(one);
         player.addItem(two);
@@ -109,8 +105,7 @@ public class WorldEventProcessorTest {
         SpacePlayer player = new SpacePlayerImpl();
 
         Item one = new Sword();
-        Item two = new Sword();
-        two.setContent(")");
+        Item two = new Princess();
 
         player.addItem(one);
         player.addItem(two);
@@ -122,6 +117,8 @@ public class WorldEventProcessorTest {
         Assert.assertTrue(player.getActiveItem().getContent().equals("W"));
     }
 
+
+
     @Test
     public void testHitMonsterHealth2(){
         WorldEvent event = new WorldEventImpl();
@@ -129,8 +126,8 @@ public class WorldEventProcessorTest {
 
         SpacePlayer player = new SpacePlayerImpl();
 
-        Step currentStep = new BasicStep();
-        Step nextStep = new BasicStep();
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
 
         player.setActiveStep(currentStep);
         player.addItem(new Sword());
@@ -159,8 +156,8 @@ public class WorldEventProcessorTest {
 
         SpacePlayer player = new SpacePlayerImpl();
 
-        Step currentStep = new BasicStep();
-        Step nextStep = new BasicStep();
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
 
         player.setActiveStep(currentStep);
         player.addItem(new Sword());
@@ -187,8 +184,8 @@ public class WorldEventProcessorTest {
 
         SpacePlayer player = new SpacePlayerImpl();
 
-        Step currentStep = new BasicStep();
-        Step nextStep = new BasicStep();
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
 
         player.setActiveStep(currentStep);
         currentStep.setNext(nextStep);
@@ -200,5 +197,38 @@ public class WorldEventProcessorTest {
 
         // monster is not dead because player didn't have a weapon
         Assert.assertTrue(player.getActiveStep().next().getOverlays().size() == 1);
+    }
+
+    @Test
+    public void testUseDoor(){
+        WorldEvent event = new WorldEventImpl();
+        event.setType(WorldEventType.SPACE);
+
+        SpacePlayer player = new SpacePlayerImpl();
+
+        Step currentStep = new StepImpl();
+        Step nextStep = new StepImpl();
+
+        Step targetStepDoor = new StepImpl();
+
+        player.setActiveStep(currentStep);
+        currentStep.setNext(nextStep);
+
+        Door door = new DoorImpl(nextStep,targetStepDoor);
+        nextStep.addOverlay(door);
+
+        processor.processEvents(Arrays.asList(event),player);
+
+        // player on target step
+        Assert.assertTrue(targetStepDoor.getOverlays().size() == 1);
+
+        // player not on current step
+        Assert.assertTrue(currentStep.getOverlays().size() == 0);
+
+        // player has been moved
+        Assert.assertTrue(player.isMoved());
+
+
+
     }
 }

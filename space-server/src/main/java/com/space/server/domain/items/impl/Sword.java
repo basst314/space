@@ -36,11 +36,6 @@ public class Sword implements Weapon {
     }
 
     @Override
-    public void setContent(String character) {
-        worldSymbol = character;
-    }
-
-    @Override
     public String getItemSymbol(Direction direction, ItemUsage usage) {
         return itemSymbols.get(direction).get(usage);
     }

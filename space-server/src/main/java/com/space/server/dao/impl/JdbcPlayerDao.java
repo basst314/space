@@ -39,11 +39,6 @@ public class JdbcPlayerDao implements PlayerDao{
 		return actors.get(0);
 	}
 
-    @Override
-    public void savePlayer(SpacePlayer player) {
-
-    }
-
     class PlayerRowMapper implements RowMapper<SpacePlayer> {
         public SpacePlayer mapRow(ResultSet rs, int rowNum) throws SQLException {
             SpacePlayer actor = new SpacePlayerImpl();

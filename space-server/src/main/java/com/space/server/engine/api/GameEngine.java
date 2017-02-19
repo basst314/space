@@ -39,12 +39,6 @@ public interface GameEngine {
     SpaceWorld getWorld(Integer playerId);
 
     /**
-     * saves the state of a world
-     * @param worldId
-     */
-    void persist(Integer worldId);
-
-    /**
      * return a player
      * @param playerId
      * @return
