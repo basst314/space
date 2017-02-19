@@ -20,6 +20,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Test the gameEngine
  * Created by superernie77 on 11.12.2016.
@@ -32,6 +35,8 @@ public class GameEngineImplTest {
 
     @Mock
     private WorldDao worldDao;
+
+    private Map<Integer,SpacePlayer> activePlayer;
 
     @InjectMocks
     private GameEngineImpl engine ;
@@ -54,6 +59,35 @@ public class GameEngineImplTest {
         Step step = new StepImpl();
         when(seg.getStep(0)).thenReturn(step);
     }
+
+    @Test
+    public void testPlayerNotFound(){
+        when(playerDao.getPlayer(anyInt())).thenReturn(null);
+
+        // this should not thrown an exception
+        engine.startGame(0,0);
+
+        // player is not in active player list
+        Assert.assertNull(engine.getPlayer(0));
+    }
+
+    @Test
+    public void testWorldNotFound(){
+        when(worldDao.getWorld(anyInt())).thenReturn(null);
+
+        // this should not throw an exception
+        engine.startGame(0,0);
+    }
+
+    @Test
+    public void testgetPlayerFromDao(){
+
+        // engine is loaded by dao
+        Assert.assertNotNull(engine.getPlayer(0));
+
+        verify(playerDao, times(1)).getPlayer(0);
+    }
+
 
     @Test
     public void testWorldSetup() throws Exception {
