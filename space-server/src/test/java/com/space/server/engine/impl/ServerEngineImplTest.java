@@ -129,6 +129,8 @@ public class ServerEngineImplTest {
 
         // two player
         assertTrue(serverEngine.getPlayerSessionMap().size() == 2);
+
+        verify(gameEngine,times(2)).startGame(anyInt(),anyInt());
     }
 
     @Test

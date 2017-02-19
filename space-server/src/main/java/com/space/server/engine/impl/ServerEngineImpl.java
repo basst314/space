@@ -94,11 +94,15 @@ public class ServerEngineImpl implements ServerEngine{
         if (players != null) {
             LOG.debug("World {} running already.",worldId);
 
-            LOG.debug("Adding player {} to world",playerId);
+            engine.startGame(playerId,worldId);
+
+            LOG.debug("Adding player {} to playerWorldMap",playerId);
             players.add(playerId);
 
             LOG.debug("Adding session for player {}", playerId);
             playerSessionMap.put(playerId,session);
+
+
         } else {
             // start new world
 
