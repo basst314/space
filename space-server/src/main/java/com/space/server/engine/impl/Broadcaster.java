@@ -24,8 +24,6 @@ public class Broadcaster {
 
     private int worldId;
 
-    private int playerId;
-
     private GameEngine engine;
 
     public GameEngine getEngine() {
@@ -42,13 +40,14 @@ public class Broadcaster {
         this.worldId = worldId;
     }
 
-    public WorldEvent createWorldEvent(){
+    public WorldEvent createWorldEvent(Integer playerId){
         SpaceWorld world = engine.getWorld(this.getWorldId());
         Segment segmentwithplayer = world.getSegments().stream().filter( s -> s.containsPlayer(playerId)).findFirst().get();
         World gameWorld = new World(segmentwithplayer.getContent());
 
         WorldEvent resultEvent = new WorldEventImpl();
         resultEvent.setWorldId(this.getWorldId());
+        resultEvent.setPlayerId(playerId);
         resultEvent.setType(UPDATE);
         resultEvent.setWorld(gameWorld);
 

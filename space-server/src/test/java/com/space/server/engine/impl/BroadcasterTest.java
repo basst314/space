@@ -56,11 +56,13 @@ public class BroadcasterTest {
 
         when(engine.getWorld(anyInt())).thenReturn(world);
 
-        WorldEvent event = broadcaster.createWorldEvent();
+        WorldEvent event = broadcaster.createWorldEvent(0);
 
         Assert.assertNotNull(event);
 
         Assert.assertTrue(event.getWorldId() == 0);
+        Assert.assertTrue(event.getPlayerId() == 0);
+
         Assert.assertTrue(event.getWorld() != null);
         Assert.assertTrue(event.getType() == WorldEventType.UPDATE);
 
