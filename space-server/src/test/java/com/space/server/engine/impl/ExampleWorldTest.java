@@ -34,6 +34,8 @@ public class ExampleWorldTest {
 
     private SpacePlayer player;
 
+    private SpacePlayer playertwo;
+
     private WorldEventProcessorImpl processor;
 
     private SpaceUtils utils = new SpaceUtils();
@@ -47,13 +49,16 @@ public class ExampleWorldTest {
         worldDao = mock((WorldDao.class));
         processor = new WorldEventProcessorImpl();
 
-
         // create real player
         player = new SpacePlayerImpl();
         player.setPlayerId(0);
 
+        // create player 2
+        playertwo = new SpacePlayerImpl();
+        playertwo.setPlayerId(1);
+
         // create engine
-        gameEngine = (GameEngineImpl) starter.startSpringGameEngine();
+        gameEngine = starter.startSpringGameEngine();
         gameEngine.setWorldDao(worldDao);
         gameEngine.setPlayerDao(playerDao);
         gameEngine.setWorldEventProcessor(processor);
@@ -61,6 +66,7 @@ public class ExampleWorldTest {
         // mock world init
         when(worldDao.getWorld(0)).thenReturn(exampleWorld);
         when(playerDao.getPlayer(0)).thenReturn(player);
+        when(playerDao.getPlayer(1)).thenReturn(playertwo);
     }
 
     @After
@@ -206,6 +212,42 @@ public class ExampleWorldTest {
 
         Assert.assertEquals("...³H-.", worldwithhero);
     }
+
+    @Test
+    public void testWorldWith2Plazers(){
+        exampleWorld = utils.createWorldWithSingleSegment(".....");
+
+        when(worldDao.getWorld(0)).thenReturn(exampleWorld);
+
+        // start game for player 1
+        gameEngine.startGame(0,0);
+
+        gameEngine.stepWorld(0);
+
+        String worldwithhero = gameEngine.getWorld(0).getSegment(0).getContent();
+
+        // one player present
+        Assert.assertEquals(".³H...", worldwithhero);
+
+        // start game for player 2
+        gameEngine.startGame(1,0);
+
+        gameEngine.stepWorld(0);
+
+        String worldwithtwoheros = gameEngine.getWorld(0).getSegment(0).getContent();
+
+        // two heros present
+        Assert.assertEquals("³H.³H..",worldwithtwoheros );
+
+        gameEngine.stepWorld(0);
+
+        worldwithtwoheros = gameEngine.getWorld(0).getSegment(0).getContent();
+
+        // both moved one step foreward
+        Assert.assertEquals(".³H.³H.",worldwithtwoheros );
+    }
+
+
 
     @Test
     public void testTakeWeaponHitEmpty() {

@@ -30,6 +30,9 @@ public class GameEngineImpl implements GameEngine {
     private static final Logger LOG = LoggerFactory.getLogger(GameEngineImpl.class);
 
     @Autowired
+    private EmbeddedDatabase db;
+
+    @Autowired
     private SpaceUtils stepUtils;
 
     @Autowired
@@ -53,10 +56,19 @@ public class GameEngineImpl implements GameEngine {
 
         // load player
         SpacePlayer player = playerDao.getPlayer(playerId);
-        activePlayer.put(playerId,player);
+        if (player == null){
+            LOG.warn("Player No. {} not found. game not started", playerId);
+            return;
+        }
 
         // load world
         SpaceWorld world = worldDao.getWorld(worldId);
+        if (world == null){
+            LOG.warn("World No. {} not found. game not started", worldId);
+            return;
+        }
+
+        activePlayer.put(playerId,player);
 
         // set player into world and connect player with step
         Segment segment = world.getSegment(world.getStartSegment());
@@ -150,7 +162,7 @@ public class GameEngineImpl implements GameEngine {
     public SpacePlayer getPlayer(Integer playerId) {
         SpacePlayer player = activePlayer.get(playerId);
         if (player == null) {
-            playerDao.getPlayer(playerId);
+            player = playerDao.getPlayer(playerId);
             if (player != null) {
                 LOG.debug("Player (playerId {}) has been loaded.", player.getPlayerId());
             }
@@ -158,14 +170,10 @@ public class GameEngineImpl implements GameEngine {
         return player;
     }
 
-    @Autowired
-    private EmbeddedDatabase db;
-
     @Override
     public void shutdownDatabase(){
         db.shutdown();
     }
-
 
     void setWorldDao(WorldDao dao){
         worldDao = dao;
