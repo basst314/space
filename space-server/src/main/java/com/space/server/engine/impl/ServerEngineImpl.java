@@ -71,9 +71,13 @@ public class ServerEngineImpl implements ServerEngine{
                     for (Integer playerIdRunnable : playerSetRunnable ) {
                         LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
                         WorldEvent resultEvent = b.createWorldEvent(playerIdRunnable);
-                        Session playerSession = playerSessionMap.get(playerIdRunnable);
-                        LOG.debug("Player {] session {}", playerIdRunnable, playerSession.toString());
-                        b.broadcast(playerSession,resultEvent);
+                        if (resultEvent != null) {
+                            Session playerSession = playerSessionMap.get(playerIdRunnable);
+                            LOG.debug("Player {] session {}", playerIdRunnable, playerSession.toString());
+                            b.broadcast(playerSession,resultEvent);
+                        } else {
+                            LOG.debug("No result-event available for player {}", playerIdRunnable);
+                        }
                     }
                 } catch (IOException e) {
                     LOG.error(e.getMessage(), e);

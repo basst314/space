@@ -42,16 +42,18 @@ public class Broadcaster {
 
     public WorldEvent createWorldEvent(Integer playerId){
         SpaceWorld world = engine.getWorld(this.getWorldId());
-        Segment segmentwithplayer = world.getSegments().stream().filter( s -> s.containsPlayer(playerId)).findFirst().get();
-        World gameWorld = new World(segmentwithplayer.getContent());
+        if (world.getSegments().stream().anyMatch( s -> s.containsPlayer(playerId))){
+            Segment segmentwithplayer = world.getSegments().stream().filter( s -> s.containsPlayer(playerId)).findFirst().get();
+            World gameWorld = new World(segmentwithplayer.getContent());
 
-        WorldEvent resultEvent = new WorldEventImpl();
-        resultEvent.setWorldId(this.getWorldId());
-        resultEvent.setPlayerId(playerId);
-        resultEvent.setType(UPDATE);
-        resultEvent.setWorld(gameWorld);
-
-        return resultEvent;
+            WorldEvent resultEvent = new WorldEventImpl();
+            resultEvent.setWorldId(this.getWorldId());
+            resultEvent.setPlayerId(playerId);
+            resultEvent.setType(UPDATE);
+            resultEvent.setWorld(gameWorld);
+            return resultEvent;
+        }
+        return null;
     }
 
     public void broadcast(Session playerSession, WorldEvent resultEvent) throws IOException {

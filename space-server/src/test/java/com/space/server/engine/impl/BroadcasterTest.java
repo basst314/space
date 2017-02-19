@@ -43,6 +43,25 @@ public class BroadcasterTest {
     }
 
     @Test
+    public void testCreateEventNoPlayer(){
+        SpaceWorld world = mock(SpaceWorld.class);
+
+        List<Segment> segments = new ArrayList<>();
+        Segment segment = mock(Segment.class);
+        when(segment.containsPlayer(anyInt())).thenReturn(false);
+        segments.add(segment);
+
+        when(world.getSegments()).thenReturn(segments);
+
+        when(engine.getWorld(anyInt())).thenReturn(world);
+
+        WorldEvent event = broadcaster.createWorldEvent(0);
+
+        Assert.assertNull(event);
+
+    }
+
+    @Test
     public void testCreateWorldEvent(){
 
         SpaceWorld world = mock(SpaceWorld.class);
