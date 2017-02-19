@@ -11,9 +11,9 @@ import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { NoContentComponent } from './no-content';
 import { DebugClientComponent } from './debug-client/debug-client.component';
-import { SpaceDebugHttpService } from './debug-client/space-debug-http.service';
+import { SpaceDebugHttpService } from './debug-client/service/space-debug-http.service';
 import { SpaceWebSocketService } from './web-socket-client/service/space-web-socket.service';
-import { WebSocketService } from './shared/services/websocket.service';
+import { WebSocketService } from './shared/services/web-socket.service';
 import { WebSocketClientComponent } from './web-socket-client/web-socket-client.component';
 
 // Application wide providers

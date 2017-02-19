@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SpaceWorld } from '../domain/SpaceWorld';
+import { SpaceWorld } from '../domain/space-world';
 import { SpaceWebSocketService } from './service/space-web-socket.service';
-import { WorldEventType, WebSocketEvent } from '../domain/WebSocketEvent';
+import { WorldEventType, WebSocketEvent } from '../domain/web-socket-event';
 
 /**
  * Space WebSocket-Client

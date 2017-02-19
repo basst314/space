@@ -1,4 +1,4 @@
-import { SpaceWorld } from './SpaceWorld';
+import { SpaceWorld } from './space-world';
 /**
  * Domain class for a space websocket event
  */
