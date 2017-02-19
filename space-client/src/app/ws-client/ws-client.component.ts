@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SpaceDebugHttpService } from './space-debug-http.service';
 import { SpaceWorld } from '../domain/SpaceWorld';
-import { SpaceDebugWsService } from './space-debug-ws.service';
+import { SpaceWebSocketService } from './space-debug-ws.service';
 import { WorldEventType, WebSocketEvent } from '../domain/WebSocketEvent';
 
 /**
@@ -21,8 +21,8 @@ export class WsClientComponent implements OnInit {
   public world: SpaceWorld;
   public msgs: string[] = [];
 
-  constructor(private spaceDebugService: SpaceDebugWsService) {
-    this.spaceDebugService.messages.subscribe((event: WebSocketEvent) => {
+  constructor(private spaceWebSocketService: SpaceWebSocketService) {
+    this.spaceWebSocketService.messages.subscribe((event: WebSocketEvent) => {
       this.log("received event: " + event.worldEventType);
       if (event.worldEventType === 'UPDATE') {
         this.world = event.world;
@@ -37,28 +37,28 @@ export class WsClientComponent implements OnInit {
   }
 
   public stepWorld(): void {
-    this.spaceDebugService.messages.next(this.getEvent('STEP'));
+    this.spaceWebSocketService.messages.next(this.getEvent('STEP'));
   }
 
   public space(): void {
-    this.spaceDebugService.messages.next(this.getEvent('SPACE'));
+    this.spaceWebSocketService.messages.next(this.getEvent('SPACE'));
   }
 
   public doubleSpace(): void {
-    this.spaceDebugService.messages.next(this.getEvent('DOUBLE_SPACE'));
+    this.spaceWebSocketService.messages.next(this.getEvent('DOUBLE_SPACE'));
   }
 
   public tripleSpace(): void {
-    this.spaceDebugService.messages.next(this.getEvent('TRIPPLE_SPACE'));
+    this.spaceWebSocketService.messages.next(this.getEvent('TRIPPLE_SPACE'));
   }
 
   public startGame(): void {
     this.log("starting game... playerId: " + this.playerId + ", worldId: " + this.worldId);
-    this.spaceDebugService.messages.next(this.getEvent('START'));
+    this.spaceWebSocketService.messages.next(this.getEvent('START'));
   }
 
   public stopGame(): void {
-    this.spaceDebugService.messages.next(this.getEvent('STOP'));
+    this.spaceWebSocketService.messages.next(this.getEvent('STOP'));
   }
 
   private log(msg: string) {
