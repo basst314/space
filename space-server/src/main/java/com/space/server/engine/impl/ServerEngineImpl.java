@@ -98,7 +98,7 @@ public class ServerEngineImpl implements ServerEngine{
         if (players != null) {
             LOG.debug("World {} running already.",worldId);
 
-            engine.startGame(playerId,worldId);
+            engine.addPlayer2World(playerId,worldId);
 
             LOG.debug("Adding player {} to playerWorldMap",playerId);
             players.add(playerId);

@@ -50,6 +50,39 @@ public class GameEngineImpl implements GameEngine {
 
     private Map<Integer,Integer> playerWorldmapping = new HashMap<>();
 
+    public void addPlayer2World(Integer playerId, Integer worldId){
+        // load player
+        SpacePlayer player = playerDao.getPlayer(playerId);
+        if (player == null){
+            LOG.warn("Player No. {} not found. game not started", playerId);
+            return;
+        }
+
+        // get world from active worlds
+        SpaceWorld world = activeWorlds.get(worldId);
+        if (world == null){
+            LOG.warn("World No. {} not found. game not started", worldId);
+            return;
+        }
+
+        activePlayer.put(playerId,player);
+        LOG.debug("Active player:" + activePlayer.toString());
+
+        // set player into world and connect player with step
+        Segment segment = world.getSegment(world.getStartSegment());
+        Step step = segment.getStep(world.getStartStep());
+        step.addOverlay(player);
+        player.setActiveStep(step);
+        LOG.debug("Added player {} to world {} ", playerId, worldId);
+        LOG.debug(world.toString());
+
+        playerWorldmapping.put(playerId,worldId);
+        LOG.debug("Player-world mapping: "+playerWorldmapping.toString());
+
+        LOG.info("Player {} added to world {}",playerId, worldId);
+
+    }
+
     @Override
     public void startGame(Integer playerId, Integer worldId) {
         LOG.info("Starting game for playerId {} and worldId {}",playerId, worldId);

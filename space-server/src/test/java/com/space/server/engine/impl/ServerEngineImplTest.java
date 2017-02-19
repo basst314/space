@@ -130,7 +130,11 @@ public class ServerEngineImplTest {
         // two player
         assertTrue(serverEngine.getPlayerSessionMap().size() == 2);
 
-        verify(gameEngine,times(2)).startGame(anyInt(),anyInt());
+        // world started for player 1
+        verify(gameEngine,times(1)).startGame(anyInt(),anyInt());
+
+        // player 2 added to world
+        verify(gameEngine,times(1)).addPlayer2World(anyInt(),anyInt());
     }
 
     @Test
