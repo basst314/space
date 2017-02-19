@@ -77,12 +77,23 @@ public class GameEngineImplTest {
 
         // this should not throw an exception
         engine.startGame(0,0);
+
+        Assert.assertNull(engine.getWorld(0));
+    }
+
+    @Test
+    public void testGetWorldFromDao(){
+
+        // world is loaded by dao
+        Assert.assertNotNull(engine.getWorld(0));
+
+        verify(worldDao, times(1)).getWorld(0);
     }
 
     @Test
     public void testgetPlayerFromDao(){
 
-        // engine is loaded by dao
+        // player is loaded by dao
         Assert.assertNotNull(engine.getPlayer(0));
 
         verify(playerDao, times(1)).getPlayer(0);

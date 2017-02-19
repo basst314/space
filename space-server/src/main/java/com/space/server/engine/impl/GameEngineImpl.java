@@ -153,7 +153,9 @@ public class GameEngineImpl implements GameEngine {
         SpaceWorld world = activeWorlds.get(worldId);
         if (world == null){
             world = worldDao.getWorld(worldId);
-            LOG.debug("World (worldId {}) has been loaded.", world.getWorldId());
+            if (world != null){
+                LOG.debug("World (worldId {}) has been loaded.", world.getWorldId());
+            }
         }
         return world;
     }
@@ -181,10 +183,6 @@ public class GameEngineImpl implements GameEngine {
 
     void setPlayerDao(PlayerDao dao){
         playerDao = dao;
-    }
-
-    public WorldEventProcessorImpl getWorldEventProcessor(){
-        return processor;
     }
 
     void setWorldEventProcessor(WorldEventProcessorImpl proc) {
