@@ -68,15 +68,18 @@ public class ServerEngineImpl implements ServerEngine{
 
             // broadcast to all players
             Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
-            try {
-                for (Integer playerIdRunnable : playerSetRunnable ) {
-                    LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
-                    Session playerSession = playerSessionMap.get(playerIdRunnable);
-                    b.broadcast(playerSession,resultEvent);
-                    LOG.debug(JsonUtil.toJson(resultEvent));
+            if (playerSetRunnable != null) {
+                try {
+                    LOG.debug("Broadcasting for {} players", playerSetRunnable.size());
+                    for (Integer playerIdRunnable : playerSetRunnable ) {
+                        LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
+                        Session playerSession = playerSessionMap.get(playerIdRunnable);
+                        b.broadcast(playerSession,resultEvent);
+                        LOG.debug(JsonUtil.toJson(resultEvent));
+                    }
+                } catch (IOException e) {
+                    LOG.error(e.getMessage(), e);
                 }
-            } catch (IOException e) {
-                LOG.error(e.getMessage(), e);
             }
         }
     }
@@ -85,17 +88,18 @@ public class ServerEngineImpl implements ServerEngine{
     public void startGame(int worldId,int playerId, Session session) {
 
         if (checkGameStartedAlready(worldId,playerId)){
+
             return;
         }
 
         Set<Integer> players = playerWorldMap.get(worldId);
         if (players != null) {
-            // world started already
+            LOG.debug("World {} running already.",worldId);
 
-            // add player to world
+            LOG.debug("Adding player {} to world",playerId);
             players.add(playerId);
 
-            // save session
+            LOG.debug("Adding session for player {}", playerId);
             playerSessionMap.put(playerId,session);
         } else {
             // start new world
@@ -110,13 +114,20 @@ public class ServerEngineImpl implements ServerEngine{
             runner.setBroadCaster(b);
 
 
+            LOG.debug("Starting new Runner for worldId {}",worldId );
             ScheduledFuture future = scheduledExecutorService.scheduleAtFixedRate(runner , 3, 1000L, TimeUnit.MILLISECONDS);
 
             // register world, player, future and session
             Set<Integer> newPlayerSet = new HashSet<>();
             newPlayerSet.add(playerId);
+
+            LOG.debug("Adding player {} to world",playerId);
             playerWorldMap.put(worldId, newPlayerSet );
+
+            LOG.debug("Adding session for player {}", playerId);
             playerSessionMap.put(playerId,session);
+
+            LOG.debug("Adding future for world {}", worldId);
             worldFutureMap.put(worldId, future);
         }
      }
