@@ -12,7 +12,7 @@ import { AppState, InternalStateType } from './app.service';
 import { NoContentComponent } from './no-content';
 import { DebugClientComponent } from './debug-client/debug-client.component';
 import { SpaceDebugHttpService } from './debug-client/space-debug-http.service';
-import { SpaceWebSocketService } from './ws-client/space-debug-ws.service';
+import { SpaceWebSocketService } from './ws-client/space-web-socket.service';
 import { WebSocketService } from './shared/services/websocket.service';
 import { WsClientComponent } from './ws-client/ws-client.component';
 
