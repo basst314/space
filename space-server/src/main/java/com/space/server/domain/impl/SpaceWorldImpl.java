@@ -92,7 +92,12 @@ public class SpaceWorldImpl implements SpaceWorld {
         return events.stream().filter( e -> e.getPlayerId() == playerId).collect(Collectors.toList());
     }
 
-    public SpacePlayer getPlayerById(int playerId){
-        return null;
+    @Override
+    public String toString(){
+        String result = "";
+        for( Segment seg : segments) {
+            result += " Segment: "+seg.getContent();
+        }
+        return result;
     }
 }

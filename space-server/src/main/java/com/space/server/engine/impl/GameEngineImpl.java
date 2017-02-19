@@ -77,6 +77,7 @@ public class GameEngineImpl implements GameEngine {
         step.addOverlay(player);
         player.setActiveStep(step);
         LOG.debug("Added player {} to world {} ", playerId, worldId);
+        LOG.debug(world.toString());
 
 
         // activate world
