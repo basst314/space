@@ -18,7 +18,7 @@ export class SpaceEventService {
    * @return the logical space-event representing the raw keyboard events
    * @private
    */
-  private static _mapToSpaceEvents(events: KeyboardEvent[]): WorldEventType {
+  private static _mapToSpaceEvent(events: KeyboardEvent[]): WorldEventType {
     let spaceEvent: WorldEventType;
     switch (events.length) {
       case 1:
@@ -86,7 +86,7 @@ export class SpaceEventService {
     this._keyboardEvents
       .filter((event) => event && event.keyCode === spaceKeyCode)
       .bufferToggle(this._startCapture.asObservable(), () => this._closeCapture.asObservable())
-      .map(SpaceEventService._mapToSpaceEvents)
+      .map(SpaceEventService._mapToSpaceEvent)
       .subscribe((spaceEvent) => {
         this._spaceEvents.next(spaceEvent);
       });
