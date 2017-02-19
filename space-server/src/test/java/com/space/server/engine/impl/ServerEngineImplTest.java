@@ -138,10 +138,12 @@ public class ServerEngineImplTest {
         // player in world 0
         Set<Integer> player = new HashSet<>();
         player.add(0);
+        player.add(1);
         serverEngine.getPlayerWorldMap().put(0, player);
 
         serverEngine.getWorldFutureMap().put(0, mock(ScheduledFuture.class));
         serverEngine.getPlayerSessionMap().put(0, mock(Session.class));
+        serverEngine.getPlayerSessionMap().put(1, mock(Session.class));
 
         // create broadcaster
         Broadcaster b = mock(Broadcaster.class);
@@ -152,8 +154,8 @@ public class ServerEngineImplTest {
         // broadcast
         runner.run();
 
-        // world has been broadcast by the runner to two players
-        verify(b, times(1)).broadcast(any(Session.class), any(WorldEvent.class));
+        // world has been broadcast by the runner the players
+        verify(b, times(2)).broadcast(any(Session.class), any(WorldEvent.class));
     }
 
 }
