@@ -1,0 +1,34 @@
+<div space-listener>
+  <div class="world-container" id="world-container">
+    <div id="world-content" *ngIf="world" class="world-content">
+      {{world.world}}
+    </div>
+  </div>
+
+  <button (click)="startGame()" class="btn btn-default">Start</button>
+  <button (click)="stopGame()" class="btn btn-default">Stop</button>
+  <button (click)="stepWorld()" class="btn btn-default" disabled>Step</button>
+  <button (click)="space()" class="btn btn-default">Space</button>
+  <button (click)="doubleSpace()" class="btn btn-default">DoubleSpace</button>
+  <button (click)="tripleSpace()" class="btn btn-default">TripleSpace</button>
+
+  <div class="settings">
+    <label for="playerId">Player-Id: </label>
+    <input id="playerId" type="text" [(ngModel)]="playerId">
+    <label for="worldId">World-Id: </label>
+    <input id="worldId" type="text" [(ngModel)]="worldId">
+  </div>
+
+  <table class="table table-hover" style="margin-top:1em">
+    <thead>
+    <tr>
+      <th>Log</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let msg of messages">
+      <td>{{msg}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
