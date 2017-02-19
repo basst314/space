@@ -15,6 +15,8 @@ import { SpaceDebugHttpService } from './debug-client/service/space-debug-http.s
 import { SpaceWebSocketService } from './web-socket-client/service/space-web-socket.service';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { WebSocketClientComponent } from './web-socket-client/web-socket-client.component';
+import { SpaceListenerDirective } from './event-capturing/directive/space-listener.directive';
+import { SpaceEventService } from './event-capturing/service/space-event.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -22,7 +24,8 @@ const APP_PROVIDERS = [
   AppState,
   SpaceDebugHttpService,
   WebSocketService,
-  SpaceWebSocketService
+  SpaceWebSocketService,
+  SpaceEventService
 ];
 
 type StoreType = {
@@ -37,7 +40,8 @@ type StoreType = {
     AppComponent,
     NoContentComponent,
     DebugClientComponent,
-    WebSocketClientComponent
+    WebSocketClientComponent,
+    SpaceListenerDirective
   ],
   imports: [ // import Angular's modules
     BrowserModule,

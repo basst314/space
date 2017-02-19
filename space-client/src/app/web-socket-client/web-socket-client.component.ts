@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SpaceWorld } from '../domain/space-world';
 import { SpaceWebSocketService } from './service/space-web-socket.service';
 import { WorldEventType, WebSocketEvent } from '../domain/web-socket-event';
+import { SpaceEventService } from '../event-capturing/service/space-event.service';
 
 /**
  * Space WebSocket-Client
@@ -20,8 +21,19 @@ export class WebSocketClientComponent implements OnInit {
   public world: SpaceWorld;
   public msgs: string[] = [];
 
-  constructor(private spaceWebSocketService: SpaceWebSocketService) {
-    this.spaceWebSocketService.messages.subscribe((event: WebSocketEvent) => {
+  constructor(private _spaceWebSocketService: SpaceWebSocketService,
+              private _spaceEventService: SpaceEventService) {
+  }
+
+  public ngOnInit(): void {
+    // push space-events to webSocket-API
+    this._spaceEventService.spaceEvents.subscribe((event: WorldEventType) => {
+      this.log('sending event: ' + event);
+      this._spaceWebSocketService.messages.next(this.buildWebSocketEvent(event));
+    });
+
+    // apply incoming gameWorld updates
+    this._spaceWebSocketService.messages.subscribe((event: WebSocketEvent) => {
       this.log("received event: " + event.worldEventType);
       if (event.worldEventType === 'UPDATE') {
         this.world = event.world;
@@ -31,33 +43,29 @@ export class WebSocketClientComponent implements OnInit {
     });
   }
 
-  public ngOnInit(): void {
-    // this.startGame();
-  }
-
   public stepWorld(): void {
-    this.spaceWebSocketService.messages.next(this.getEvent('STEP'));
+    this._spaceWebSocketService.messages.next(this.buildWebSocketEvent('STEP'));
   }
 
   public space(): void {
-    this.spaceWebSocketService.messages.next(this.getEvent('SPACE'));
+    this._spaceWebSocketService.messages.next(this.buildWebSocketEvent('SPACE'));
   }
 
   public doubleSpace(): void {
-    this.spaceWebSocketService.messages.next(this.getEvent('DOUBLE_SPACE'));
+    this._spaceWebSocketService.messages.next(this.buildWebSocketEvent('DOUBLE_SPACE'));
   }
 
   public tripleSpace(): void {
-    this.spaceWebSocketService.messages.next(this.getEvent('TRIPPLE_SPACE'));
+    this._spaceWebSocketService.messages.next(this.buildWebSocketEvent('TRIPPLE_SPACE'));
   }
 
   public startGame(): void {
     this.log("starting game... playerId: " + this.playerId + ", worldId: " + this.worldId);
-    this.spaceWebSocketService.messages.next(this.getEvent('START'));
+    this._spaceWebSocketService.messages.next(this.buildWebSocketEvent('START'));
   }
 
   public stopGame(): void {
-    this.spaceWebSocketService.messages.next(this.getEvent('STOP'));
+    this._spaceWebSocketService.messages.next(this.buildWebSocketEvent('STOP'));
   }
 
   private log(msg: string) {
@@ -68,7 +76,7 @@ export class WebSocketClientComponent implements OnInit {
     return this.msgs;
   }
 
-  private getEvent(type: WorldEventType): WebSocketEvent {
+  private buildWebSocketEvent(type: WorldEventType): WebSocketEvent {
     let event = {
       playerId: this.playerId,
       worldId: this.worldId,
