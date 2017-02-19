@@ -102,9 +102,11 @@ public class ServerEngineImpl implements ServerEngine{
 
             LOG.debug("Adding player {} to playerWorldMap",playerId);
             players.add(playerId);
+            LOG.debug("player-world map:" +playerWorldMap.toString());
 
             LOG.debug("Adding session for player {}", playerId);
             playerSessionMap.put(playerId,session);
+            LOG.debug("player-session map:" +playerSessionMap.toString());
 
 
         } else {
@@ -129,12 +131,15 @@ public class ServerEngineImpl implements ServerEngine{
 
             LOG.debug("Adding player {} to world",playerId);
             playerWorldMap.put(worldId, newPlayerSet );
+            LOG.debug("player-world map:" +playerWorldMap.toString());
 
             LOG.debug("Adding session for player {}", playerId);
             playerSessionMap.put(playerId,session);
+            LOG.debug("player-session map:" +playerSessionMap.toString());
 
             LOG.debug("Adding future for world {}", worldId);
             worldFutureMap.put(worldId, future);
+            LOG.debug("future-world map:" +worldFutureMap.toString());
         }
      }
 

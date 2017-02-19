@@ -69,18 +69,23 @@ public class GameEngineImpl implements GameEngine {
         }
 
         activePlayer.put(playerId,player);
+        LOG.debug("Active player:" + activePlayer.toString());
 
         // set player into world and connect player with step
         Segment segment = world.getSegment(world.getStartSegment());
         Step step = segment.getStep(world.getStartStep());
         step.addOverlay(player);
         player.setActiveStep(step);
+        LOG.debug("Added player {} to world {} ", playerId, worldId);
+
 
         // activate world
         activeWorlds.put(worldId,world);
+        LOG.debug("Active worlds: "+ activeWorlds.toString());
 
         // map player to world
         playerWorldmapping.put(playerId,worldId);
+        LOG.debug("Player-world mapping: "+playerWorldmapping.toString());
 
         LOG.info("Game started for playerId {} and worldId {}",playerId, worldId);
     }
