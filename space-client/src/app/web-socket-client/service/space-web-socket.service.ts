@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { WebSocketService } from '../shared/services/websocket.service';
+import { WebSocketService } from '../../shared/services/websocket.service';
 import { Subject } from 'rxjs';
-import { WebSocketEvent } from '../domain/WebSocketEvent';
+import { WebSocketEvent } from '../../domain/WebSocketEvent';
 
 /**
  * Service for accessing the space-server webSocket-API

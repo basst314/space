@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SpaceDebugHttpService } from './space-debug-http.service';
 import { SpaceWorld } from '../domain/SpaceWorld';
-import { SpaceWebSocketService } from './space-web-socket.service';
+import { SpaceWebSocketService } from './service/space-web-socket.service';
 import { WorldEventType, WebSocketEvent } from '../domain/WebSocketEvent';
 
 /**
@@ -9,13 +8,13 @@ import { WorldEventType, WebSocketEvent } from '../domain/WebSocketEvent';
  * Created by basst314 on 02.01.2017.
  */
 @Component({
-  selector: 'ws-client',
-  templateUrl: 'ws-client.component.html',
+  selector: 'web-socket-client',
+  templateUrl: 'web-socket-client.component.html',
   styleUrls: [
-    'ws-client.component.css'
+    'web-socket-client.component.css'
   ]
 })
-export class WsClientComponent implements OnInit {
+export class WebSocketClientComponent implements OnInit {
   public playerId: number = 0;
   public worldId: number = 0;
   public world: SpaceWorld;
