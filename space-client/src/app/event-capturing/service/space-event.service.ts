@@ -11,6 +11,36 @@ export const spaceKeyCode: number = 32;
  */
 @Injectable()
 export class SpaceEventService {
+
+  /**
+   * Maps the keyboard events of a single capturing time frame to a logical space event.
+   * @param events
+   * @return the logical space-event representing the raw keyboard events
+   * @private
+   */
+  private static _mapToSpaceEvents(events: KeyboardEvent[]): WorldEventType {
+    let spaceEvent: WorldEventType;
+    switch (events.length) {
+      case 1:
+        spaceEvent = 'SPACE';
+        break;
+      case 2:
+        spaceEvent = 'DOUBLE_SPACE';
+        break;
+      case 3:
+        spaceEvent = 'TRIPPLE_SPACE';
+        break;
+      default:
+        console.warn("received " + events.length +
+          " keyboard events for timeframe, assuming triple_space");
+        spaceEvent = 'TRIPPLE_SPACE';
+        break;
+    }
+
+    console.debug("captured", spaceEvent);
+    return spaceEvent;
+  }
+
   /** size of the capturing time frame in ms */
   private _captureTime: number = 300;
 
@@ -74,32 +104,4 @@ export class SpaceEventService {
     return this._spaceEvents.asObservable();
   }
 
-  /**
-   * Maps the keyboard events of a single capturing time frame to a logical space event.
-   * @param events
-   * @return the logical space-event representing the raw keyboard events
-   * @private
-   */
-  private static _mapToSpaceEvents(events: KeyboardEvent[]): WorldEventType {
-    let spaceEvent: WorldEventType;
-    switch (events.length) {
-      case 1:
-        spaceEvent = 'SPACE';
-        break;
-      case 2:
-        spaceEvent = 'DOUBLE_SPACE';
-        break;
-      case 3:
-        spaceEvent = 'TRIPPLE_SPACE';
-        break;
-      default:
-        console.warn("received " + events.length +
-          " keyboard events for timeframe, assuming triple_space");
-        spaceEvent = 'TRIPPLE_SPACE';
-        break;
-    }
-
-    console.debug("captured", spaceEvent);
-    return spaceEvent;
-  }
 }
