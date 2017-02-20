@@ -50,6 +50,43 @@ public class GameEngineImpl implements GameEngine {
 
     private Map<Integer,Integer> playerWorldmapping = new HashMap<>();
 
+
+    private void startGameInternal(SpacePlayer player, SpaceWorld world){
+        activePlayer.put(player.getPlayerId(),player);
+        LOG.debug("Active player:" + activePlayer.toString());
+
+        // set player into world and connect player with step
+        Segment segment = world.getSegment(world.getStartSegment());
+        Step step = segment.getStep(world.getStartStep());
+        step.addOverlay(player);
+        player.setActiveStep(step);
+        LOG.debug("Added player {} to world {} ", player.getPlayerId(), world.getWorldId());
+        LOG.debug(world.toString());
+
+        playerWorldmapping.put(player.getPlayerId(),world.getWorldId());
+        LOG.debug("Player-world mapping: "+playerWorldmapping.toString());
+
+        LOG.info("Player {} added to world {}",player.getPlayerId(), world.getWorldId());
+    }
+
+    public void addPlayer2World(Integer playerId, Integer worldId){
+        // load player
+        SpacePlayer player = playerDao.getPlayer(playerId);
+        if (player == null){
+            LOG.warn("Player No. {} not found. game not started", playerId);
+            return;
+        }
+
+        // get world from active worlds
+        SpaceWorld world = activeWorlds.get(worldId);
+        if (world == null){
+            LOG.warn("World No. {} not found. game not started", worldId);
+            return;
+        }
+
+        startGameInternal(player,world);
+    }
+
     @Override
     public void startGame(Integer playerId, Integer worldId) {
         LOG.info("Starting game for playerId {} and worldId {}",playerId, worldId);
@@ -68,21 +105,11 @@ public class GameEngineImpl implements GameEngine {
             return;
         }
 
-        activePlayer.put(playerId,player);
-
-        // set player into world and connect player with step
-        Segment segment = world.getSegment(world.getStartSegment());
-        Step step = segment.getStep(world.getStartStep());
-        step.addOverlay(player);
-        player.setActiveStep(step);
-
         // activate world
         activeWorlds.put(worldId,world);
+        LOG.debug("Active worlds: "+ activeWorlds.toString());
 
-        // map player to world
-        playerWorldmapping.put(playerId,worldId);
-
-        LOG.info("Game started for playerId {} and worldId {}",playerId, worldId);
+        startGameInternal(player,world);
     }
 
     @Override
@@ -153,7 +180,9 @@ public class GameEngineImpl implements GameEngine {
         SpaceWorld world = activeWorlds.get(worldId);
         if (world == null){
             world = worldDao.getWorld(worldId);
-            LOG.debug("World (worldId {}) has been loaded.", world.getWorldId());
+            if (world != null){
+                LOG.debug("World (worldId {}) has been loaded.", world.getWorldId());
+            }
         }
         return world;
     }
@@ -181,10 +210,6 @@ public class GameEngineImpl implements GameEngine {
 
     void setPlayerDao(PlayerDao dao){
         playerDao = dao;
-    }
-
-    public WorldEventProcessorImpl getWorldEventProcessor(){
-        return processor;
     }
 
     void setWorldEventProcessor(WorldEventProcessorImpl proc) {

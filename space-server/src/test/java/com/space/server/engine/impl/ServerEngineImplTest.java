@@ -129,6 +129,12 @@ public class ServerEngineImplTest {
 
         // two player
         assertTrue(serverEngine.getPlayerSessionMap().size() == 2);
+
+        // world started for player 1
+        verify(gameEngine,times(1)).startGame(anyInt(),anyInt());
+
+        // player 2 added to world
+        verify(gameEngine,times(1)).addPlayer2World(anyInt(),anyInt());
     }
 
     @Test
@@ -138,22 +144,24 @@ public class ServerEngineImplTest {
         // player in world 0
         Set<Integer> player = new HashSet<>();
         player.add(0);
+        player.add(1);
         serverEngine.getPlayerWorldMap().put(0, player);
 
         serverEngine.getWorldFutureMap().put(0, mock(ScheduledFuture.class));
         serverEngine.getPlayerSessionMap().put(0, mock(Session.class));
+        serverEngine.getPlayerSessionMap().put(1, mock(Session.class));
 
         // create broadcaster
         Broadcaster b = mock(Broadcaster.class);
-        when(b.createWorldEvent()).thenReturn(new WorldEventImpl());
+        when(b.createWorldEvent(anyInt())).thenReturn(new WorldEventImpl());
         when(b.getEngine()).thenReturn(gameEngine);
         runner.setBroadCaster(b);
 
         // broadcast
         runner.run();
 
-        // world has been broadcast by the runner to two players
-        verify(b, times(1)).broadcast(any(Session.class), any(WorldEvent.class));
+        // world has been broadcast by the runner the players
+        verify(b, times(2)).broadcast(any(Session.class), any(WorldEvent.class));
     }
 
 }

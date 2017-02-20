@@ -12,6 +12,8 @@ public interface GameEngine {
      */
     void startGame(Integer playerId, Integer worldId);
 
+    void addPlayer2World(Integer playerId, Integer worldId);
+
     /**
      * Stops a space game for a given player and world.
      * @param playerId

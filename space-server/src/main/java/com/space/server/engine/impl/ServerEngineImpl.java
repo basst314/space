@@ -24,7 +24,7 @@ import java.util.concurrent.*;
 import static com.space.server.engine.api.WorldEventType.UPDATE;
 
 /**
- * Start and Stops games. Steps running games ever second and sends result to client
+ * Start and Stops games. Steps running games every second and sends result to client(s)
  * Created by superernie77 on 02.02.2017.
  */
 @Component
@@ -63,20 +63,25 @@ public class ServerEngineImpl implements ServerEngine{
             // step world one step
             b.getEngine().stepWorld(b.getWorldId());
 
-            // create result for client
-            WorldEvent resultEvent = b.createWorldEvent();
-
             // broadcast to all players
             Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
-            try {
-                for (Integer playerIdRunnable : playerSetRunnable ) {
-                    LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
-                    Session playerSession = playerSessionMap.get(playerIdRunnable);
-                    b.broadcast(playerSession,resultEvent);
-                    LOG.debug(JsonUtil.toJson(resultEvent));
+            if (playerSetRunnable != null) {
+                try {
+                    LOG.debug("Broadcasting for {} players", playerSetRunnable.size());
+                    for (Integer playerIdRunnable : playerSetRunnable ) {
+                        LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
+                        WorldEvent resultEvent = b.createWorldEvent(playerIdRunnable);
+                        if (resultEvent != null) {
+                            Session playerSession = playerSessionMap.get(playerIdRunnable);
+                            LOG.debug("Player {} session {}", playerIdRunnable, playerSession.toString());
+                            b.broadcast(playerSession,resultEvent);
+                        } else {
+                            LOG.debug("No result-event available for player {}", playerIdRunnable);
+                        }
+                    }
+                } catch (IOException e) {
+                    LOG.error(e.getMessage(), e);
                 }
-            } catch (IOException e) {
-                LOG.error(e.getMessage(), e);
             }
         }
     }
@@ -85,18 +90,25 @@ public class ServerEngineImpl implements ServerEngine{
     public void startGame(int worldId,int playerId, Session session) {
 
         if (checkGameStartedAlready(worldId,playerId)){
+            LOG.debug("World {} already started for player {}", worldId, playerId);
             return;
         }
 
         Set<Integer> players = playerWorldMap.get(worldId);
         if (players != null) {
-            // world started already
+            LOG.debug("World {} running already.",worldId);
 
-            // add player to world
+            engine.addPlayer2World(playerId,worldId);
+
+            LOG.debug("Adding player {} to playerWorldMap",playerId);
             players.add(playerId);
+            LOG.debug("player-world map:" +playerWorldMap.toString());
 
-            // save session
+            LOG.debug("Adding session for player {}", playerId);
             playerSessionMap.put(playerId,session);
+            LOG.debug("player-session map:" +playerSessionMap.toString());
+
+
         } else {
             // start new world
 
@@ -110,14 +122,24 @@ public class ServerEngineImpl implements ServerEngine{
             runner.setBroadCaster(b);
 
 
+            LOG.debug("Starting new Runner for worldId {}",worldId );
             ScheduledFuture future = scheduledExecutorService.scheduleAtFixedRate(runner , 3, 1000L, TimeUnit.MILLISECONDS);
 
             // register world, player, future and session
             Set<Integer> newPlayerSet = new HashSet<>();
             newPlayerSet.add(playerId);
+
+            LOG.debug("Adding player {} to world",playerId);
             playerWorldMap.put(worldId, newPlayerSet );
+            LOG.debug("player-world map:" +playerWorldMap.toString());
+
+            LOG.debug("Adding session for player {}", playerId);
             playerSessionMap.put(playerId,session);
+            LOG.debug("player-session map:" +playerSessionMap.toString());
+
+            LOG.debug("Adding future for world {}", worldId);
             worldFutureMap.put(worldId, future);
+            LOG.debug("future-world map:" +worldFutureMap.toString());
         }
      }
 

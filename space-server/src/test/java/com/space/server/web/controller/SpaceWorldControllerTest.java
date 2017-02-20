@@ -72,9 +72,4 @@ public class SpaceWorldControllerTest {
         assertNotNull(stopped);
     }
 
-    @Test
-    public void testUseDoor(){
-
-    }
-
 }
