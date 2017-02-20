@@ -2,7 +2,9 @@ package com.space.server.engine.impl;
 
 import static org.mockito.Mockito.*;
 
+import com.space.server.domain.api.Item;
 import com.space.server.domain.api.Segment;
+import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
@@ -13,6 +15,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,9 +65,14 @@ public class BroadcasterTest {
     }
 
     @Test
-    public void testCreateWorldEvent(){
+    public void testCreateWorldEvent() {
 
         SpaceWorld world = mock(SpaceWorld.class);
+        SpacePlayer player = mock(SpacePlayer.class);
+        Item item1 = mock(Item.class);
+        Item item2 = mock(Item.class);
+        List<Item> items = Arrays.asList(item1, item2);
+        when(player.getInventory()).thenReturn(items);
 
         List<Segment> segments = new ArrayList<>();
         Segment segment = mock(Segment.class);
@@ -74,6 +82,7 @@ public class BroadcasterTest {
         when(world.getSegments()).thenReturn(segments);
 
         when(engine.getWorld(anyInt())).thenReturn(world);
+        when(engine.getPlayer(anyInt())).thenReturn(player);
 
         WorldEvent event = broadcaster.createWorldEvent(0);
 
@@ -81,6 +90,8 @@ public class BroadcasterTest {
 
         Assert.assertTrue(event.getWorldId() == 0);
         Assert.assertTrue(event.getPlayerId() == 0);
+
+        Assert.assertTrue(event.getInventory().size() == 2);
 
         Assert.assertTrue(event.getWorld() != null);
         Assert.assertTrue(event.getType() == WorldEventType.UPDATE);

@@ -1,6 +1,9 @@
 package com.space.server.engine.api;
 
 import com.space.server.core.World;
+import com.space.server.domain.api.Item;
+
+import java.util.List;
 
 /**
  * interface for worldEvent to transport event information into the game world.
@@ -23,5 +26,9 @@ public interface WorldEvent {
     World getWorld();
 
     void setWorld(World world);
+
+    void setInventory(List<Item> items);
+
+    List<Item> getInventory();
 
 }

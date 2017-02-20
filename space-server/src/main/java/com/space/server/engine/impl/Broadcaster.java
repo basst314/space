@@ -2,6 +2,7 @@ package com.space.server.engine.impl;
 
 import com.space.server.core.World;
 import com.space.server.domain.api.Segment;
+import com.space.server.domain.api.SpacePlayer;
 import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
@@ -44,13 +45,17 @@ public class Broadcaster {
         SpaceWorld world = engine.getWorld(this.getWorldId());
         if (world.getSegments().stream().anyMatch( s -> s.containsPlayer(playerId))){
             Segment segmentwithplayer = world.getSegments().stream().filter( s -> s.containsPlayer(playerId)).findFirst().get();
+
             World gameWorld = new World(segmentwithplayer.getContent());
+
+            SpacePlayer player =  engine.getPlayer(playerId);
 
             WorldEvent resultEvent = new WorldEventImpl();
             resultEvent.setWorldId(this.getWorldId());
             resultEvent.setPlayerId(playerId);
             resultEvent.setType(UPDATE);
             resultEvent.setWorld(gameWorld);
+            resultEvent.setInventory(player.getInventory());
             return resultEvent;
         }
         return null;

@@ -1,9 +1,12 @@
 package com.space.server.engine.impl;
 
 import com.space.server.core.World;
+import com.space.server.domain.api.Item;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Action of a player in a sppace world.
@@ -19,6 +22,8 @@ public class WorldEventImpl implements WorldEvent {
     private WorldEventType worldEventType;
 
     private World world;
+
+    private List<Item> items;
 
     @Override
     public int getWorldId() {
@@ -58,5 +63,15 @@ public class WorldEventImpl implements WorldEvent {
     @Override
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    @Override
+    public void setInventory(List<Item> items) {
+        this.items = items;
+    }
+
+    @Override
+    public List<Item> getInventory() {
+        return items;
     }
 }

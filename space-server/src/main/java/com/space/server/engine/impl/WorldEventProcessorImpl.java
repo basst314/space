@@ -93,12 +93,23 @@ class WorldEventProcessorImpl implements WorldEventProcessor {
                         }
                         break;
                         // SpaceEvent if Monster on the next step
+                    } else if (overlay instanceof SpacePlayer) {
+                        SpacePlayer secondplayer = (SpacePlayer)overlay;
+
+                        Item activeItem = player.getActiveItem();
+                        if (activeItem instanceof Weapon) {
+                            LOG.debug("Player hit by player {}", player.getPlayerId());
+
+                            secondplayer.getHealth().processHit();
+
+                            break;
+                        }
                     } else if (overlay instanceof Monster) {
                         Monster monster = (Monster)overlay;
 
                         Item activeItem = player.getActiveItem();
 						if (activeItem instanceof Weapon) {
-							LOG.debug("Monster killed for playerId {}", player.getPlayerId());
+							LOG.debug("Monster hit by player {}", player.getPlayerId());
 
 							monster.getHealth().processHit();
 

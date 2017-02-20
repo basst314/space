@@ -50,6 +50,25 @@ public class GameEngineImpl implements GameEngine {
 
     private Map<Integer,Integer> playerWorldmapping = new HashMap<>();
 
+
+    private void startGameInternal(SpacePlayer player, SpaceWorld world){
+        activePlayer.put(player.getPlayerId(),player);
+        LOG.debug("Active player:" + activePlayer.toString());
+
+        // set player into world and connect player with step
+        Segment segment = world.getSegment(world.getStartSegment());
+        Step step = segment.getStep(world.getStartStep());
+        step.addOverlay(player);
+        player.setActiveStep(step);
+        LOG.debug("Added player {} to world {} ", player.getPlayerId(), world.getWorldId());
+        LOG.debug(world.toString());
+
+        playerWorldmapping.put(player.getPlayerId(),world.getWorldId());
+        LOG.debug("Player-world mapping: "+playerWorldmapping.toString());
+
+        LOG.info("Player {} added to world {}",player.getPlayerId(), world.getWorldId());
+    }
+
     public void addPlayer2World(Integer playerId, Integer worldId){
         // load player
         SpacePlayer player = playerDao.getPlayer(playerId);
@@ -65,22 +84,7 @@ public class GameEngineImpl implements GameEngine {
             return;
         }
 
-        activePlayer.put(playerId,player);
-        LOG.debug("Active player:" + activePlayer.toString());
-
-        // set player into world and connect player with step
-        Segment segment = world.getSegment(world.getStartSegment());
-        Step step = segment.getStep(world.getStartStep());
-        step.addOverlay(player);
-        player.setActiveStep(step);
-        LOG.debug("Added player {} to world {} ", playerId, worldId);
-        LOG.debug(world.toString());
-
-        playerWorldmapping.put(playerId,worldId);
-        LOG.debug("Player-world mapping: "+playerWorldmapping.toString());
-
-        LOG.info("Player {} added to world {}",playerId, worldId);
-
+        startGameInternal(player,world);
     }
 
     @Override
@@ -101,27 +105,11 @@ public class GameEngineImpl implements GameEngine {
             return;
         }
 
-        activePlayer.put(playerId,player);
-        LOG.debug("Active player:" + activePlayer.toString());
-
-        // set player into world and connect player with step
-        Segment segment = world.getSegment(world.getStartSegment());
-        Step step = segment.getStep(world.getStartStep());
-        step.addOverlay(player);
-        player.setActiveStep(step);
-        LOG.debug("Added player {} to world {} ", playerId, worldId);
-        LOG.debug(world.toString());
-
-
         // activate world
         activeWorlds.put(worldId,world);
         LOG.debug("Active worlds: "+ activeWorlds.toString());
 
-        // map player to world
-        playerWorldmapping.put(playerId,worldId);
-        LOG.debug("Player-world mapping: "+playerWorldmapping.toString());
-
-        LOG.info("Game started for playerId {} and worldId {}",playerId, worldId);
+        startGameInternal(player,world);
     }
 
     @Override
