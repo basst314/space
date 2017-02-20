@@ -81,3 +81,4 @@ An example game world might look something like this:
 - World updates automatically without sending step events
 - A world can contain many heros (controlled by different players)
 - Events from the websocket client can be send by space bar
+- Bug & Stability Fixes
