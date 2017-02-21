@@ -94,24 +94,37 @@ public class ServerEngineImplTest {
 
     @Test
     public void testStartGame(){
+        when(gameEngine.getWorld(anyInt())).thenReturn(mock(SpaceWorld.class));
+        Session session = mock(Session.class);
+        when(session.getRemote()).thenReturn(mock(RemoteEndpoint.class));
 
-        serverEngine.startGame(0,0, mock(Session.class));
+        serverEngine.startGame(0,0, session);
 
         // world with player has been created and started to run
         assertTrue(serverEngine.getPlayerWorldMap().size() == 1);
         assertTrue(serverEngine.getWorldFutureMap().size() == 1);
         assertTrue(serverEngine.getPlayerSessionMap().size() == 1);
+
+        // broadcasted once
+        verify(session, times(1)).getRemote();
     }
 
     @Test
     public void startGameTwice(){
-        serverEngine.startGame(0,0, mock(Session.class));
-        serverEngine.startGame(0,0, mock(Session.class));
+        when(gameEngine.getWorld(anyInt())).thenReturn(mock(SpaceWorld.class));
+        Session session = mock(Session.class);
+        when(session.getRemote()).thenReturn(mock(RemoteEndpoint.class));
+
+
+        serverEngine.startGame(0,0, session);
+        serverEngine.startGame(0,0, session);
 
         // game only started once
         assertTrue(serverEngine.getPlayerWorldMap().size() == 1);
         assertTrue(serverEngine.getWorldFutureMap().size() == 1);
         assertTrue(serverEngine.getPlayerSessionMap().size() == 1);
+
+        verify(session, times(1)).getRemote();
     }
 
     @Test
