@@ -7,6 +7,7 @@ import com.space.server.domain.api.SpaceWorld;
 import com.space.server.engine.api.GameEngine;
 import com.space.server.engine.api.WorldEvent;
 import com.space.server.engine.api.WorldEventType;
+import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;
 import org.junit.Test;
@@ -115,8 +116,13 @@ public class ServerEngineImplTest {
 
     @Test
     public void startGameWith2Players(){
-        serverEngine.startGame(0,0, mock(Session.class));
-        serverEngine.startGame(0,1, mock(Session.class));
+
+        when(gameEngine.getWorld(anyInt())).thenReturn(mock(SpaceWorld.class));
+        Session session = mock(Session.class);
+        when(session.getRemote()).thenReturn(mock(RemoteEndpoint.class));
+
+        serverEngine.startGame(0,0, session);
+        serverEngine.startGame(0,1, session);
 
         // one world started
         assertTrue(serverEngine.getPlayerWorldMap().size() == 1);
@@ -135,6 +141,9 @@ public class ServerEngineImplTest {
 
         // player 2 added to world
         verify(gameEngine,times(1)).addPlayer2World(anyInt(),anyInt());
+
+        // start game broadcasted once
+        verify(session, times(2)).getRemote();
     }
 
     @Test

@@ -17,6 +17,7 @@ import java.util.Set;
 import static com.space.server.engine.api.WorldEventType.UPDATE;
 
 /**
+ * Encapsulates all data and the logic to broadcast to a space websocket client.
  * Created by superernie77 on 02.02.2017.
  */
 public class Broadcaster {
@@ -61,9 +62,14 @@ public class Broadcaster {
         return null;
     }
 
-    public void broadcast(Session playerSession, WorldEvent resultEvent) throws IOException {
-        String result = JsonUtil.toJson(resultEvent);
-        playerSession.getRemote().sendString(result);
-        LOG.debug(result);
+    public void broadcast(Session playerSession, WorldEvent resultEvent) {
+        try {
+            String result = JsonUtil.toJson(resultEvent);
+            playerSession.getRemote().sendString(result);
+            LOG.debug(result);
+        } catch (IOException ex){
+            LOG.error("Error broadcasting!");
+        }
+
     }
 }

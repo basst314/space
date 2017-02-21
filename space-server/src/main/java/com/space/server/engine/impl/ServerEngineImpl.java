@@ -28,7 +28,7 @@ import static com.space.server.engine.api.WorldEventType.UPDATE;
  * Created by superernie77 on 02.02.2017.
  */
 @Component
-public class ServerEngineImpl implements ServerEngine{
+public class ServerEngineImpl implements ServerEngine {
 
     private static final Logger LOG = LoggerFactory.getLogger(ServerEngineImpl.class);
 
@@ -47,18 +47,22 @@ public class ServerEngineImpl implements ServerEngine{
     // Maps a world id to its broadcasting thread
     private Map<Integer, ScheduledFuture> worldFutureMap = new ConcurrentHashMap<>();
 
-    private boolean checkGameStartedAlready(int worldId, int playerId){
+    private boolean checkGameStartedAlready(int worldId, int playerId) {
         Set<Integer> players = playerWorldMap.get(worldId);
         return players != null && players.contains(playerId);
     }
 
-    class Runner implements  Runnable {
+    class Runner implements Runnable {
 
         private Broadcaster b;
 
-        public void setBroadCaster(Broadcaster broad) { b = broad; };
+        public void setBroadCaster(Broadcaster broad) {
+            b = broad;
+        }
 
-        public void run(){
+        ;
+
+        public void run() {
             LOG.debug("Steping world ....");
             // step world one step
             b.getEngine().stepWorld(b.getWorldId());
@@ -66,53 +70,48 @@ public class ServerEngineImpl implements ServerEngine{
             // broadcast to all players
             Set<Integer> playerSetRunnable = playerWorldMap.get(b.getWorldId());
             if (playerSetRunnable != null) {
-                try {
-                    LOG.debug("Broadcasting for {} players", playerSetRunnable.size());
-                    for (Integer playerIdRunnable : playerSetRunnable ) {
-                        LOG.debug("Broadcasting world for playerId "+playerIdRunnable);
-                        WorldEvent resultEvent = b.createWorldEvent(playerIdRunnable);
-                        if (resultEvent != null) {
-                            Session playerSession = playerSessionMap.get(playerIdRunnable);
-                            LOG.debug("Player {} session {}", playerIdRunnable, playerSession.toString());
-                            b.broadcast(playerSession,resultEvent);
-                        } else {
-                            LOG.debug("No result-event available for player {}", playerIdRunnable);
-                        }
+                LOG.debug("Broadcasting for {} players", playerSetRunnable.size());
+                for (Integer playerIdRunnable : playerSetRunnable) {
+                    LOG.debug("Broadcasting world for playerId " + playerIdRunnable);
+                    WorldEvent resultEvent = b.createWorldEvent(playerIdRunnable);
+                    if (resultEvent != null) {
+                        Session playerSession = playerSessionMap.get(playerIdRunnable);
+                        LOG.debug("Player {} session {}", playerIdRunnable, playerSession.toString());
+                        b.broadcast(playerSession, resultEvent);
+                    } else {
+                        LOG.debug("No result-event available for player {}", playerIdRunnable);
                     }
-                } catch (IOException e) {
-                    LOG.error(e.getMessage(), e);
                 }
             }
         }
     }
 
     @Override
-    public void startGame(int worldId,int playerId, Session session) {
+    public void startGame(int worldId, int playerId, Session session) {
 
-        if (checkGameStartedAlready(worldId,playerId)){
+        if (checkGameStartedAlready(worldId, playerId)) {
             LOG.debug("World {} already started for player {}", worldId, playerId);
             return;
         }
 
         Set<Integer> players = playerWorldMap.get(worldId);
         if (players != null) {
-            LOG.debug("World {} running already.",worldId);
+            LOG.debug("World {} running already.", worldId);
 
-            engine.addPlayer2World(playerId,worldId);
+            engine.addPlayer2World(playerId, worldId);
 
-            LOG.debug("Adding player {} to playerWorldMap",playerId);
+            LOG.debug("Adding player {} to playerWorldMap", playerId);
             players.add(playerId);
-            LOG.debug("player-world map:" +playerWorldMap.toString());
+            LOG.debug("player-world map:" + playerWorldMap.toString());
 
             LOG.debug("Adding session for player {}", playerId);
-            playerSessionMap.put(playerId,session);
-            LOG.debug("player-session map:" +playerSessionMap.toString());
-
+            playerSessionMap.put(playerId, session);
+            LOG.debug("player-session map:" + playerSessionMap.toString());
 
         } else {
             // start new world
 
-            engine.startGame(playerId,worldId);
+            engine.startGame(playerId, worldId);
 
             Broadcaster b = new Broadcaster();
             b.setWorldId(worldId);
@@ -122,49 +121,57 @@ public class ServerEngineImpl implements ServerEngine{
             runner.setBroadCaster(b);
 
 
-            LOG.debug("Starting new Runner for worldId {}",worldId );
-            ScheduledFuture future = scheduledExecutorService.scheduleAtFixedRate(runner , 3, 1000L, TimeUnit.MILLISECONDS);
+            LOG.debug("Starting new Runner for worldId {}", worldId);
+            ScheduledFuture future = scheduledExecutorService.scheduleAtFixedRate(runner, 3, 1000L, TimeUnit.MILLISECONDS);
 
             // register world, player, future and session
             Set<Integer> newPlayerSet = new HashSet<>();
             newPlayerSet.add(playerId);
 
-            LOG.debug("Adding player {} to world",playerId);
-            playerWorldMap.put(worldId, newPlayerSet );
-            LOG.debug("player-world map:" +playerWorldMap.toString());
+            LOG.debug("Adding player {} to world", playerId);
+            playerWorldMap.put(worldId, newPlayerSet);
+            LOG.debug("player-world map:" + playerWorldMap.toString());
 
             LOG.debug("Adding session for player {}", playerId);
-            playerSessionMap.put(playerId,session);
-            LOG.debug("player-session map:" +playerSessionMap.toString());
+            playerSessionMap.put(playerId, session);
+            LOG.debug("player-session map:" + playerSessionMap.toString());
 
             LOG.debug("Adding future for world {}", worldId);
             worldFutureMap.put(worldId, future);
-            LOG.debug("future-world map:" +worldFutureMap.toString());
+            LOG.debug("future-world map:" + worldFutureMap.toString());
         }
-     }
+
+        // broadcast the world start setup
+        Broadcaster b = new Broadcaster();
+        b.setWorldId(worldId);
+        b.setEngine(engine);
+        WorldEvent event = b.createWorldEvent(playerId);
+        b.broadcast(session, event);
+    }
 
     @Override
-    public void addEvent(WorldEvent event ){
+    public void addEvent(WorldEvent event) {
         SpaceWorld world = engine.getWorld(event.getWorldId());
         world.addEvent(event);
     }
 
     /**
      * Stops a game and ends the broadcasting of the game world
+     *
      * @param event stop event
      */
     @Override
-    public  void stopGame(WorldEvent event){
+    public void stopGame(WorldEvent event) {
         Integer worldId = event.getWorldId();
         Integer playerId = event.getPlayerId();
 
         // stop game for player
-        engine.stopGame(playerId,worldId);
+        engine.stopGame(playerId, worldId);
 
         // stop broadcasting for player
         if (playerWorldMap.get(worldId) != null) {
             playerWorldMap.get(worldId).remove(event.getPlayerId());
-            if (playerWorldMap.get(worldId).size() == 0){
+            if (playerWorldMap.get(worldId).size() == 0) {
                 playerWorldMap.remove(worldId);
                 ScheduledFuture future = worldFutureMap.get(worldId);
                 future.cancel(true);
@@ -175,7 +182,7 @@ public class ServerEngineImpl implements ServerEngine{
     }
 
     @Override
-    public void shutdownDatabase(){
+    public void shutdownDatabase() {
         engine.shutdownDatabase();
     }
 
