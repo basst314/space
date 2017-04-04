@@ -1,4 +1,4 @@
-# space [![Build Status](https://travis-ci.org/basst314/space.svg?branch=master)](https://travis-ci.org/basst314/space) [![volkswagen status](https://auchenberg.github.io/volkswagen/volkswargen_ci.svg?v=1)](https://github.com/auchenberg/volkswagen) [![Coverage Status](https://coveralls.io/repos/github/basst314/space/badge.svg?branch=master)](https://coveralls.io/github/basst314/space?branch=master)
+# space [![Build Status](https://travis-ci.org/basst314/space.svg?branch=master)](https://travis-ci.org/basst314/space) [![volkswagen status](https://auchenberg.github.io/volkswagen/volkswargen_ci.svg?v=1)](https://github.com/auchenberg/volkswagen) [![Coverage Status](https://coveralls.io/repos/github/basst314/space/badge.svg?branch=master)](https://coveralls.io/github/basst314/space?branch=master) [![Join the chat at https://gitter.im/the-space-game/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/the-space-game/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Welcome to space. A one-dimensional space-adventure game.
 
